@@ -4,6 +4,7 @@ public class WaterDispenser extends Facility {
 	//Constructor
 	public WaterDispenser() {
 		super("WaterDispenser");
+		setSize(40);
 	}
 	
 	//increases student hydration and waterIntake after student collides

@@ -9,6 +9,7 @@ public class LectureHall extends Facility{
 	//Constructor
 	public LectureHall() {
 		super("LectureHall RVR 101");
+		setSize(90);
 	}
 	
 	//ends lecture of student collides

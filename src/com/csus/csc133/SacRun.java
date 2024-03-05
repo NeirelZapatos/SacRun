@@ -10,9 +10,10 @@
 */
 
 package com.csus.csc133;
-
+import com.codename1.ui.layouts.*;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
+import com.codename1.ui.Container;
 
 public class SacRun extends Form{
 	//initializing fields
@@ -24,15 +25,73 @@ public class SacRun extends Form{
 	
 	//Constructor
 	public SacRun(){
+		super(new BorderLayout());
+		
+		
 		this.gm = new GameModel();
 		this.studentPlayer = gm.getStudentPlayer();
 		this.restroom = gm.getRestroom();
 		this.waterDispenser = gm.getWaterDispenser();
 		this.lectureHall = gm.getLectureHall();
 		
-		A1();
+		A2(this.gm);
+		
+		
+//		A1();
 			
 //		gm.init();
+		
+	}
+	
+	private void A2(GameModel gameModel) {	
+		Button moveButton = new Button("Move");
+		Button stopButton = new Button("Stop");
+		Button leftButton = new Button("Turn Left");
+		Button rightButton = new Button("Turn Right");
+		Button changeButton = new Button("Change Strategy");
+		Button lectureCollide = new Button("Lecture Hall");
+		Button restroomCollide = new Button("Restroom");
+		Button waterDispenserCollide = new Button("Water Dispenser");
+		Button studentCollide = new Button("Student");
+		Button nextFrame = new Button("Next Frame");
+		
+		Container buttonContainer = new Container();
+		buttonContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));		
+		buttonContainer.add(moveButton);
+		buttonContainer.add(stopButton);
+		buttonContainer.add(leftButton);
+		buttonContainer.add(rightButton);
+		buttonContainer.add(changeButton);
+		buttonContainer.add(lectureCollide);
+		buttonContainer.add(restroomCollide);
+		buttonContainer.add(waterDispenserCollide);
+		buttonContainer.add(studentCollide);
+		buttonContainer.add(nextFrame);
+		
+		ViewMap viewMap = new ViewMap();
+		ViewStatus viewStatus = new ViewStatus(gameModel);
+		ViewMessage viewMessage = new ViewMessage();
+		
+		Toolbar toolBar = new Toolbar();
+		setToolbar(toolBar);
+		Command changeStrategySide = new Command("Change Strategy");
+		Command aboutSide = new Command("About");
+		Command exitSide = new Command("Exit");
+		Command rightLectureHall = new Command("Lecture Hall");
+		Command rightAbout = new Command("About");
+		toolBar.addCommandToSideMenu(changeStrategySide);
+		toolBar.addCommandToSideMenu(aboutSide);
+		toolBar.addCommandToSideMenu(exitSide);
+		toolBar.addCommandToRightBar(rightLectureHall);
+		toolBar.addCommandToRightBar(rightAbout);
+		
+		add(BorderLayout.EAST, viewStatus);
+		add(BorderLayout.CENTER, viewMap);
+		add(BorderLayout.WEST, buttonContainer);
+		add(BorderLayout.SOUTH, viewMessage);
+		
+		show();
+		
 		
 	}
 	

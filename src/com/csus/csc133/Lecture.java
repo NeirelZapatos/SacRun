@@ -16,4 +16,8 @@ public class Lecture {
 	public void decreaseTime() {
 		time--;
 	}
+	
+	public int getLectureTime() {
+		return time;
+	}
 }

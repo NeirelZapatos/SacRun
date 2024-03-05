@@ -4,6 +4,7 @@ public class Restroom extends Facility{
 	//Constructor
 	public Restroom() {
 		super("Restroom");
+		setSize(90);
 	}
 	
 	//when student collides student waterIntake = 0

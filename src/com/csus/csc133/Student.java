@@ -1,5 +1,6 @@
 package com.csus.csc133;
 import java.util.*;
+import com.codename1.charts.util.ColorUtil;
 
 public abstract class Student extends GameObject implements IMoveable {
 	//initializing fields
@@ -21,6 +22,7 @@ public abstract class Student extends GameObject implements IMoveable {
 	//Constructor
 	public Student(String className){
 		this.className = className;
+		setSize(random.nextInt(21) + 40);
 	}
 	
 	//calls studentCollide method if student collides
@@ -168,4 +170,13 @@ public abstract class Student extends GameObject implements IMoveable {
 	public void displayInfo() {
 		System.out.println(getClassName() + ", pos(" + getX() + ", " + getY() + "), head: " + getHead() + ", speed: " + getSpeed() + ", hydration: " + getHydration() + ", talkiveLevel: " + getTalkiveLevel() + ", timeRemain: " + getTimeRemain() + ", Absence: " + getAbsenceTime() + ", WaterIntake: " + getWaterIntake());
     }
+	
+	public void checkTimeRemain() {
+		if(timeRemain > 0) {
+			setColor(ColorUtil.rgb(255, 192, 203));
+		}
+		else {
+			setColor(ColorUtil.rgb(255, 0, 0));
+		}
+	}
 }

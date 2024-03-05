@@ -19,36 +19,98 @@ public class GameModel {
 		init();
 	}
 	
+	public int getGameTime() {
+		return gameTime;
+	}
+	
 	// initializes the game objects and adds them to the game objects vector
 	public void init(){	
-		lectureHall = new LectureHall();
-		waterDispenser = new WaterDispenser();
-		restroom = new Restroom();
-		studentPlayer = new StudentPlayer();
+		addStudents();
+		addFacility();
 		
-        StudentAngry angryStudent = new StudentAngry();
-        StudentBiking bikingStudent = new StudentBiking();
-        StudentCar carStudent = new StudentCar();
-        StudentConfused confusedStudent = new StudentConfused();
-        StudentFriendly friendlyStudent = new StudentFriendly();
-        StudentHappy happyStudent = new StudentHappy();
-        StudentNonstop nonStopStudent = new StudentNonstop();
-        StudentRunning runningStudent = new StudentRunning();
-        StudentSleeping sleepingStudent = new StudentSleeping();  
+//		lectureHall = new LectureHall();
+//		waterDispenser = new WaterDispenser();
+//		restroom = new Restroom();
+//		studentPlayer = new StudentPlayer();
+		
+		
+//        StudentAngry angryStudent = new StudentAngry();
+//        StudentBiking bikingStudent = new StudentBiking();
+//        StudentCar carStudent = new StudentCar();
+//        StudentConfused confusedStudent = new StudentConfused();
+//        StudentFriendly friendlyStudent = new StudentFriendly();
+//        StudentHappy happyStudent = new StudentHappy();
+//        StudentNonstop nonStopStudent = new StudentNonstop();
+//        StudentRunning runningStudent = new StudentRunning();
+//        StudentSleeping sleepingStudent = new StudentSleeping();  
         
-        gameObjects.add(studentPlayer);
-        gameObjects.add(angryStudent);
-        gameObjects.add(bikingStudent);
-        gameObjects.add(carStudent);
-        gameObjects.add(confusedStudent);
-        gameObjects.add(friendlyStudent);
-        gameObjects.add(happyStudent);
-        gameObjects.add(nonStopStudent);
-        gameObjects.add(runningStudent);
-        gameObjects.add(sleepingStudent);
-        gameObjects.add(lectureHall);
-        gameObjects.add(waterDispenser);
-        gameObjects.add(restroom);
+//        gameObjects.add(studentPlayer);
+//        gameObjects.add(angryStudent);
+//        gameObjects.add(bikingStudent);
+//        gameObjects.add(carStudent);
+//        gameObjects.add(confusedStudent);
+//        gameObjects.add(friendlyStudent);
+//        gameObjects.add(happyStudent);
+//        gameObjects.add(nonStopStudent);
+//        gameObjects.add(runningStudent);
+//        gameObjects.add(sleepingStudent);
+//        gameObjects.add(lectureHall);
+//        gameObjects.add(waterDispenser);
+//        gameObjects.add(restroom);
+	}
+	
+	public void addStudents() {
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentAngry angryStudent = new StudentAngry();
+			gameObjects.add(angryStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentBiking bikingStudent = new StudentBiking();
+			gameObjects.add(bikingStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentCar carStudent = new StudentCar();
+			gameObjects.add(carStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentConfused confusedStudent = new StudentConfused();
+			gameObjects.add(confusedStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentFriendly friendlyStudent = new StudentFriendly();
+			gameObjects.add(friendlyStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentHappy happyStudent = new StudentHappy();
+			gameObjects.add(happyStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentNonstop nonStopStudent = new StudentNonstop();
+			gameObjects.add(nonStopStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentRunning runningStudent = new StudentRunning();
+			gameObjects.add(runningStudent);
+		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentSleeping sleepingStudent = new StudentSleeping();
+			gameObjects.add(sleepingStudent);
+		}
+		studentPlayer = new StudentPlayer();
+		gameObjects.add(studentPlayer);
+	}
+	
+	public void addFacility() {
+		for(int i = 0; i <= random.nextInt(3) + 2; i++) {
+			restroom = new Restroom();
+			gameObjects.add(restroom);
+		}
+		for(int i = 0; i <= random.nextInt(3) + 2; i++) {
+			waterDispenser = new WaterDispenser();
+			gameObjects.add(waterDispenser);
+		}
+		lectureHall = new LectureHall();
+		gameObjects.add(lectureHall);
 	}
 	
 	//getter methods to retrieve the private fields
