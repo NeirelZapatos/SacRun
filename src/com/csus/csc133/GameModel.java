@@ -1,16 +1,21 @@
 package com.csus.csc133;
-import java.util.Vector;
 import java.util.Random;
+import java.util.Observable;
 
 // Used to calculate and manipulate current game state
-public class GameModel {
+public class GameModel extends Observable{
 	//initializing fields
 	private int gameTime = 0;
 	private Restroom restroom;
 	private WaterDispenser waterDispenser;
 	private LectureHall lectureHall;
 	private StudentPlayer studentPlayer;
-	private Vector<GameObject> gameObjects = new Vector<>();
+	private GameObjectsCollection gameObjects;
+//	private Vector<GameObject> gameObjects = new Vector<>();
+	
+	private ViewMap viewMap;
+	private ViewMessage viewMessage;
+	private ViewStatus viewStatus;
 	
 	private Random random = new Random();
 	
@@ -25,8 +30,11 @@ public class GameModel {
 	
 	// initializes the game objects and adds them to the game objects vector
 	public void init(){	
+		this.gameObjects = new GameObjectsCollection();
 		addStudents();
 		addFacility();
+		addObservers();
+		
 		
 //		lectureHall = new LectureHall();
 //		waterDispenser = new WaterDispenser();
@@ -113,6 +121,16 @@ public class GameModel {
 		gameObjects.add(lectureHall);
 	}
 	
+	public void addObservers() {
+		viewMap = new ViewMap(this);
+		viewMessage = new ViewMessage();
+		viewStatus = new ViewStatus(this);
+		
+		addObserver(viewMap);
+		addObserver(viewMessage);
+		addObserver(viewStatus);
+	}
+	
 	//getter methods to retrieve the private fields
 	public StudentPlayer getStudentPlayer() {
 		return studentPlayer;
@@ -130,29 +148,46 @@ public class GameModel {
 		return lectureHall;
 	}
 	
-	//returns a randomStudent from gameObjects vector
-	public Student getRandomStudent() {
-		int vectorLength = gameObjects.size();
-		boolean cont = true;
-		Student randomStudent = null;
-		while(cont) {
-			int randomIndex = random.nextInt(vectorLength);
-			GameObject selectedObject = gameObjects.get(randomIndex);
-			if(selectedObject instanceof Student) {
-				randomStudent = (Student) selectedObject;
-				cont = false;
-			}
-		}
-		return randomStudent;
+	public ViewMap getViewMap() {
+		return viewMap;
 	}
+	
+	public ViewMessage getViewMessage() {
+		return viewMessage;
+	}
+	
+	public ViewStatus getViewStatus() {
+		return viewStatus;
+	}
+	
+	public GameObjectsCollection getGameObjectsCollection(){
+		return gameObjects;
+	}
+	
+	//returns a randomStudent from gameObjects vector
+//	public Student getRandomStudent() {
+//		int vectorLength = gameObjects.size();
+//		boolean cont = true;
+//		Student randomStudent = null;
+//		while(cont) {
+//			int randomIndex = random.nextInt(vectorLength);
+//			GameObject selectedObject = gameObjects.get(randomIndex);
+//			if(selectedObject instanceof Student) {
+//				randomStudent = (Student) selectedObject;
+//				cont = false;
+//			}
+//		}
+//		return randomStudent;
+//	}
 	
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
+		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
 		gameTime++;
 		LectureHall lectureHall = null;
 		IMoveable student = null;
-		for(int i = 0; i < gameObjects.size(); i++) {
-			GameObject selectedObject = gameObjects.get(i);
+		while(objectIterator.hasNext()) {
+			GameObject selectedObject = (GameObject) objectIterator.getNext();
 			//Manipulate lecture 
 			if(selectedObject instanceof LectureHall) {
 				lectureHall = (LectureHall) selectedObject;
@@ -179,15 +214,17 @@ public class GameModel {
 		if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
 			System.out.println("Gameover. Time: " + gameTime + "\n");
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	//Used to display the current game state
-	public void displayGameState() {
-		System.out.println("Time: " + gameTime);
-		for(int i = 0; i < gameObjects.size(); i++) {
-			GameObject selectedObject = gameObjects.get(i);
-			selectedObject.displayInfo();
-		}
-		System.out.println();
-	}	
+//	public void displayGameState() {
+//		System.out.println("Time: " + gameTime);
+//		for(int i = 0; i < gameObjects.size(); i++) {
+//			GameObject selectedObject = gameObjects.get(i);
+//			selectedObject.displayInfo();
+//		}
+//		System.out.println();
+//	}	
 }

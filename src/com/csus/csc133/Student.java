@@ -118,18 +118,18 @@ public abstract class Student extends GameObject implements IMoveable {
 	
 	//if timeRemain is <=0 Calculates new student position, calls checkInbounds(), calls checkHead(), and decreases hydration by the sweatingRate
 	public void move() {
-			if(timeRemain > 0) {
-				timeRemain--;
-			}
-			else {
-				double headingInDegrees = 90 - head;
-				double headingInRadians = Math.toRadians(headingInDegrees);
-				setX(Math.round(getX() + Math.cos(headingInRadians) * speed));
-				setY(Math.round(getY() + Math.sin(headingInRadians) * speed));			
-			}
-			hydration -= sweatingRate;
-			checkInbounds();
-			checkHead();
+		if(timeRemain > 0) {
+			timeRemain--;
+		}
+		else {
+			double headingInDegrees = 90 - head;
+			double headingInRadians = Math.toRadians(headingInDegrees);
+			setX(Math.round(getX() + Math.cos(headingInRadians) * speed));
+			setY(Math.round(getY() + Math.sin(headingInRadians) * speed));			
+		}
+		hydration -= sweatingRate;
+		checkInbounds();
+		checkHead();
 	}
 	
 	//checks id student is in bounds
