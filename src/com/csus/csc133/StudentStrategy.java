@@ -7,12 +7,13 @@ public class StudentStrategy extends Student{
 	
 	private Random random = new Random();
 	
-	
+	//constructor
 	public StudentStrategy() {
 		super("StudentStrategy");
 		setStrategy();
 	}
 	
+	//sets strategy for Student
 	public void setStrategy() {
 		int randomNum = random.nextInt(3);
 		
@@ -32,11 +33,13 @@ public class StudentStrategy extends Student{
 		}
 	}
 	
+	//moves the the current strategy
 	public void move() {
 		currStrategy.apply();
 		super.move();
 	}
 	
+	//displays info about student
 	public void displayInfo() {
 		System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), head: " + getHead() + ", speed: " + getSpeed() + ", hydration: " + getHydration() + ", talkiveLevel: " + getTalkiveLevel() + ", timeRemain: " + getTimeRemain() + ", Absence: " + getAbsenceTime() + ", WaterIntake: " + getWaterIntake() + ", Current Strategy: " + currentStrategy);
     }

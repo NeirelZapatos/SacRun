@@ -33,7 +33,7 @@ public abstract class GameObject {
 		return color;
 	}
 	
-	//setter methods to 	set values
+	//setter methods to set values
 	public void setX(double newX) {
 		x = newX;
 	}
@@ -42,18 +42,19 @@ public abstract class GameObject {
 		y = newY;
 	}
 	
-	public void initPos(int screenWidth, int screenHeight) {
-		x = random.nextDouble() * screenWidth + 1;
-		y = random.nextDouble() * screenHeight + 1;
-		
-	}
-	
 	public void setSize(int newSize) {
 		size = newSize;
 	}
 	
 	public void setColor(int newColor) {
 		color = newColor;
+	}
+	
+	//initializes position
+	public void initPos(int screenWidth, int screenHeight) {
+		x = random.nextDouble() * screenWidth + 1;
+		y = random.nextDouble() * screenHeight + 1;
+		
 	}
 	
 	//handles object collide

@@ -40,6 +40,7 @@ public class GameModel extends Observable{
 		viewMap.displayGameState();
 	}
 	
+	//initializes object positions 
 	public void initObjPos() {
 		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
 		GameObject selectedObject;
@@ -49,6 +50,7 @@ public class GameModel extends Observable{
 		}
 	}
 	
+	//adds students to gameObjects
 	public void addStudents() {
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentAngry angryStudent = new StudentAngry();
@@ -104,6 +106,7 @@ public class GameModel extends Observable{
 		gameObjects.add(studentPlayer);
 	}
 	
+	//adds facilities to gameObjects
 	public void addFacility() {
 		for(int i = 0; i < random.nextInt(3) + 2; i++) {
 			restroom = new Restroom();
@@ -118,6 +121,7 @@ public class GameModel extends Observable{
 		gameObjects.add(lectureHall);
 	}
 	
+	//creates observer objects
 	public void addObservers() {
 		viewMessage = new ViewMessage(this);
 		viewStatus = new ViewStatus(this);
@@ -210,7 +214,7 @@ public class GameModel extends Observable{
 				student.checkTimeRemain();
 			}
 		}
-		//checks if game over
+		//checks if game over and displays dialog
 		if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
 			Dialog lostDialog = new Dialog("You Lost!");
 			Button exitButton = new Button("Exit");
@@ -239,45 +243,54 @@ public class GameModel extends Observable{
 		
 		latestMessage = "Next Frame";
 		
+		//updates observers
 		setChanged();
 		notifyObservers();
 	}
 	
+	//moves Player
 	public void startMovePlayer() {
 		studentPlayer.startMove();
 		latestMessage = "Player Started to Move";
 	}
 	
+	//stops player
 	public void stopPlayer() {
 		studentPlayer.stop();
 		latestMessage = "Player has Stopped";
 	}
 	
+	//turns player left
 	public void leftPlayer() {
 		studentPlayer.left();
 		latestMessage = "Player has Turned Left";
 	}
 	
+	//turn player right
 	public void rightPlayer() {
 		studentPlayer.right();
 		latestMessage = "Player has Turned Right";
 	}
 	
+	//player collides with player
 	public void lectureHallCollide() {
 		lectureHall.handleCollide(studentPlayer);
 		latestMessage = "Player Collide with Lecture Hall";
 	}
 	
+	//player collides with restroom
 	public void restroomCollide() {
 		restroom.handleCollide(studentPlayer);
 		latestMessage = "Player Collide with Restroom";
 	}
 	
+	//player collides with water dispenser
 	public void waterDispenserCollide() {
 		waterDispenser.handleCollide(studentPlayer);
 		latestMessage = "Player Collide with Water Dispenser";
 	}
 	
+	//exits application
 	public void exit() {
 		Dialog exitDialog = new Dialog("Do you want to exit?");
 		Button yesButton = new Button("Yes");
@@ -296,6 +309,7 @@ public class GameModel extends Observable{
 		exitDialog.show();
 	}
 	
+	//displays my information
 	public void about() {
 		Dialog aboutDialog = new Dialog("About");
 		Label aboutLabel = new Label("A2, Neirel Zapatos, Spring 2024");
@@ -312,6 +326,7 @@ public class GameModel extends Observable{
 		latestMessage = "Displaying About";
 	}
 	
+	//changes the strategy of studentStrategy
 	public void changeStrategy() {
 		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
 		GameObject selectedObject;
@@ -327,6 +342,7 @@ public class GameModel extends Observable{
 		latestMessage = "Changed Student Strategy";
 	}
 	
+	//allows user to select a student
 	public void selectStudent() {
 		Dialog studentDialog = new Dialog("Select Student");
 		Label studentLabel = new Label("0: Angry, 1: Biking, 2: Car, 3: Confused, 4: Friendly, 5: Happy, 6: Nonstop, 7: Sleeping, 8: Running, 9: Strategy ");
@@ -463,6 +479,7 @@ public class GameModel extends Observable{
 		studentDialog.show();
 	}
 	
+	//used to update observers
 	public void setChanged() {
 		super.setChanged();
 	}

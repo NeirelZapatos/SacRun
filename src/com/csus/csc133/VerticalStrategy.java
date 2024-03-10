@@ -5,10 +5,12 @@ public class VerticalStrategy implements Strategy{
 	private StudentStrategy strategyStudent;
 	private Random random = new Random();
 	
+	//constructor
 	public VerticalStrategy(StudentStrategy strategyStudent) {
 		this.strategyStudent = strategyStudent;
 	}
 
+	//apply's vertical strategy to student strategy
 	@Override
 	public void apply() {
 		// TODO Auto-generated method stub

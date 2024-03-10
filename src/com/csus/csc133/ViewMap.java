@@ -7,6 +7,7 @@ import java.util.Observer;
 public class ViewMap extends Container implements Observer {	
 	private GameModel gameModel;
 	
+	//constructor
 	public ViewMap(GameModel gameModel){
 		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0xff0000));
@@ -14,12 +15,14 @@ public class ViewMap extends Container implements Observer {
 		setHeight(800);
 	}
 
+	//displays game state when observers are notified
 	@Override
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 		displayGameState();
 	}
 	
+	//displays game state in console
 	public void displayGameState() {
 		GameObjectsCollection gameObjects = gameModel.getGameObjectsCollection(); 
 		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();

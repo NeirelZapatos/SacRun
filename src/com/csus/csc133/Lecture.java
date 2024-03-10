@@ -17,6 +17,7 @@ public class Lecture {
 		time--;
 	}
 	
+	//gets Lecture
 	public int getLectureTime() {
 		return time;
 	}

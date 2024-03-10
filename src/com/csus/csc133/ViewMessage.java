@@ -9,6 +9,7 @@ public class ViewMessage extends Container implements Observer{
 	private GameModel gameModel;
 	Label gameState;
 	
+	//constructor
 	public ViewMessage(GameModel gameModel) {
 		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0x000000));
@@ -16,6 +17,7 @@ public class ViewMessage extends Container implements Observer{
 		add(gameState);
 	}
 
+	//updates message text when observers are notified
 	@Override
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub

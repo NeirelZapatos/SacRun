@@ -3,6 +3,7 @@ import com.codename1.ui.*;
 import com.codename1.ui.plaf.Border;
 
 public class ModifiedButton extends Button{
+	//constructor for button
 	public ModifiedButton(Command cmd) {
 		super(cmd);
 		getAllStyles().setBgTransparency(255);

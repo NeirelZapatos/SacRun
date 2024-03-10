@@ -4,12 +4,14 @@ import com.codename1.ui.events.ActionEvent;
 
 public class CollideCommand extends Command{
 	private GameModel gameModel;
-
+	
+	//Constructor
 	public CollideCommand(GameModel gameModel, String commandName) {
 		super(commandName);
 		this.gameModel = gameModel;
 	}
 	
+	//actions when command is called
 	public void actionPerformed(ActionEvent evt) {
 		switch(getCommandName()) {
 			case "Lecture Hall":
@@ -23,6 +25,7 @@ public class CollideCommand extends Command{
 				break;
 		}
 		
+		//updates observers
 		gameModel.setChanged();
 		gameModel.notifyObservers();
 	}

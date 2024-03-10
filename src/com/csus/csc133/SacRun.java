@@ -18,11 +18,6 @@ import com.codename1.ui.Container;
 public class SacRun extends Form{
 	//initializing fields
 	private GameModel gm;
-//	private StudentPlayer studentPlayer;
-//	private LectureHall lectureHall;
-//	private Restroom restroom;
-//	private WaterDispenser waterDispenser;
-//	private GameObjectsCollection gameObjects;
 	
 	//Constructor
 	public SacRun(){
@@ -39,11 +34,14 @@ public class SacRun extends Form{
 		
 	}
 	
-	private void A2() {			
+	//sets up GUI
+	private void A2() {		
+		//init commands
 		SpecialCommand aboutCommand = new SpecialCommand(gm, "About");
 		CollideCommand lectureCommand = new CollideCommand(gm, "Lecture Hall");
 		SpecialCommand changeCommand = new SpecialCommand(gm, "Change Strategy");
 		
+		//init buttons with command parameters
 		ModifiedButton moveButton = new ModifiedButton(new PlayerCommand(gm, "Move"));
 		ModifiedButton stopButton = new ModifiedButton(new PlayerCommand(gm, "Stop"));
 		ModifiedButton leftButton = new ModifiedButton(new PlayerCommand(gm, "Turn Left"));
@@ -55,6 +53,7 @@ public class SacRun extends Form{
 		ModifiedButton studentButton = new ModifiedButton(new SpecialCommand(gm, "Student"));
 		ModifiedButton nextFrameButton = new ModifiedButton(new SpecialCommand(gm, "Next Frame"));
 		
+		//creating container for buttons
 		Container buttonContainer = new Container();
 		buttonContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));		
 		buttonContainer.add(moveButton);
@@ -68,26 +67,28 @@ public class SacRun extends Form{
 		buttonContainer.add(studentButton);
 		buttonContainer.add(nextFrameButton);
 			
+		//creating toolbar
 		Toolbar toolBar = new Toolbar();
 		setToolbar(toolBar);
+		
+		//adding to side menu
 		Command changeStrategySide = changeCommand;
 		Command aboutSide = aboutCommand;
 		Command exitSide = new SpecialCommand(gm, "Exit");
-		
 		toolBar.addCommandToSideMenu(changeStrategySide);
 		toolBar.addCommandToSideMenu(aboutSide);
 		toolBar.addCommandToSideMenu(exitSide);
 		
+		//adding to right side tool bar
 		Command rightLectureHall = lectureCommand;
 		Command rightAbout = aboutCommand;
-		
 		toolBar.addCommandToRightBar(rightLectureHall);
 		toolBar.addCommandToRightBar(rightAbout);
 		
+		//getting and adding GUI containers
 		ViewMap viewMap = gm.getViewMap();
 		ViewStatus viewStatus = gm.getViewStatus();
 		ViewMessage viewMessage = gm.getViewMessage();
-		
 		add(BorderLayout.EAST, viewStatus);
 		add(BorderLayout.CENTER, viewMap);
 		add(BorderLayout.WEST, buttonContainer);

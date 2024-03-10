@@ -24,6 +24,7 @@ public class ViewStatus extends Container implements Observer{
 	
 	private GameModel gameModel;
 
+	//constructor which creates the status information in GUI
 	public ViewStatus(GameModel gameModel) {
 		this.gameModel = gameModel;
 		updateValues();
@@ -47,6 +48,7 @@ public class ViewStatus extends Container implements Observer{
 		add(timeRemainLabel);
 	}
 
+	//updates status values when observers are notified
 	@Override
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub

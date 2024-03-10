@@ -5,11 +5,13 @@ import com.codename1.ui.*;
 public class SpecialCommand extends Command{
 	private GameModel gameModel;
 		
+	//constructor
 	public SpecialCommand(GameModel gameModel, String commandName){
 		super(commandName);
 		this.gameModel = gameModel;
 	}
 		
+	//actions when command is called
 	public void actionPerformed(ActionEvent evt) {
 		switch(getCommandName()) {
 			case "Student":
@@ -29,6 +31,7 @@ public class SpecialCommand extends Command{
 				break;
 		}
 		
+		//updates observers
 		gameModel.setChanged();
 		gameModel.notifyObservers();
 	}
