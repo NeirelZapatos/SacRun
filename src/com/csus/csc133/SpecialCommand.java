@@ -15,6 +15,7 @@ public class SpecialCommand extends Command{
 	public void actionPerformed(ActionEvent evt) {
 		if(getCommandName() == "Student") {
 			Dialog studentDialog = new Dialog("Select Student");
+			Label studentLabel = new Label("0: Angry, 1: Biking, 2: Car, 3: Confused, 4: Friendly, 5: Happy, 6: Nonstop, 7: Sleeping, 8: Running, 9: Strategy ");
 			TextField textFieldInput = new TextField();
 			Button getTextButton = new Button("OK");
 			
@@ -31,7 +32,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentAngry) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Angry Student Selected");
+								gameModel.setLatestMessage("Angry Student Selected");
 								break;
 							}
 						}
@@ -42,7 +43,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentBiking) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Biking Student Selected");
+								gameModel.setLatestMessage("Biking Student Selected");
 								break;
 							}
 						}
@@ -53,7 +54,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentCar) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Car Student Selected");
+								gameModel.setLatestMessage("Car Student Selected");								
 								break;
 							}
 						}
@@ -64,7 +65,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentConfused) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Confused Student Selected");
+								gameModel.setLatestMessage("Confused Student Selected");
 								break;
 							}
 						}
@@ -75,7 +76,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentFriendly) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Friendly Student Selected");
+								gameModel.setLatestMessage("Friendly Student Selected");
 								break;
 							}
 						}
@@ -86,7 +87,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentHappy) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Happy Student Selected");
+								gameModel.setLatestMessage("Happy Student Selected");
 								break;
 							}
 						}
@@ -97,7 +98,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentNonstop) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Nonstop Student Selected");
+								gameModel.setLatestMessage("Nonstop Student Selected");
 								break;
 							}
 						}
@@ -108,7 +109,7 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentSleeping) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Sleeping Student Selected");
+								gameModel.setLatestMessage("Sleeping Student Selected");
 								break;
 							}
 						}
@@ -119,28 +120,30 @@ public class SpecialCommand extends Command{
 							if(selectedGameObject instanceof StudentRunning) {
 								selectedStudent = (Student) selectedGameObject;
 								gameModel.setSelectedStudent(selectedStudent);
-								System.out.println("Running Student Selected");
+								gameModel.setLatestMessage("Running Student Selected");
 								break;
 							}
 						}
 						break;
-//					case "9":
-//						while(objectIterator.hasNext()) {
-//							selectedGameObject = (GameObject) objectIterator.getNext();
-//							if(selectedGameObject instanceof StudentStrategy) {
-//								selectedStudent = (StudentStrategy) selectedGameObject;
-//								studentPlayer.handleCollide(selectedStudent);
-//								break;
-//							}
-//						}
-//						break;
-					default:
-						System.out.println("Incorrect Input");
+					case "9":
+						while(objectIterator.hasNext()) {
+							selectedGameObject = (GameObject) objectIterator.getNext();
+							if(selectedGameObject instanceof StudentStrategy) {
+								selectedStudent = (Student) selectedGameObject;
+								gameModel.setSelectedStudent(selectedStudent);
+								gameModel.setLatestMessage("Strategy Student Selected");
+								break;
+							}
+						}
+						break;
+					default:						
+						gameModel.setLatestMessage("Invalid Input Selected");
 				}
-				System.out.println();
-				studentDialog.dispose();	
+				studentDialog.dispose();
+				
 			});
 			
+			studentDialog.add(studentLabel);
 			studentDialog.add(textFieldInput);
 			studentDialog.add(getTextButton);
 			studentDialog.show();
@@ -148,10 +151,22 @@ public class SpecialCommand extends Command{
 		
 		if(getCommandName() == "Next Frame") {
 			gameModel.nextFrame();
+			gameModel.setLatestMessage("Next Frame");
 		}
 		
 		if(getCommandName() == "Change Strategy") {
+			GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+			GameObject selectedObject;
+			StudentStrategy strategyStudent;
 			
+			while(objectIterator.hasNext()) {
+				selectedObject = (GameObject) objectIterator.getNext();
+				if(selectedObject instanceof StudentStrategy) {
+					strategyStudent = (StudentStrategy) selectedObject;
+					strategyStudent.setStrategy();
+				}
+			}
+			gameModel.setLatestMessage("Changed Student Strategy");
 		}
 		
 		if(getCommandName() == "About") {
@@ -165,9 +180,9 @@ public class SpecialCommand extends Command{
 			
 			aboutDialog.add(aboutLabel);
 			aboutDialog.add(closeButton);
-			
 			aboutDialog.show();
 			
+			gameModel.setLatestMessage("Displaying About");
 		}
 		
 		if(getCommandName() == "Exit") {
@@ -187,5 +202,8 @@ public class SpecialCommand extends Command{
 			exitDialog.add(noButton);
 			exitDialog.show();
 		}
+		
+		gameModel.setChanged();
+		gameModel.notifyObservers();
 	}
 }

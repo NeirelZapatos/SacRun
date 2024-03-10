@@ -6,16 +6,19 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class ViewMessage extends Container implements Observer{
-	public ViewMessage() {
+	private GameModel gameModel;
+	Label gameState;
+	
+	public ViewMessage(GameModel gameModel) {
+		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0x000000));
-		Label gameState = new Label("Testing");
+		gameState = new Label(this.gameModel.getLatestMessage());
 		add(gameState);
 	}
 
 	@Override
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-		
+		gameState.setText(gameModel.getLatestMessage());
 	}
-
 }

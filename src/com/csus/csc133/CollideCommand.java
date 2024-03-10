@@ -4,7 +4,6 @@ import com.codename1.ui.events.ActionEvent;
 
 public class CollideCommand extends Command{
 	private StudentPlayer studentPlayer;
-	private GameObject gameObject;
 	private GameModel gameModel;
 
 	
@@ -18,14 +17,20 @@ public class CollideCommand extends Command{
 		if(getCommandName() == "Lecture Hall") {
 			LectureHall lectureHall = gameModel.getLectureHall();
 			lectureHall.handleCollide(studentPlayer);
+			gameModel.setLatestMessage("Player Collide with Lecture Hall");
 		}
 		if(getCommandName() == "Restroom") {
 			Restroom restroom = gameModel.getRestroom();
 			restroom.handleCollide(studentPlayer);
+			gameModel.setLatestMessage("Player Collide with Restroom");
+			
 		}
 		if(getCommandName() == "Water Dispenser") {
 			WaterDispenser waterDispenser = gameModel.getWaterDispenser();
 			waterDispenser.handleCollide(studentPlayer);
+			gameModel.setLatestMessage("Player Collide with Water Dispenser");
 		}
+		gameModel.setChanged();
+		gameModel.notifyObservers();
 	}
 }

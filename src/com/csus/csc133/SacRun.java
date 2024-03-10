@@ -42,17 +42,18 @@ public class SacRun extends Form{
 	private void A2() {			
 		SpecialCommand aboutCommand = new SpecialCommand(gm, "About");
 		CollideCommand lectureCommand = new CollideCommand(gm, "Lecture Hall");
+		SpecialCommand changeCommand = new SpecialCommand(gm, "Change Strategy");
 		
-		Button moveButton = new Button(new PlayerCommand(gm, "Move"));
-		Button stopButton = new Button(new PlayerCommand(gm, "Stop"));
-		Button leftButton = new Button(new PlayerCommand(gm, "Turn Left"));
-		Button rightButton = new Button(new PlayerCommand(gm, "Turn Right"));
-		Button changeButton = new Button(new SpecialCommand(gm, "Change Strategy"));
-		Button lectureCollideButton = new Button(lectureCommand);
-		Button restroomCollideButton = new Button(new CollideCommand(gm, "Restroom"));
-		Button waterDispenserCollideButton = new Button(new CollideCommand(gm, "Water Dispenser"));
-		Button studentButton = new Button(new SpecialCommand(gm, "Student"));
-		Button nextFrameButton = new Button(new SpecialCommand(gm, "Next Frame"));
+		ModifiedButton moveButton = new ModifiedButton(new PlayerCommand(gm, "Move"));
+		ModifiedButton stopButton = new ModifiedButton(new PlayerCommand(gm, "Stop"));
+		ModifiedButton leftButton = new ModifiedButton(new PlayerCommand(gm, "Turn Left"));
+		ModifiedButton rightButton = new ModifiedButton(new PlayerCommand(gm, "Turn Right"));
+		ModifiedButton changeButton = new ModifiedButton(changeCommand);
+		ModifiedButton lectureCollideButton = new ModifiedButton(lectureCommand);
+		ModifiedButton restroomCollideButton = new ModifiedButton(new CollideCommand(gm, "Restroom"));
+		ModifiedButton waterDispenserCollideButton = new ModifiedButton(new CollideCommand(gm, "Water Dispenser"));
+		ModifiedButton studentButton = new ModifiedButton(new SpecialCommand(gm, "Student"));
+		ModifiedButton nextFrameButton = new ModifiedButton(new SpecialCommand(gm, "Next Frame"));
 		
 		Container buttonContainer = new Container();
 		buttonContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));		
@@ -69,14 +70,17 @@ public class SacRun extends Form{
 			
 		Toolbar toolBar = new Toolbar();
 		setToolbar(toolBar);
-		Command changeStrategySide = new Command("Change Strategy");
-		SpecialCommand aboutSide = aboutCommand;
-		SpecialCommand exitSide = new SpecialCommand(gm, "Exit");
-		Command rightLectureHall = lectureCommand;
-		SpecialCommand rightAbout = aboutCommand;
+		Command changeStrategySide = changeCommand;
+		Command aboutSide = aboutCommand;
+		Command exitSide = new SpecialCommand(gm, "Exit");
+		
 		toolBar.addCommandToSideMenu(changeStrategySide);
 		toolBar.addCommandToSideMenu(aboutSide);
 		toolBar.addCommandToSideMenu(exitSide);
+		
+		Command rightLectureHall = lectureCommand;
+		Command rightAbout = aboutCommand;
+		
 		toolBar.addCommandToRightBar(rightLectureHall);
 		toolBar.addCommandToRightBar(rightAbout);
 		

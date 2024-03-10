@@ -18,6 +18,8 @@ public class GameModel extends Observable{
 	private ViewMessage viewMessage;
 	private ViewStatus viewStatus;
 	
+	private String latestMessage;
+	
 	private Random random = new Random();
 	
 	//Constructor
@@ -25,87 +27,99 @@ public class GameModel extends Observable{
 		init();
 	}
 	
-	public int getGameTime() {
-		return gameTime;
-	}
-	
 	// initializes the game objects and adds them to the game objects vector
 	public void init(){	
-		this.gameObjects = new GameObjectsCollection();
+		latestMessage = "Game Started";
+		gameObjects = new GameObjectsCollection();
 		viewMap = new ViewMap(this);
 		addStudents();
 		addFacility();
 		addObservers();
+		initObjPos();
 		
+		viewMap.displayGameState();
+	}
+	
+	public void initObjPos() {
+		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+		GameObject selectedObject;
+		while(objectIterator.hasNext()) {
+			selectedObject = (GameObject) objectIterator.getNext();
+			selectedObject.initPos(viewMap.getWidth(), viewMap.getHeight());
+		}
 	}
 	
 	public void addStudents() {
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentAngry angryStudent = new StudentAngry();
-			angryStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(angryStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentBiking bikingStudent = new StudentBiking();
 			gameObjects.add(bikingStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentCar carStudent = new StudentCar();
-			carStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(carStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentConfused confusedStudent = new StudentConfused();
-			confusedStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(confusedStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentFriendly friendlyStudent = new StudentFriendly();
-			friendlyStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(friendlyStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentHappy happyStudent = new StudentHappy();
-			happyStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(happyStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentNonstop nonStopStudent = new StudentNonstop();
 			gameObjects.add(nonStopStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentRunning runningStudent = new StudentRunning();
-			runningStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(runningStudent);
 		}
+		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentSleeping sleepingStudent = new StudentSleeping();
-			sleepingStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(sleepingStudent);
 		}
-		studentPlayer = new StudentPlayer();
-		studentPlayer.initPos(viewMap.getWidth(), viewMap.getHeight());
+		
+		for(int i = 0; i < 3; i++) {
+			StudentStrategy strategyStudent = new StudentStrategy();
+			gameObjects.add(strategyStudent);
+		}
+		
+		studentPlayer = StudentPlayer.getStudentPlayer();
 		gameObjects.add(studentPlayer);
 	}
 	
 	public void addFacility() {
-		for(int i = 0; i <= random.nextInt(3) + 2; i++) {
+		for(int i = 0; i < random.nextInt(3) + 2; i++) {
 			restroom = new Restroom();
-			restroom.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(restroom);
 		}
-		for(int i = 0; i <= random.nextInt(3) + 2; i++) {
+		
+		for(int i = 0; i < random.nextInt(3) + 2; i++) {
 			waterDispenser = new WaterDispenser();
-			waterDispenser.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(waterDispenser);
 		}
 		lectureHall = new LectureHall();
-		lectureHall.initPos(viewMap.getWidth(), viewMap.getHeight());
 		gameObjects.add(lectureHall);
 	}
 	
 	public void addObservers() {
-		viewMessage = new ViewMessage();
+		viewMessage = new ViewMessage(this);
 		viewStatus = new ViewStatus(this);
 		
 		addObserver(viewMap);
@@ -150,25 +164,22 @@ public class GameModel extends Observable{
 		return selectedStudent;
 	}
 	
+	public int getGameTime() {
+		return gameTime;
+	}
+	
+	public String getLatestMessage() {
+		return latestMessage;
+	}
+	
 	public void setSelectedStudent(Student newSelectedStudent) {
 		selectedStudent = newSelectedStudent;
 	}
 	
-	//returns a randomStudent from gameObjects vector
-//	public Student getRandomStudent() {
-//		int vectorLength = gameObjects.size();
-//		boolean cont = true;
-//		Student randomStudent = null;
-//		while(cont) {
-//			int randomIndex = random.nextInt(vectorLength);
-//			GameObject selectedObject = gameObjects.get(randomIndex);
-//			if(selectedObject instanceof Student) {
-//				randomStudent = (Student) selectedObject;
-//				cont = false;
-//			}
-//		}
-//		return randomStudent;
-//	}
+	
+	public void setLatestMessage(String newLatestMessage) {
+		latestMessage = newLatestMessage;
+	}
 	
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
@@ -231,9 +242,19 @@ public class GameModel extends Observable{
 			lostDialog.add(lostLabel);;
 			lostDialog.add(exitButton);
 			lostDialog.show();	
+			
+			latestMessage = "Gameover. Gametime: " + gameTime;
 		}
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void setChanged() {
+		super.setChanged();
+	}
+	
+	public void notifyObservers() {
+		super.notifyObservers();
 	}
 	
 	//Used to display the current game state
@@ -244,5 +265,21 @@ public class GameModel extends Observable{
 //			selectedObject.displayInfo();
 //		}
 //		System.out.println();
-//	}	
+//	}
+	
+	//returns a randomStudent from gameObjects vector
+//	public Student getRandomStudent() {
+//		int vectorLength = gameObjects.size();
+//		boolean cont = true;
+//		Student randomStudent = null;
+//		while(cont) {
+//			int randomIndex = random.nextInt(vectorLength);
+//			GameObject selectedObject = gameObjects.get(randomIndex);
+//			if(selectedObject instanceof Student) {
+//				randomStudent = (Student) selectedObject;
+//				cont = false;
+//			}
+//		}
+//		return randomStudent;
+//	}
 }

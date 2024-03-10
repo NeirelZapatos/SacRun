@@ -52,7 +52,7 @@ public class LectureHall extends Facility{
 	
 	//displays lectureHall info
     public void displayInfo() {
-    	System.out.println(getName() + ", pos(" + getX() + ", " + getY() + "), Current Lecture: " + getLecture());
+    	System.out.println(getName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), Current Lecture: " + getLecture());
     }
 	
 }

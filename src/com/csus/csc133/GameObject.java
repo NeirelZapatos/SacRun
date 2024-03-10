@@ -4,13 +4,13 @@ import com.codename1.charts.util.ColorUtil;
 
 public abstract class GameObject {
 	//Initializing fields
-	Random random = new Random();
+	private Random random = new Random();
 	
 	private double x;
 	private double y;
 	
-	private int size = ColorUtil.rgb(255, 0, 0);
-	private int color;
+	private int size;
+	private int color  = ColorUtil.rgb(255, 0, 0);
 	
 	//Constructor
 	public GameObject() {

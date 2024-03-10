@@ -15,15 +15,21 @@ public class PlayerCommand extends Command{
 	public void actionPerformed(ActionEvent evt) {
 		if(getCommandName() == "Move") {
 			studentPlayer.startMove();
+			gameModel.setLatestMessage("Player Started to Move");
 		}
 		if(getCommandName() == "Stop") {
 			studentPlayer.stop();
+			gameModel.setLatestMessage("Player has Stopped");
 		}
 		if(getCommandName() == "Turn Left") {
 			studentPlayer.left();
+			gameModel.setLatestMessage("Player has Turned Left");
 		}
 		if(getCommandName() == "Turn Right") {
 			studentPlayer.right();
+			gameModel.setLatestMessage("Player has Turned Right");
 		}
+		gameModel.setChanged();
+		gameModel.notifyObservers();
 	}
 }

@@ -1,10 +1,19 @@
 package com.csus.csc133;
 
 public class StudentPlayer extends Student{
+	private static StudentPlayer studentPlayer;
+	
 	//Constructor
-	public StudentPlayer() {
+	private StudentPlayer() {
 		super("StudentPlayer");
 		setSpeed(0);
+	}
+	
+	public static StudentPlayer getStudentPlayer() {
+		if(studentPlayer == null) {
+			studentPlayer = new StudentPlayer();
+		}
+		return studentPlayer;
 	}
 	
 	//sets player speed to default
