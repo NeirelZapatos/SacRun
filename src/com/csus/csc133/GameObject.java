@@ -4,10 +4,10 @@ import com.codename1.charts.util.ColorUtil;
 
 public abstract class GameObject {
 	//Initializing fields
-	private Random random = new Random();
+	Random random = new Random();
 	
-	private double x = random.nextInt(1001);
-	private double y = random.nextInt(801);
+	private double x;
+	private double y;
 	
 	private int size = ColorUtil.rgb(255, 0, 0);
 	private int color;
@@ -40,6 +40,12 @@ public abstract class GameObject {
 	
 	public void setY(double newY) {
 		y = newY;
+	}
+	
+	public void initPos(int screenWidth, int screenHeight) {
+		x = random.nextDouble() * screenWidth + 1;
+		y = random.nextDouble() * screenHeight + 1;
+		
 	}
 	
 	public void setSize(int newSize) {

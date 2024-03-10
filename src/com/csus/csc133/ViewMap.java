@@ -10,7 +10,8 @@ public class ViewMap extends Container implements Observer {
 	public ViewMap(GameModel gameModel){
 		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0xff0000));
-		displayGameState();
+		setWidth(1000);
+		setHeight(800);
 	}
 
 	@Override
@@ -28,5 +29,5 @@ public class ViewMap extends Container implements Observer {
 			selectedObject.displayInfo();
 		}
 		System.out.println();
-	}	
+	}
 }

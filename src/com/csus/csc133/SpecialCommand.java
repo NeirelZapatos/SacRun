@@ -3,7 +3,6 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.*;
 
 public class SpecialCommand extends Command{
-	private String commandName;
 	private GameObjectsCollection gameObjects;
 	private GameModel gameModel;
 		
@@ -11,11 +10,10 @@ public class SpecialCommand extends Command{
 		super(commandName);
 		this.gameModel = gameModel;
 		this.gameObjects = this.gameModel.getGameObjectsCollection();
-		this.commandName = commandName;
 	}
 		
 	public void actionPerformed(ActionEvent evt) {
-		if(commandName == "Student") {
+		if(getCommandName() == "Student") {
 			Dialog studentDialog = new Dialog("Select Student");
 			TextField textFieldInput = new TextField();
 			Button getTextButton = new Button("OK");
@@ -148,12 +146,46 @@ public class SpecialCommand extends Command{
 			studentDialog.show();
 		}
 		
-		if(commandName == "Next Frame") {
+		if(getCommandName() == "Next Frame") {
 			gameModel.nextFrame();
 		}
 		
-		if(commandName == "Change Strategy") {
+		if(getCommandName() == "Change Strategy") {
 			
+		}
+		
+		if(getCommandName() == "About") {
+			Dialog aboutDialog = new Dialog("About");
+			Label aboutLabel = new Label("A2, Neirel Zapatos, Spring 2024");
+			Button closeButton = new Button("Confirm");
+			
+			closeButton.addActionListener(e -> {
+	            aboutDialog.dispose();
+	        });
+			
+			aboutDialog.add(aboutLabel);
+			aboutDialog.add(closeButton);
+			
+			aboutDialog.show();
+			
+		}
+		
+		if(getCommandName() == "Exit") {
+			Dialog exitDialog = new Dialog("Do you want to exit?");
+			Button yesButton = new Button("Yes");
+			Button noButton = new Button("No");
+			
+			noButton.addActionListener(e -> {
+	            exitDialog.dispose();
+	        });
+			
+			yesButton.addActionListener(e -> {
+				CN.exitApplication();
+	        });
+			
+			exitDialog.add(yesButton);
+			exitDialog.add(noButton);
+			exitDialog.show();
 		}
 	}
 }

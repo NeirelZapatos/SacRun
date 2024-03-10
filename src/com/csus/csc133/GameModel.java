@@ -1,6 +1,7 @@
 package com.csus.csc133;
 import java.util.Random;
 import java.util.Observable;
+import com.codename1.ui.*;
 
 // Used to calculate and manipulate current game state
 public class GameModel extends Observable{
@@ -31,14 +32,17 @@ public class GameModel extends Observable{
 	// initializes the game objects and adds them to the game objects vector
 	public void init(){	
 		this.gameObjects = new GameObjectsCollection();
+		viewMap = new ViewMap(this);
 		addStudents();
 		addFacility();
 		addObservers();
+		
 	}
 	
 	public void addStudents() {
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentAngry angryStudent = new StudentAngry();
+			angryStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(angryStudent);
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
@@ -47,18 +51,22 @@ public class GameModel extends Observable{
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentCar carStudent = new StudentCar();
+			carStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(carStudent);
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentConfused confusedStudent = new StudentConfused();
+			confusedStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(confusedStudent);
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentFriendly friendlyStudent = new StudentFriendly();
+			friendlyStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(friendlyStudent);
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentHappy happyStudent = new StudentHappy();
+			happyStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(happyStudent);
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
@@ -67,31 +75,36 @@ public class GameModel extends Observable{
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentRunning runningStudent = new StudentRunning();
+			runningStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(runningStudent);
 		}
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentSleeping sleepingStudent = new StudentSleeping();
+			sleepingStudent.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(sleepingStudent);
 		}
 		studentPlayer = new StudentPlayer();
+		studentPlayer.initPos(viewMap.getWidth(), viewMap.getHeight());
 		gameObjects.add(studentPlayer);
 	}
 	
 	public void addFacility() {
 		for(int i = 0; i <= random.nextInt(3) + 2; i++) {
 			restroom = new Restroom();
+			restroom.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(restroom);
 		}
 		for(int i = 0; i <= random.nextInt(3) + 2; i++) {
 			waterDispenser = new WaterDispenser();
+			waterDispenser.initPos(viewMap.getWidth(), viewMap.getHeight());
 			gameObjects.add(waterDispenser);
 		}
 		lectureHall = new LectureHall();
+		lectureHall.initPos(viewMap.getWidth(), viewMap.getHeight());
 		gameObjects.add(lectureHall);
 	}
 	
 	public void addObservers() {
-		viewMap = new ViewMap(this);
 		viewMessage = new ViewMessage();
 		viewStatus = new ViewStatus(this);
 		
@@ -197,7 +210,27 @@ public class GameModel extends Observable{
 		}
 		//checks if game over
 		if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
-			System.out.println("Gameover. Time: " + gameTime + "\n");
+			Dialog lostDialog = new Dialog("You Lost!");
+			Button exitButton = new Button("Exit");
+			Label lostLabel = null;
+			
+			if(studentPlayer.getHydration() <= 0) {
+				lostLabel = new Label("No Hydration ");
+			}
+			else if(studentPlayer.getHydration() > 2) {
+				lostLabel = new Label("Too many Absences");
+			}
+			else if(studentPlayer.getWaterIntake() > 199) {
+				lostLabel = new Label("Too much Water Intake");
+			}
+			
+			exitButton.addActionListener(e -> {
+				CN.exitApplication();
+	        });
+			
+			lostDialog.add(lostLabel);;
+			lostDialog.add(exitButton);
+			lostDialog.show();	
 		}
 		setChanged();
 		notifyObservers();

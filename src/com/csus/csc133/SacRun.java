@@ -40,12 +40,15 @@ public class SacRun extends Form{
 	}
 	
 	private void A2() {			
+		SpecialCommand aboutCommand = new SpecialCommand(gm, "About");
+		CollideCommand lectureCommand = new CollideCommand(gm, "Lecture Hall");
+		
 		Button moveButton = new Button(new PlayerCommand(gm, "Move"));
 		Button stopButton = new Button(new PlayerCommand(gm, "Stop"));
 		Button leftButton = new Button(new PlayerCommand(gm, "Turn Left"));
 		Button rightButton = new Button(new PlayerCommand(gm, "Turn Right"));
 		Button changeButton = new Button(new SpecialCommand(gm, "Change Strategy"));
-		Button lectureCollideButton = new Button(new CollideCommand(gm, "Lecture Hall"));
+		Button lectureCollideButton = new Button(lectureCommand);
 		Button restroomCollideButton = new Button(new CollideCommand(gm, "Restroom"));
 		Button waterDispenserCollideButton = new Button(new CollideCommand(gm, "Water Dispenser"));
 		Button studentButton = new Button(new SpecialCommand(gm, "Student"));
@@ -67,10 +70,10 @@ public class SacRun extends Form{
 		Toolbar toolBar = new Toolbar();
 		setToolbar(toolBar);
 		Command changeStrategySide = new Command("Change Strategy");
-		Command aboutSide = new Command("About");
-		Command exitSide = new Command("Exit");
-		Command rightLectureHall = new Command("Lecture Hall");
-		Command rightAbout = new Command("About");
+		SpecialCommand aboutSide = aboutCommand;
+		SpecialCommand exitSide = new SpecialCommand(gm, "Exit");
+		Command rightLectureHall = lectureCommand;
+		SpecialCommand rightAbout = aboutCommand;
 		toolBar.addCommandToSideMenu(changeStrategySide);
 		toolBar.addCommandToSideMenu(aboutSide);
 		toolBar.addCommandToSideMenu(exitSide);
