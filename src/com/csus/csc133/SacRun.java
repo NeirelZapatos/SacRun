@@ -18,20 +18,17 @@ import com.codename1.ui.Container;
 public class SacRun extends Form{
 	//initializing fields
 	private GameModel gm;
-	private StudentPlayer studentPlayer;
-	private LectureHall lectureHall;
-	private Restroom restroom;
-	private WaterDispenser waterDispenser;
+//	private StudentPlayer studentPlayer;
+//	private LectureHall lectureHall;
+//	private Restroom restroom;
+//	private WaterDispenser waterDispenser;
+//	private GameObjectsCollection gameObjects;
 	
 	//Constructor
 	public SacRun(){
 		super(new BorderLayout());
 		
 		this.gm = new GameModel();
-		this.studentPlayer = gm.getStudentPlayer();
-		this.restroom = gm.getRestroom();
-		this.waterDispenser = gm.getWaterDispenser();
-		this.lectureHall = gm.getLectureHall();
 		
 		A2();
 		
@@ -42,22 +39,17 @@ public class SacRun extends Form{
 		
 	}
 	
-	private void A2() {	
-		Dialog studentDialog = new Dialog("Dialog Title");
-		studentDialog.add(new TextField());
-		
-		
-		Button moveButton = new Button(new PlayerCommand(studentPlayer, "Move"));
-		Button stopButton = new Button(new PlayerCommand(studentPlayer, "Stop"));
-		Button leftButton = new Button(new PlayerCommand(studentPlayer, "Turn Left"));
-		Button rightButton = new Button(new PlayerCommand(studentPlayer, "Turn Right"));
-		Button changeButton = new Button("Change Strategy");
-		Button lectureCollideButton = new Button(new CollideCommand(studentPlayer, lectureHall, "Lecture Hall"));
-		Button restroomCollideButton = new Button(new CollideCommand(studentPlayer, restroom, "Restroom"));
-		Button waterDispenserCollideButton = new Button(new CollideCommand(studentPlayer, waterDispenser, "Water Dispenser"));
-//		Button studentCollideButton = new Button(new CollideCommand(studentPlayer, gm.getRandomStudent(), "Student"));
-		//make sure that you change the it so it opens a dialog 
-		Button nextFrameButton = new Button("Next Frame");
+	private void A2() {			
+		Button moveButton = new Button(new PlayerCommand(gm, "Move"));
+		Button stopButton = new Button(new PlayerCommand(gm, "Stop"));
+		Button leftButton = new Button(new PlayerCommand(gm, "Turn Left"));
+		Button rightButton = new Button(new PlayerCommand(gm, "Turn Right"));
+		Button changeButton = new Button(new SpecialCommand(gm, "Change Strategy"));
+		Button lectureCollideButton = new Button(new CollideCommand(gm, "Lecture Hall"));
+		Button restroomCollideButton = new Button(new CollideCommand(gm, "Restroom"));
+		Button waterDispenserCollideButton = new Button(new CollideCommand(gm, "Water Dispenser"));
+		Button studentButton = new Button(new SpecialCommand(gm, "Student"));
+		Button nextFrameButton = new Button(new SpecialCommand(gm, "Next Frame"));
 		
 		Container buttonContainer = new Container();
 		buttonContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));		
@@ -69,48 +61,9 @@ public class SacRun extends Form{
 		buttonContainer.add(lectureCollideButton);
 		buttonContainer.add(restroomCollideButton);
 		buttonContainer.add(waterDispenserCollideButton);
-//		buttonContainer.add(studentCollideButton);
+		buttonContainer.add(studentButton);
 		buttonContainer.add(nextFrameButton);
-		
-//		moveButton.addActionListener(e -> {
-//			studentPlayer.startMove();
-//		});
-//		stopButton.addActionListener(e -> {
-//			studentPlayer.stop();
-//		});
-//		leftButton.addActionListener(e -> {
-//			studentPlayer.left();
-//		});
-//		rightButton.addActionListener(e -> {
-//			studentPlayer.right();
-//		});
-//		changeButton.addActionListener(e -> {
-//			
-//		});
-//		lectureCollideButton.addActionListener(e -> {
-//			lectureHall.handleCollide(studentPlayer);
-//		});
-//		restroomCollideButton.addActionListener(e -> {
-//			restroom.handleCollide(studentPlayer);
-//		});
-//		waterDispenserCollideButton.addActionListener(e -> {
-//			waterDispenser.handleCollide(studentPlayer);
-//		});
-//		studentCollideButton.addActionListener(e -> {
-//			studentPlayer.handleCollide(gm.getRandomStudent());
-//		});//change it so it has a dialog box that accepts an input to pick a student instead of random
-		nextFrameButton.addActionListener(e -> {
-			gm.nextFrame();
-		});
-		
-		
-		ViewMap viewMap = gm.getViewMap();
-		ViewStatus viewStatus = gm.getViewStatus();
-		ViewMessage viewMessage = gm.getViewMessage();
-//		gm.addObserver(viewMap);
-//		gm.addObserver(viewStatus);
-//		gm.addObserver(viewMap);
-		
+			
 		Toolbar toolBar = new Toolbar();
 		setToolbar(toolBar);
 		Command changeStrategySide = new Command("Change Strategy");
@@ -123,6 +76,10 @@ public class SacRun extends Form{
 		toolBar.addCommandToSideMenu(exitSide);
 		toolBar.addCommandToRightBar(rightLectureHall);
 		toolBar.addCommandToRightBar(rightAbout);
+		
+		ViewMap viewMap = gm.getViewMap();
+		ViewStatus viewStatus = gm.getViewStatus();
+		ViewMessage viewMessage = gm.getViewMessage();
 		
 		add(BorderLayout.EAST, viewStatus);
 		add(BorderLayout.CENTER, viewMap);

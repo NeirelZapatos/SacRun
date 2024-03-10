@@ -11,7 +11,7 @@ public class GameModel extends Observable{
 	private LectureHall lectureHall;
 	private StudentPlayer studentPlayer;
 	private GameObjectsCollection gameObjects;
-//	private Vector<GameObject> gameObjects = new Vector<>();
+	private Student selectedStudent;
 	
 	private ViewMap viewMap;
 	private ViewMessage viewMessage;
@@ -34,37 +34,6 @@ public class GameModel extends Observable{
 		addStudents();
 		addFacility();
 		addObservers();
-		
-		
-//		lectureHall = new LectureHall();
-//		waterDispenser = new WaterDispenser();
-//		restroom = new Restroom();
-//		studentPlayer = new StudentPlayer();
-		
-		
-//        StudentAngry angryStudent = new StudentAngry();
-//        StudentBiking bikingStudent = new StudentBiking();
-//        StudentCar carStudent = new StudentCar();
-//        StudentConfused confusedStudent = new StudentConfused();
-//        StudentFriendly friendlyStudent = new StudentFriendly();
-//        StudentHappy happyStudent = new StudentHappy();
-//        StudentNonstop nonStopStudent = new StudentNonstop();
-//        StudentRunning runningStudent = new StudentRunning();
-//        StudentSleeping sleepingStudent = new StudentSleeping();  
-        
-//        gameObjects.add(studentPlayer);
-//        gameObjects.add(angryStudent);
-//        gameObjects.add(bikingStudent);
-//        gameObjects.add(carStudent);
-//        gameObjects.add(confusedStudent);
-//        gameObjects.add(friendlyStudent);
-//        gameObjects.add(happyStudent);
-//        gameObjects.add(nonStopStudent);
-//        gameObjects.add(runningStudent);
-//        gameObjects.add(sleepingStudent);
-//        gameObjects.add(lectureHall);
-//        gameObjects.add(waterDispenser);
-//        gameObjects.add(restroom);
 	}
 	
 	public void addStudents() {
@@ -164,6 +133,14 @@ public class GameModel extends Observable{
 		return gameObjects;
 	}
 	
+	public Student getSelectedStudent() {
+		return selectedStudent;
+	}
+	
+	public void setSelectedStudent(Student newSelectedStudent) {
+		selectedStudent = newSelectedStudent;
+	}
+	
 	//returns a randomStudent from gameObjects vector
 //	public Student getRandomStudent() {
 //		int vectorLength = gameObjects.size();
@@ -185,7 +162,9 @@ public class GameModel extends Observable{
 		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
 		gameTime++;
 		LectureHall lectureHall = null;
-		IMoveable student = null;
+		IMoveable moveable = null;
+		Student student = null;
+		
 		while(objectIterator.hasNext()) {
 			GameObject selectedObject = (GameObject) objectIterator.getNext();
 			//Manipulate lecture 
@@ -206,8 +185,14 @@ public class GameModel extends Observable{
 			}
 			//checks to see of object is move able
 			if(selectedObject instanceof IMoveable) {
-				student = (IMoveable) selectedObject;
-				student.move();	
+				moveable = (IMoveable) selectedObject;
+				moveable.move();	
+			}
+			
+			//checks what color the student should be
+			if(selectedObject instanceof Student) {
+				student = (Student) selectedObject;
+				student.checkTimeRemain();
 			}
 		}
 		//checks if game over
