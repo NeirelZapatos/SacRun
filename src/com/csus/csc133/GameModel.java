@@ -172,10 +172,6 @@ public class GameModel extends Observable{
 		return latestMessage;
 	}
 	
-	public void setSelectedStudent(Student newSelectedStudent) {
-		selectedStudent = newSelectedStudent;
-	}
-	
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
 		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();

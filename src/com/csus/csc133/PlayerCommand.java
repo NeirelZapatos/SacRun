@@ -9,7 +9,7 @@ public class PlayerCommand extends Command{
 		super(commandName);
 		this.gameModel = gameModel;
 	}
-	
+
 	public void actionPerformed(ActionEvent evt) {
 		switch(getCommandName()) {
 			case "Move":

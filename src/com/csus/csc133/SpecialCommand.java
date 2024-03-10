@@ -3,13 +3,11 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.*;
 
 public class SpecialCommand extends Command{
-	private GameObjectsCollection gameObjects;
 	private GameModel gameModel;
 		
 	public SpecialCommand(GameModel gameModel, String commandName){
 		super(commandName);
 		this.gameModel = gameModel;
-		this.gameObjects = this.gameModel.getGameObjectsCollection();
 	}
 		
 	public void actionPerformed(ActionEvent evt) {
