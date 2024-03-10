@@ -176,11 +176,6 @@ public class GameModel extends Observable{
 		selectedStudent = newSelectedStudent;
 	}
 	
-	
-	public void setLatestMessage(String newLatestMessage) {
-		latestMessage = newLatestMessage;
-	}
-	
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
 		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
@@ -245,8 +240,231 @@ public class GameModel extends Observable{
 			
 			latestMessage = "Gameover. Gametime: " + gameTime;
 		}
+		
+		latestMessage = "Next Frame";
+		
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void startMovePlayer() {
+		studentPlayer.startMove();
+		latestMessage = "Player Started to Move";
+	}
+	
+	public void stopPlayer() {
+		studentPlayer.stop();
+		latestMessage = "Player has Stopped";
+	}
+	
+	public void leftPlayer() {
+		studentPlayer.left();
+		latestMessage = "Player has Turned Left";
+	}
+	
+	public void rightPlayer() {
+		studentPlayer.right();
+		latestMessage = "Player has Turned Right";
+	}
+	
+	public void lectureHallCollide() {
+		lectureHall.handleCollide(studentPlayer);
+		latestMessage = "Player Collide with Lecture Hall";
+	}
+	
+	public void restroomCollide() {
+		restroom.handleCollide(studentPlayer);
+		latestMessage = "Player Collide with Restroom";
+	}
+	
+	public void waterDispenserCollide() {
+		waterDispenser.handleCollide(studentPlayer);
+		latestMessage = "Player Collide with Water Dispenser";
+	}
+	
+	public void exit() {
+		Dialog exitDialog = new Dialog("Do you want to exit?");
+		Button yesButton = new Button("Yes");
+		Button noButton = new Button("No");
+		
+		noButton.addActionListener(e -> {
+            exitDialog.dispose();
+        });
+		
+		yesButton.addActionListener(e -> {
+			CN.exitApplication();
+        });
+		
+		exitDialog.add(yesButton);
+		exitDialog.add(noButton);
+		exitDialog.show();
+	}
+	
+	public void about() {
+		Dialog aboutDialog = new Dialog("About");
+		Label aboutLabel = new Label("A2, Neirel Zapatos, Spring 2024");
+		Button closeButton = new Button("Confirm");
+		
+		closeButton.addActionListener(e -> {
+            aboutDialog.dispose();
+        });
+		
+		aboutDialog.add(aboutLabel);
+		aboutDialog.add(closeButton);
+		aboutDialog.show();
+		
+		latestMessage = "Displaying About";
+	}
+	
+	public void changeStrategy() {
+		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+		GameObject selectedObject;
+		StudentStrategy strategyStudent;
+		
+		while(objectIterator.hasNext()) {
+			selectedObject = (GameObject) objectIterator.getNext();
+			if(selectedObject instanceof StudentStrategy) {
+				strategyStudent = (StudentStrategy) selectedObject;
+				strategyStudent.setStrategy();
+			}
+		}
+		latestMessage = "Changed Student Strategy";
+	}
+	
+	public void selectStudent() {
+		Dialog studentDialog = new Dialog("Select Student");
+		Label studentLabel = new Label("0: Angry, 1: Biking, 2: Car, 3: Confused, 4: Friendly, 5: Happy, 6: Nonstop, 7: Sleeping, 8: Running, 9: Strategy ");
+		TextField textFieldInput = new TextField();
+		Button getTextButton = new Button("OK");
+		
+		getTextButton.addActionListener(e -> {
+			String textInput = textFieldInput.getText();
+			GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+			GameObject selectedGameObject;
+			Student selectedStudent;
+			
+			switch(textInput) {
+				case "0":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentAngry) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Angry Student Selected";
+							break;
+						}
+					}
+					break;
+				case "1":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentBiking) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Biking Student Selected";
+							break;
+						}
+					}
+					break;
+				case "2":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentCar) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Car Student Selected";								
+							break;
+						}
+					}
+					break;
+				case "3":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentConfused) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Confused Student Selected";
+							break;
+						}
+					}
+					break;
+				case "4":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentFriendly) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Friendly Student Selected";
+							break;
+						}
+					}
+					break;
+				case "5":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentHappy) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Happy Student Selected";
+							break;
+						}
+					}
+					break;
+				case "6":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentNonstop) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Nonstop Student Selected";
+							break;
+						}
+					}
+					break;
+				case "7":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentSleeping) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Sleeping Student Selected";
+							break;
+						}
+					}
+					break;
+				case "8":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentRunning) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Running Student Selected";
+							break;
+						}
+					}
+					break;
+				case "9":
+					while(objectIterator.hasNext()) {
+						selectedGameObject = (GameObject) objectIterator.getNext();
+						if(selectedGameObject instanceof StudentStrategy) {
+							selectedStudent = (Student) selectedGameObject;
+							this.selectedStudent = selectedStudent;
+							latestMessage = "Strategy Student Selected";
+							break;
+						}
+					}
+					break;
+				default:						
+					latestMessage = "Invalid Input Selected";
+			}
+			studentDialog.dispose();
+			
+		});
+		
+		studentDialog.add(studentLabel);
+		studentDialog.add(textFieldInput);
+		studentDialog.add(getTextButton);
+		studentDialog.show();
 	}
 	
 	public void setChanged() {
