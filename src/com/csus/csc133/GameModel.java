@@ -185,7 +185,7 @@ public class GameModel extends Observable{
 		Student student = null;
 		
 		while(objectIterator.hasNext()) {
-			GameObject selectedObject = (GameObject) objectIterator.getNext();
+			GameObject selectedObject = objectIterator.getNext();
 			//Manipulate lecture 
 			if(selectedObject instanceof LectureHall) {
 				lectureHall = (LectureHall) selectedObject;
@@ -333,7 +333,7 @@ public class GameModel extends Observable{
 		StudentStrategy strategyStudent;
 		
 		while(objectIterator.hasNext()) {
-			selectedObject = (GameObject) objectIterator.getNext();
+			selectedObject = objectIterator.getNext();
 			if(selectedObject instanceof StudentStrategy) {
 				strategyStudent = (StudentStrategy) selectedObject;
 				strategyStudent.setStrategy();
@@ -358,7 +358,7 @@ public class GameModel extends Observable{
 			switch(textInput) {
 				case "0":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentAngry) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -369,7 +369,7 @@ public class GameModel extends Observable{
 					break;
 				case "1":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentBiking) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -380,7 +380,7 @@ public class GameModel extends Observable{
 					break;
 				case "2":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentCar) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -391,7 +391,7 @@ public class GameModel extends Observable{
 					break;
 				case "3":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentConfused) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -402,7 +402,7 @@ public class GameModel extends Observable{
 					break;
 				case "4":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentFriendly) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -413,7 +413,7 @@ public class GameModel extends Observable{
 					break;
 				case "5":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentHappy) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -424,7 +424,7 @@ public class GameModel extends Observable{
 					break;
 				case "6":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentNonstop) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -435,7 +435,7 @@ public class GameModel extends Observable{
 					break;
 				case "7":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentSleeping) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -446,7 +446,7 @@ public class GameModel extends Observable{
 					break;
 				case "8":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentRunning) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
@@ -457,7 +457,7 @@ public class GameModel extends Observable{
 					break;
 				case "9":
 					while(objectIterator.hasNext()) {
-						selectedGameObject = (GameObject) objectIterator.getNext();
+						selectedGameObject = objectIterator.getNext();
 						if(selectedGameObject instanceof StudentStrategy) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;

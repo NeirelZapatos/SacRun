@@ -12,10 +12,6 @@ public abstract class GameObject {
 	private int size;
 	private int color  = ColorUtil.rgb(255, 0, 0);
 	
-	//Constructor
-	public GameObject() {
-		
-	}
 	//getter methods to retrieve private variables
 	public double getX() {
 		return x;

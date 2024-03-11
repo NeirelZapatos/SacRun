@@ -7,7 +7,7 @@ import java.util.Observer;
 
 public class ViewMessage extends Container implements Observer{
 	private GameModel gameModel;
-	Label gameState;
+	private Label gameState;
 	
 	//constructor
 	public ViewMessage(GameModel gameModel) {

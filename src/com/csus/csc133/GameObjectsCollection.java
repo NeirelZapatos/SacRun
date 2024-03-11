@@ -35,7 +35,7 @@ public class GameObjectsCollection {
 		}
 		
 		//gets the next object
-		public Object getNext() {
+		public GameObject getNext() {
 			currentIndex++;
 			return gameObjects.get(currentIndex);
 		}	
