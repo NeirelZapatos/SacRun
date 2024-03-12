@@ -25,7 +25,7 @@ public class ViewMap extends Container implements Observer {
 	//displays game state to console
 	public void displayGameState() {
 		GameObjectsCollection gameObjects = gameModel.getGameObjectsCollection(); 
-		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+		IteratorInterface objectIterator = gameObjects.getIterator();
 		System.out.println("Time: " + gameModel.getGameTime());
 		while(objectIterator.hasNext()) {
 			GameObject selectedObject = objectIterator.getNext();

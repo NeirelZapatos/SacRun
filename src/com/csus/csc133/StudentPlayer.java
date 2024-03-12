@@ -9,6 +9,7 @@ public class StudentPlayer extends Student{
 		setSpeed(0);
 	}
 	
+	//Singleton Design Pattern
 	public static StudentPlayer getStudentPlayer() {
 		if(studentPlayer == null) {
 			studentPlayer = new StudentPlayer();
@@ -19,7 +20,6 @@ public class StudentPlayer extends Student{
 	//sets player speed to default
 	public void startMove() {
 		setSpeed(getDEFAULT_SPEED());
-		//super.move();
 	}
 	
 	//sets player speed to 0

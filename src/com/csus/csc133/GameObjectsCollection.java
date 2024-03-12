@@ -15,12 +15,12 @@ public class GameObjectsCollection {
 	}
 	
 	//returns iterator
-	public Iterator getIterator() {
+	public IteratorInterface getIterator() {
 		return new Iterator();
 	}
 	
 	//iterator class
-	protected class Iterator{
+	private class Iterator implements IteratorInterface{
 		private int currentIndex = -1;
 		
 		//checks if gameObjects has another object

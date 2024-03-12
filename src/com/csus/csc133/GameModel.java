@@ -42,7 +42,7 @@ public class GameModel extends Observable{
 	
 	//initializes object positions 
 	public void initObjPos() {
-		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+		IteratorInterface objectIterator = gameObjects.getIterator();
 		GameObject selectedObject;
 		while(objectIterator.hasNext()) {
 			selectedObject = (GameObject) objectIterator.getNext();
@@ -123,6 +123,7 @@ public class GameModel extends Observable{
 	
 	//creates observer objects
 	public void addObservers() {
+		//viewMap added in init functon because students and facility need the viewMap width and height to initialize their position
 		viewMessage = new ViewMessage(this);
 		viewStatus = new ViewStatus(this);
 		
@@ -178,7 +179,7 @@ public class GameModel extends Observable{
 	
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
-		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+		IteratorInterface objectIterator = gameObjects.getIterator();
 		gameTime++;
 		LectureHall lectureHall = null;
 		IMoveable moveable = null;
@@ -328,7 +329,7 @@ public class GameModel extends Observable{
 	
 	//changes the strategy of studentStrategy
 	public void changeStrategy() {
-		GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+		IteratorInterface objectIterator = gameObjects.getIterator();
 		GameObject selectedObject;
 		StudentStrategy strategyStudent;
 		
@@ -339,6 +340,7 @@ public class GameModel extends Observable{
 				strategyStudent.setStrategy();
 			}
 		}
+		
 		latestMessage = "Changed Student Strategy";
 	}
 	
@@ -347,11 +349,11 @@ public class GameModel extends Observable{
 		Dialog studentDialog = new Dialog("Select Student");
 		Label studentLabel = new Label("0: Angry, 1: Biking, 2: Car, 3: Confused, 4: Friendly, 5: Happy, 6: Nonstop, 7: Sleeping, 8: Running, 9: Strategy ");
 		TextField textFieldInput = new TextField();
-		Button getTextButton = new Button("OK");
+		Button getTextButton = new Button("Confirm");
 		
 		getTextButton.addActionListener(e -> {
 			String textInput = textFieldInput.getText();
-			GameObjectsCollection.Iterator objectIterator = gameObjects.getIterator();
+			IteratorInterface objectIterator = gameObjects.getIterator();
 			GameObject selectedGameObject;
 			Student selectedStudent;
 			
@@ -362,7 +364,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentAngry) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Angry Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -373,7 +375,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentBiking) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Biking Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -384,7 +386,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentCar) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Car Student Selected";								
+							latestMessage = this.selectedStudent.getClassName() + " Selected";								
 							break;
 						}
 					}
@@ -395,7 +397,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentConfused) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Confused Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -406,7 +408,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentFriendly) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Friendly Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -417,7 +419,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentHappy) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Happy Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -428,7 +430,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentNonstop) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Nonstop Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -439,7 +441,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentSleeping) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Sleeping Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -450,7 +452,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentRunning) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Running Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -461,7 +463,7 @@ public class GameModel extends Observable{
 						if(selectedGameObject instanceof StudentStrategy) {
 							selectedStudent = (Student) selectedGameObject;
 							this.selectedStudent = selectedStudent;
-							latestMessage = "Strategy Student Selected";
+							latestMessage = this.selectedStudent.getClassName() + " Selected";
 							break;
 						}
 					}
@@ -469,8 +471,8 @@ public class GameModel extends Observable{
 				default:						
 					latestMessage = "Invalid Input Selected";
 			}
-			studentDialog.dispose();
 			
+			studentDialog.dispose();
 		});
 		
 		studentDialog.add(studentLabel);

@@ -61,6 +61,7 @@ public class ViewStatus extends Container implements Observer{
 		waterIntakeLabel.setText("Water Intake: " + waterIntake);
 		timeRemainLabel.setText("Time Remain: " + timeRemain);
 		
+		revalidate();
 	}
 	
 	public void updateValues() {

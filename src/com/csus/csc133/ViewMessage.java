@@ -22,5 +22,6 @@ public class ViewMessage extends Container implements Observer{
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 		gameState.setText(gameModel.getLatestMessage());
+		revalidate();
 	}
 }
