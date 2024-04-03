@@ -1,7 +1,6 @@
 package com.csus.csc133;
 import java.util.*;
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.*;
 
 public abstract class Student extends GameObject implements IMoveable {
 	//initializing fields
@@ -179,12 +178,5 @@ public abstract class Student extends GameObject implements IMoveable {
 		else {
 			setColor(ColorUtil.rgb(255, 0, 0));
 		}
-	}
-	
-	public void draw(Graphics g, int mapX, int mapY) {
-		g.setColor(getColor());
-		int[] xPos = {(int) getX() - getSize() / 4 + mapX, (int) getX() + mapX, (int) getX() + getSize() / 4 + mapX};
-		int[] yPos = {(int) getY() - getSize() / 2 + mapY,(int) getY() + getSize() / 2 + mapY, (int) getY() - getSize() / 2 + mapY};
-		g.drawPolygon(xPos, yPos, 3);
 	}
 }

@@ -1,9 +1,5 @@
 package com.csus.csc133;
 
-import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.Graphics;
-import com.codename1.ui.Label;
-
 public class LectureHall extends Facility{
 	//initializing fields
 	private String name = "LectureHall RVR 101";
@@ -57,14 +53,6 @@ public class LectureHall extends Facility{
 	//displays lectureHall info
     public void displayInfo() {
     	System.out.println(getName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), Current Lecture: " + getLecture());
-    }
-    
-    public void draw(Graphics g, int mapX, int mapY) {
-    	g.setColor(ColorUtil.rgb(0, 0, 255));
-    	int xPos = (int) getX() - getSize() / 2 + mapX;
-    	int yPos = (int) getY() - getSize() / 2 + mapY;
-    	g.fillRect(xPos, yPos, getSize(), getSize());
-    	g.drawString("Lecture Hall", xPos - getSize() / 2, yPos + getSize());
     }
 	
 }

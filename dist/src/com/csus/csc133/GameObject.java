@@ -1,7 +1,6 @@
 package com.csus.csc133;
 import java.util.*;
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.Graphics;
 
 public abstract class GameObject {
 	//Initializing fields
@@ -51,8 +50,7 @@ public abstract class GameObject {
 	public void initPos(int screenWidth, int screenHeight) {
 		x = random.nextDouble() * screenWidth + 1;
 		y = random.nextDouble() * screenHeight + 1;
-//		x = 1000;
-//		y = 800;
+		
 	}
 	
 	//handles object collide
@@ -60,6 +58,4 @@ public abstract class GameObject {
 	
 	//handles displaying info
 	public abstract void displayInfo();
-	
-	public abstract void draw(Graphics g, int mapX, int mapY);
 }

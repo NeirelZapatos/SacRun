@@ -2,7 +2,7 @@ package com.csus.csc133;
 
 public class Lecture {
 	//initializing fields
-	private int time = 20;
+	private int time = 5;
 	
 	//returns true if time <= 0
 	public boolean checkIfLecture() {

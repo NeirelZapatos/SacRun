@@ -11,23 +11,19 @@
 
 package com.csus.csc133;
 import com.codename1.ui.layouts.*;
-import com.codename1.ui.util.UITimer;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.Container;
 
-public class SacRun extends Form implements Runnable{
+public class SacRun extends Form{
 	//initializing fields
 	private GameModel gm;
-	private UITimer timer;
 	
 	//Constructor
 	public SacRun(){
 		super(new BorderLayout());
 		
 		this.gm = new GameModel();
-		this.timer = new UITimer(this);
-		timer.schedule(20, true, this);
 		
 		A2();
 		
@@ -99,12 +95,6 @@ public class SacRun extends Form implements Runnable{
 		add(BorderLayout.SOUTH, viewMessage);
 		
 		show();		
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		gm.nextFrame();
 	}
 	
 	//UI provided for A1 only, remove it in A2

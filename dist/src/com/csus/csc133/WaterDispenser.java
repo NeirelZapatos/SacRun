@@ -1,6 +1,4 @@
 package com.csus.csc133;
-import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.Graphics;
 
 public class WaterDispenser extends Facility {
 	//Constructor
@@ -13,12 +11,5 @@ public class WaterDispenser extends Facility {
 	public void handleCollide(Student s) {
 		// TODO Auto-generated method stub
 		s.drinkWater();
-	}
-	
-	public void draw(Graphics g, int mapX, int mapY) {
-		g.setColor(ColorUtil.rgb(0, 0, 255));	
-		int xPos = (int) getX() - getSize() / 2 + mapX;
-		int yPos = (int) getY() - getSize() / 2 + mapY;
-		g.fillArc(xPos, yPos, getSize(), getSize(), 0, 360);
 	}
 }

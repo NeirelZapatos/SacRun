@@ -214,8 +214,6 @@ public class GameModel extends Observable{
 				student = (Student) selectedObject;
 				student.checkTimeRemain();
 			}
-			
-			viewMap.repaint();
 		}
 		//checks if game over and displays dialog
 		if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
@@ -243,6 +241,8 @@ public class GameModel extends Observable{
 			
 			latestMessage = "Gameover. Gametime: " + gameTime;
 		}
+		
+		latestMessage = "Next Frame";
 		
 		//updates observers
 		setChanged();

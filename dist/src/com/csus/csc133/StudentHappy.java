@@ -1,0 +1,21 @@
+package com.csus.csc133;
+import java.util.*;
+
+public class StudentHappy extends Student{
+	Random random = new Random();
+	
+	//Constructor
+	public StudentHappy() {
+		super("StudentHappy");
+	}
+	
+	//10% chance to increase the speed by 10 times for the next movement
+	public void move() {
+		int currentSpeed = getSpeed();
+		if(random.nextInt(10) == 0) {
+			setSpeed(getSpeed() * 10);
+		}
+		super.move();
+		setSpeed(currentSpeed);
+	}
+}

@@ -1,5 +1,4 @@
 package com.csus.csc133;
-import com.codename1.ui.Graphics;
 
 public class StudentPlayer extends Student{
 	private static StudentPlayer studentPlayer;
@@ -36,12 +35,5 @@ public class StudentPlayer extends Student{
 	//increases player head
 	public void right() {
 		setHead(getHead() + 5);
-	}
-	
-	public void draw(Graphics g, int mapX, int mapY) {
-		g.setColor(getColor());
-		int[] xPos = {(int) getX() - getSize() / 4 + mapX, (int) getX() + mapX, (int) getX() + getSize() / 4 + mapX};
-		int[] yPos = {(int) getY() - getSize() / 2 + mapY,(int) getY() + getSize() / 2 + mapY, (int) getY() - getSize() / 2 + mapY};
-		g.fillPolygon(xPos, yPos, 3);
 	}
 }

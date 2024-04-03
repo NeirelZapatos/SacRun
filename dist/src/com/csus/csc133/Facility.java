@@ -1,7 +1,5 @@
 package com.csus.csc133;
 
-import com.codename1.ui.Graphics;
-
 public abstract class Facility extends GameObject {
 	//Initializing fields
 	private String name;
@@ -26,9 +24,5 @@ public abstract class Facility extends GameObject {
 	//displays facility info
 	public void displayInfo() {
 		System.out.println(getName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + ")");
-	}
-	
-	public void draw(Graphics g, int mapX, int mapY) {
-		
 	}
 }

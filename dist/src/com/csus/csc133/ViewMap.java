@@ -1,10 +1,8 @@
 package com.csus.csc133;
-import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.*;
+import com.codename1.ui.Container;
 import com.codename1.ui.plaf.Border;
 import java.util.Observable;
 import java.util.Observer;
-
 
 public class ViewMap extends Container implements Observer {	
 	private GameModel gameModel;
@@ -34,15 +32,5 @@ public class ViewMap extends Container implements Observer {
 			selectedObject.displayInfo();
 		}
 		System.out.println();
-	}
-	
-	public void paint(Graphics g) {
-		super.paint(g);
-		GameObjectsCollection gameObjects = gameModel.getGameObjectsCollection();
-		IteratorInterface objectIterator = gameObjects.getIterator();
-		while(objectIterator.hasNext()) {
-			GameObject currentObject = objectIterator.getNext();
-			currentObject.draw(g, getX(), getY());
-		}
 	}
 }
