@@ -13,15 +13,15 @@ public class ViewMap extends Container implements Observer {
 	public ViewMap(GameModel gameModel){
 		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0xff0000));
-		setWidth(1000);
-		setHeight(800);
+		//setWidth(1000);
+		//ssetHeight(800);
 	}
 
 	//called when observers are notified
 	@Override
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-		displayGameState();
+//		displayGameState();
 	}
 	
 	//displays game state to console

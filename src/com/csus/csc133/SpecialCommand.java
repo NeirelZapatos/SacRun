@@ -4,7 +4,7 @@ import com.codename1.ui.*;
 
 public class SpecialCommand extends Command{
 	private GameModel gameModel;
-		
+	
 	//constructor
 	public SpecialCommand(GameModel gameModel, String commandName){
 		super(commandName);
@@ -28,6 +28,9 @@ public class SpecialCommand extends Command{
 				break;
 			case "Change Strategy":
 				gameModel.changeStrategy();
+				break;
+			case "Pause":
+				gameModel.changePauseButton();
 				break;
 		}
 		

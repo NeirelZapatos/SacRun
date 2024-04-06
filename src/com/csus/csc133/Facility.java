@@ -28,7 +28,5 @@ public abstract class Facility extends GameObject {
 		System.out.println(getName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + ")");
 	}
 	
-	public void draw(Graphics g, int mapX, int mapY) {
-		
-	}
+	abstract public void draw(Graphics g, int mapX, int mapY);
 }

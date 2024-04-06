@@ -20,6 +20,11 @@ public abstract class Student extends GameObject implements IMoveable {
 	private int sweatingRate = 3;
 	private int absenceTime = 0;
 	
+	private int xColMax;
+	private int xColMin;
+	private int yColMax;
+	private int yColMin;
+	
 	//Constructor
 	public Student(String className){
 		this.className = className;
@@ -118,34 +123,40 @@ public abstract class Student extends GameObject implements IMoveable {
 	}
 	
 	//if timeRemain is <=0 Calculates new student position, calls checkInbounds(), calls checkHead(), and decreases hydration by the sweatingRate
-	public void move() {
+	public void move(ViewMap viewMap, double MsToSec, double timeSecond) {
 		if(timeRemain > 0) {
-			timeRemain--;
+			if(timeSecond >= 1) {
+				timeRemain--;
+			}
 		}
 		else {
 			double headingInDegrees = 90 - head;
 			double headingInRadians = Math.toRadians(headingInDegrees);
-			setX(Math.round(getX() + Math.cos(headingInRadians) * speed));
-			setY(Math.round(getY() + Math.sin(headingInRadians) * speed));			
+			setX(Math.round(getX() + Math.cos(headingInRadians) * (speed * MsToSec))); // (speed * (elapsed time / 1000))
+			setY(Math.round(getY() + Math.sin(headingInRadians) * (speed * MsToSec)));			
 		}
-		hydration -= sweatingRate;
-		checkInbounds();
+		
+		if(timeSecond >= 1) {
+			hydration -= sweatingRate;
+		}
+		
+		checkInbounds(viewMap);
 		checkHead();
 	}
 	
 	//checks id student is in bounds
-	public void checkInbounds() {
+	public void checkInbounds(ViewMap viewMap) {
 		boolean turnHead = false;
-		if(getX() >= 1000) {
-			setX(1000);
+		if(getX() >= viewMap.getWidth()){
+			setX(viewMap.getWidth());
 			turnHead = true;
 		}
 		if(getX() <= 0) {
 			setX(0);
 			turnHead = true;
 		}
-		if(getY() >= 800) {
-			setY(800);
+		if(getY() >= viewMap.getHeight()) {
+			setY(viewMap.getHeight());
 			turnHead = true;
 		}
 		if(getY() <= 0) {
@@ -183,8 +194,27 @@ public abstract class Student extends GameObject implements IMoveable {
 	
 	public void draw(Graphics g, int mapX, int mapY) {
 		g.setColor(getColor());
-		int[] xPos = {(int) getX() - getSize() / 4 + mapX, (int) getX() + mapX, (int) getX() + getSize() / 4 + mapX};
-		int[] yPos = {(int) getY() - getSize() / 2 + mapY,(int) getY() + getSize() / 2 + mapY, (int) getY() - getSize() / 2 + mapY};
+		int xPos1 = (int) getX() - getSize() / 4 + mapX;
+		int xPos2 = (int) getX() + mapX;
+		int xPos3 = (int) getX() + getSize() / 4 + mapX;
+		int yPos1 = (int) getY() - getSize() / 2 + mapY;
+		int yPos2 = (int) getY() + getSize() / 2 + mapY;
+		int yPos3 = (int) getY() - getSize() / 2 + mapY;
+		
+		int[] xPos = {xPos1, xPos2, xPos3};
+		int[] yPos = {yPos1, yPos2, yPos3};
 		g.drawPolygon(xPos, yPos, 3);
+		
+		g.setColor(ColorUtil.BLACK);
+		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
+		
+		setAABB(xPos1, yPos1);
+	}
+	
+	public void setAABB(int xPos, int yPos) {
+		setXColMin(xPos);
+		setXColMax(xPos + getSize() / 2);
+		setYColMin(yPos);
+		setYColMax(yPos + getSize());
 	}
 }

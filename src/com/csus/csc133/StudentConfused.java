@@ -10,8 +10,8 @@ public class StudentConfused extends Student {
 	}
 	
 	//increases the head before moving
-	public void move() {
+	public void move(ViewMap viewMap, double MsToSec, double timeSecond) {
 		setHead(getHead() + random.nextInt(50));
-		super.move();
+		super.move(viewMap, MsToSec, timeSecond);
 	}
 }

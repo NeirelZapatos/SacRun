@@ -1,5 +1,4 @@
 package com.csus.csc133;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Label;
@@ -65,6 +64,12 @@ public class LectureHall extends Facility{
     	int yPos = (int) getY() - getSize() / 2 + mapY;
     	g.fillRect(xPos, yPos, getSize(), getSize());
     	g.drawString("Lecture Hall", xPos - getSize() / 2, yPos + getSize());
+    	
+    	//0x00000000
+    	//ColorUtil.rgb(0, 0, 0)
+    	g.setColor(0x00000000);
+    	g.drawRect(xPos, yPos, getSize(), getSize());
+    	
+    	setAABB(xPos, yPos);
     }
-	
 }

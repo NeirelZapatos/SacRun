@@ -13,6 +13,11 @@ public abstract class GameObject {
 	private int size;
 	private int color  = ColorUtil.rgb(255, 0, 0);
 	
+	private int xColMin;
+	private int xColMax;
+	private int yColMin;
+	private int yColMax;
+	
 	//getter methods to retrieve private variables
 	public double getX() {
 		return x;
@@ -47,12 +52,51 @@ public abstract class GameObject {
 		color = newColor;
 	}
 	
+	public void setXColMin(int xColMin) {
+		this.xColMin = xColMin;
+	}
+	
+	public void setXColMax(int xColMax) {
+		this.xColMax = xColMax;
+	}
+	
+	public void setYColMin(int xColMin) {
+		this.yColMin = xColMin;
+	}
+	
+	public void setYColMax(int yColMax) {
+		this.yColMax = yColMax;
+	}
+	
+	public int getXColMin() {
+		return xColMin;
+	}
+	
+	public int getXColMax() {
+		return xColMax;
+	}
+	
+	public int getYColMin() {
+		return yColMin;
+	}
+	
+	public int getYColMax() {
+		return yColMax;
+	}
+	
 	//initializes position
 	public void initPos(int screenWidth, int screenHeight) {
 		x = random.nextDouble() * screenWidth + 1;
 		y = random.nextDouble() * screenHeight + 1;
 //		x = 1000;
 //		y = 800;
+	}
+	
+	public void setAABB(int xPos, int yPos) {
+		xColMin = xPos;
+		xColMax = xPos + size;
+		yColMin = yPos;
+		yColMax = yPos + size;
 	}
 	
 	//handles object collide

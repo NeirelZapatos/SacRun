@@ -27,12 +27,13 @@ public class ViewStatus extends Container implements Observer{
 	//constructor which creates the status information in GUI
 	public ViewStatus(GameModel gameModel) {
 		this.gameModel = gameModel;
-		updateValues();
+		//updateValues();
 		
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		
 		lectureNameLabel = new Label(lectureName);
-		lectureTimeLabel = new Label("Lecture Time Remain: " + lectureTime);
+		Label lectureTimeLabel2 = new Label("Lecture Time Remain: ");
+		lectureTimeLabel = new Label(lectureTime);
 		gameTimeLabel = new Label("Game Time: " + gameTime);
 		absenceLabel = new Label("Absence: " + absence);
 		hydrationLabel = new Label("Hydration: " + hydration);
@@ -40,6 +41,7 @@ public class ViewStatus extends Container implements Observer{
 		timeRemainLabel = new Label("Time Remain: " + timeRemain);
 
 		add(lectureNameLabel);
+		add(lectureTimeLabel2);
 		add(lectureTimeLabel);
 		add(gameTimeLabel);
 		add(absenceLabel);
@@ -54,14 +56,14 @@ public class ViewStatus extends Container implements Observer{
 		// TODO Auto-generated method stub
 		updateValues();
 		
-		lectureTimeLabel.setText("Lecture Time Remain: " + lectureTime);
+		lectureTimeLabel.setText(lectureTime);
 		gameTimeLabel.setText("Game Time: " + gameTime);
 		absenceLabel.setText("Absence: " + absence);
 		hydrationLabel.setText("Hydration: " + hydration);
 		waterIntakeLabel.setText("Water Intake: " + waterIntake);
 		timeRemainLabel.setText("Time Remain: " + timeRemain);
 		
-		revalidate();
+		//revalidate();
 	}
 	
 	public void updateValues() {

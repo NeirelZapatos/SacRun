@@ -10,12 +10,12 @@ public class StudentHappy extends Student{
 	}
 	
 	//10% chance to increase the speed by 10 times for the next movement
-	public void move() {
+	public void move(ViewMap viewMap, double MsToSec, double timeSecond) {
 		int currentSpeed = getSpeed();
 		if(random.nextInt(10) == 0) {
 			setSpeed(getSpeed() * 10);
 		}
-		super.move();
+		super.move(viewMap, MsToSec, timeSecond);
 		setSpeed(currentSpeed);
 	}
 }

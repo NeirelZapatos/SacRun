@@ -19,23 +19,22 @@ import com.codename1.ui.Container;
 public class SacRun extends Form implements Runnable{
 	//initializing fields
 	private GameModel gm;
-	private UITimer timer;
+	private StudentPlayer studentPlayer;
+	private UITimer gameTimer;
+	private int elapsedTime = 20;
 	
 	//Constructor
 	public SacRun(){
 		super(new BorderLayout());
-		
-		this.gm = new GameModel();
-		this.timer = new UITimer(this);
-		timer.schedule(20, true, this);
+
+		this.gm = new GameModel(this, elapsedTime);
+		this.gameTimer = new UITimer(this);
+		gameTimer.schedule(elapsedTime, true, this);
 		
 		A2();
+		gm.init(this);
 		
-		
-//		A1();
-			
-//		gm.init();
-		
+		this.studentPlayer = gm.getStudentPlayer();
 	}
 	
 	//sets up GUI
@@ -56,6 +55,20 @@ public class SacRun extends Form implements Runnable{
 		ModifiedButton waterDispenserCollideButton = new ModifiedButton(new CollideCommand(gm, "Water Dispenser"));
 		ModifiedButton studentButton = new ModifiedButton(new SpecialCommand(gm, "Student"));
 		ModifiedButton nextFrameButton = new ModifiedButton(new SpecialCommand(gm, "Next Frame"));
+		ModifiedButton pauseButton = new ModifiedButton(new SpecialCommand(gm, "Pause"));
+		
+		pauseButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				// TODO Auto-generated method stub
+				if(gm.getIsPaused()) {
+					pauseButton.setText("Play");
+				}
+				else {
+					pauseButton.setText("Pause");
+				}
+			}
+		});
 		
 		//creating container for buttons
 		Container buttonContainer = new Container();
@@ -70,6 +83,7 @@ public class SacRun extends Form implements Runnable{
 		buttonContainer.add(waterDispenserCollideButton);
 		buttonContainer.add(studentButton);
 		buttonContainer.add(nextFrameButton);
+		buttonContainer.add(pauseButton);
 			
 		//creating toolbar
 		Toolbar toolBar = new Toolbar();
@@ -105,6 +119,23 @@ public class SacRun extends Form implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		gm.nextFrame();
+	}
+	
+	public void keyPressed(int keyCode) {
+		switch(keyCode) {
+			case 119:
+				studentPlayer.startMove();
+				break;
+			case 97:
+				studentPlayer.right	();
+				break;
+			case 115:
+				studentPlayer.stop();
+				break;
+			case 100:
+				studentPlayer.left();
+				break;
+		}
 	}
 	
 	//UI provided for A1 only, remove it in A2

@@ -34,9 +34,9 @@ public class StudentStrategy extends Student{
 	}
 	
 	//moves the the current strategy
-	public void move() {
+	public void move(ViewMap viewMap, double MsToSec, double timeSecond) {
 		currStrategy.apply();
-		super.move();
+		super.move(viewMap, MsToSec, timeSecond);
 	}
 	
 	//displays info about student

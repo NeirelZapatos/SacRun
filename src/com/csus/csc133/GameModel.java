@@ -2,11 +2,16 @@ package com.csus.csc133;
 import java.util.Random;
 import java.util.Observable;
 import com.codename1.ui.*;
+import com.codename1.ui.util.UITimer;
 
 // Used to calculate and manipulate current game state
-public class GameModel extends Observable{
+public class GameModel extends Observable implements Runnable{
 	//initializing fields
 	private int gameTime = 0;
+	private double timeSecond = 0;
+	private int elapsedTime;
+	private boolean isPaused = false;
+	
 	private Restroom restroom;
 	private WaterDispenser waterDispenser;
 	private LectureHall lectureHall;
@@ -23,15 +28,19 @@ public class GameModel extends Observable{
 	private Random random = new Random();
 	
 	//Constructor
-	public GameModel() {
-		init();
+	public GameModel(SacRun sacRun, int elapsedTime) {
+		//init(sacRun);
+		this.elapsedTime = elapsedTime;
+		gameObjects = new GameObjectsCollection();
+		viewMap = new ViewMap(this);
+		viewMessage = new ViewMessage(this);
+		viewStatus = new ViewStatus(this);
 	}
 	
 	// initializes the game objects and adds them to the game objects vector
-	public void init(){	
+	public void init(SacRun sacRun){	
 		latestMessage = "Game Started";
-		gameObjects = new GameObjectsCollection();
-		viewMap = new ViewMap(this);
+		
 		addStudents();
 		addFacility();
 		addObservers();
@@ -52,55 +61,55 @@ public class GameModel extends Observable{
 	
 	//adds students to gameObjects
 	public void addStudents() {
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentAngry angryStudent = new StudentAngry();
-			gameObjects.add(angryStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentBiking bikingStudent = new StudentBiking();
-			gameObjects.add(bikingStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentCar carStudent = new StudentCar();
-			gameObjects.add(carStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentConfused confusedStudent = new StudentConfused();
-			gameObjects.add(confusedStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentFriendly friendlyStudent = new StudentFriendly();
-			gameObjects.add(friendlyStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentHappy happyStudent = new StudentHappy();
-			gameObjects.add(happyStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentNonstop nonStopStudent = new StudentNonstop();
-			gameObjects.add(nonStopStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentRunning runningStudent = new StudentRunning();
-			gameObjects.add(runningStudent);
-		}
-		
-		for(int i = 0; i <= random.nextInt(2); i++) {
-			StudentSleeping sleepingStudent = new StudentSleeping();
-			gameObjects.add(sleepingStudent);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			StudentStrategy strategyStudent = new StudentStrategy();
-			gameObjects.add(strategyStudent);
-		}
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentAngry angryStudent = new StudentAngry();
+//			gameObjects.add(angryStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentBiking bikingStudent = new StudentBiking();
+//			gameObjects.add(bikingStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentCar carStudent = new StudentCar();
+//			gameObjects.add(carStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentConfused confusedStudent = new StudentConfused();
+//			gameObjects.add(confusedStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentFriendly friendlyStudent = new StudentFriendly();
+//			gameObjects.add(friendlyStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentHappy happyStudent = new StudentHappy();
+//			gameObjects.add(happyStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentNonstop nonStopStudent = new StudentNonstop();
+//			gameObjects.add(nonStopStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentRunning runningStudent = new StudentRunning();
+//			gameObjects.add(runningStudent);
+//		}
+//		
+//		for(int i = 0; i <= random.nextInt(2); i++) {
+//			StudentSleeping sleepingStudent = new StudentSleeping();
+//			gameObjects.add(sleepingStudent);
+//		}
+//		
+//		for(int i = 0; i < 3; i++) {
+//			StudentStrategy strategyStudent = new StudentStrategy();
+//			gameObjects.add(strategyStudent);
+//		}
 		
 		studentPlayer = StudentPlayer.getStudentPlayer();
 		gameObjects.add(studentPlayer);
@@ -121,12 +130,8 @@ public class GameModel extends Observable{
 		gameObjects.add(lectureHall);
 	}
 	
-	//creates observer objects
+	//adds objects as observers
 	public void addObservers() {
-		//viewMap added in init functon because students and facility need the viewMap width and height to initialize their position
-		viewMessage = new ViewMessage(this);
-		viewStatus = new ViewStatus(this);
-		
 		addObserver(viewMap);
 		addObserver(viewMessage);
 		addObserver(viewStatus);
@@ -177,76 +182,116 @@ public class GameModel extends Observable{
 		return latestMessage;
 	}
 	
+	public boolean getIsPaused() {
+		return isPaused;
+	}
+	
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
-		IteratorInterface objectIterator = gameObjects.getIterator();
-		gameTime++;
-		LectureHall lectureHall = null;
-		IMoveable moveable = null;
-		Student student = null;
-		
-		while(objectIterator.hasNext()) {
-			GameObject selectedObject = objectIterator.getNext();
-			//Manipulate lecture 
-			if(selectedObject instanceof LectureHall) {
-				lectureHall = (LectureHall) selectedObject;
-				if(lectureHall.getLecture() == null || lectureHall.checkLecture() == false) {
-					if(lectureHall.getLecture() != null) {
-						studentPlayer.setAbsenceTime(studentPlayer.getAbsenceTime() + 1);
-						lectureHall.endLecture();
+		if(!isPaused) {
+			double MsToSec = (double) elapsedTime / 1000;
+			timeSecond += MsToSec;
+			
+			IteratorInterface objectIterator = gameObjects.getIterator();
+			LectureHall lectureHall = null;
+			IMoveable moveable = null;
+			Student student = null;
+			
+			while(objectIterator.hasNext()) {
+				GameObject selectedObject = objectIterator.getNext();
+				//Manipulate lecture 
+				if(selectedObject instanceof LectureHall) {
+					lectureHall = (LectureHall) selectedObject;
+					if(lectureHall.getLecture() == null || lectureHall.checkLecture() == false) {
+						if(lectureHall.getLecture() != null) {
+							studentPlayer.setAbsenceTime(studentPlayer.getAbsenceTime() + 1);
+							lectureHall.endLecture();
+						}
+						if(random.nextInt(10) == 0 && timeSecond >= 1) {
+							lectureHall.startLecture();
+						}
 					}
-					if(random.nextInt(10) == 0) {
-						lectureHall.startLecture();
+					else if(timeSecond >= 1) {
+						lectureHall.decreaseLectureTime();
 					}
 				}
-				else {
-					lectureHall.decreaseLectureTime();
+				//checks to see of object is move able
+				if(selectedObject instanceof IMoveable) {
+					moveable = (IMoveable) selectedObject;
+					moveable.move(viewMap, MsToSec, timeSecond);	
 				}
+				
+				//checks what color the student should be
+				if(selectedObject instanceof Student) {
+					student = (Student) selectedObject;
+					student.checkTimeRemain();
+				}
+				
+				int sXColMin = selectedObject.getXColMin();
+				int sXColMax = selectedObject.getXColMax();
+				int sYColMin = selectedObject.getYColMin();
+				int sYColMax = selectedObject.getYColMax();
+				int sWidth = sXColMax - sXColMin;
+				int sHeight = sYColMax - sYColMin;
+				
+				IteratorInterface collisionIterator = gameObjects.getIterator();
+				while(collisionIterator.hasNext()) {
+					GameObject collisionObject = collisionIterator.getNext();
+					if(collisionObject instanceof Student && selectedObject != collisionObject) {
+						int cXColMin = collisionObject.getXColMin();
+						int cXColMax = collisionObject.getXColMax();
+						int cYColMin = collisionObject.getYColMin();
+						int cYColMax = collisionObject.getYColMax();
+						int cWidth = cXColMax - cXColMin;
+						int cHeight = cYColMax - cYColMin;
+						
+						if(sXColMin + sWidth >= cXColMin && sXColMin <= cXColMin + cWidth) {
+							if(sYColMin + sHeight >= cYColMin && sYColMin <= cYColMin + cHeight) {
+									selectedObject.handleCollide((Student) collisionObject);
+							}
+						}
+					}
+				}
+				
+				viewMap.repaint();
 			}
-			//checks to see of object is move able
-			if(selectedObject instanceof IMoveable) {
-				moveable = (IMoveable) selectedObject;
-				moveable.move();	
+				
+			//checks if game over and displays dialog
+//			if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
+//				Dialog lostDialog = new Dialog("You Lost!");
+//				Button exitButton = new Button("Exit");
+//				Label lostLabel = null;
+//				
+//				if(studentPlayer.getHydration() <= 0) {
+//					lostLabel = new Label("No Hydration ");
+//				}
+//				else if(studentPlayer.getHydration() > 2) {
+//					lostLabel = new Label("Too many Absences");
+//				}
+//				else if(studentPlayer.getWaterIntake() > 199) {
+//					lostLabel = new Label("Too much Water Intake");
+//				}
+//				
+//				exitButton.addActionListener(e -> {
+//					CN.exitApplication();
+//		        });
+//				
+//				lostDialog.add(lostLabel);;
+//				lostDialog.add(exitButton);
+//				lostDialog.show();	
+//				
+//				latestMessage = "Gameover. Gametime: " + gameTime;
+//			}
+			
+			if(timeSecond >= 1) {
+				gameTime++;
+				timeSecond = 0;
 			}
 			
-			//checks what color the student should be
-			if(selectedObject instanceof Student) {
-				student = (Student) selectedObject;
-				student.checkTimeRemain();
-			}
-			
-			viewMap.repaint();
+			//updates observers
+			setChanged();
+			notifyObservers();
 		}
-		//checks if game over and displays dialog
-		if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
-			Dialog lostDialog = new Dialog("You Lost!");
-			Button exitButton = new Button("Exit");
-			Label lostLabel = null;
-			
-			if(studentPlayer.getHydration() <= 0) {
-				lostLabel = new Label("No Hydration ");
-			}
-			else if(studentPlayer.getHydration() > 2) {
-				lostLabel = new Label("Too many Absences");
-			}
-			else if(studentPlayer.getWaterIntake() > 199) {
-				lostLabel = new Label("Too much Water Intake");
-			}
-			
-			exitButton.addActionListener(e -> {
-				CN.exitApplication();
-	        });
-			
-			lostDialog.add(lostLabel);;
-			lostDialog.add(exitButton);
-			lostDialog.show();	
-			
-			latestMessage = "Gameover. Gametime: " + gameTime;
-		}
-		
-		//updates observers
-		setChanged();
-		notifyObservers();
 	}
 	
 	//moves Player
@@ -481,6 +526,15 @@ public class GameModel extends Observable{
 		studentDialog.show();
 	}
 	
+	public void changePauseButton() {
+		if(!isPaused) {
+			isPaused = true;
+		}
+		else {
+			isPaused = false;
+		}
+	}
+	
 	//used to update observers
 	public void setChanged() {
 		super.setChanged();
@@ -488,6 +542,12 @@ public class GameModel extends Observable{
 	
 	public void notifyObservers() {
 		super.notifyObservers();
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		elapsedTime++;
 	}
 	
 	//Used to display the current game state

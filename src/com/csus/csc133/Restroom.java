@@ -17,6 +17,13 @@ public class Restroom extends Facility{
 	
 	public void draw(Graphics g, int mapX, int mapY) {
 		g.setColor(ColorUtil.rgb(0, 255, 0));
-		g.fillRect((int) getX() - getSize() / 2 + mapX, (int) getY() - getSize() / 2 + mapY, getSize(), getSize());
+		int xPos = (int) getX() - getSize() / 2 + mapX;
+		int yPos = (int) getY() - getSize() / 2 + mapY;
+		g.fillRect(xPos, yPos, getSize(), getSize());
+		
+		g.setColor(ColorUtil.rgb(0,0,0));
+		g.drawRect(xPos, yPos, getSize(), getSize());
+		
+		setAABB(xPos, yPos);
 	}
 }
