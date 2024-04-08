@@ -7,6 +7,7 @@ public abstract class Student extends GameObject implements IMoveable {
 	//initializing fields
 	private Random random = new Random();
 	private String className;
+	private Student collidingStudent;
 	
 	private int DEFAULT_SPEED = 200;
 	private int DEFAULT_TALKING_TIME = 2;
@@ -19,11 +20,6 @@ public abstract class Student extends GameObject implements IMoveable {
 	private int waterIntake = 0;
 	private int sweatingRate = 3;
 	private int absenceTime = 0;
-	
-	private int xColMax;
-	private int xColMin;
-	private int yColMax;
-	private int yColMin;
 	
 	//Constructor
 	public Student(String className){

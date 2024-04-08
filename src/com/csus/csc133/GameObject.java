@@ -18,6 +18,9 @@ public abstract class GameObject {
 	private int yColMin;
 	private int yColMax;
 	
+	private boolean isColliding = false;
+	private Vector<GameObject> collidingObjects = new Vector<>();
+	
 	//getter methods to retrieve private variables
 	public double getX() {
 		return x;
@@ -33,6 +36,14 @@ public abstract class GameObject {
 	
 	public int getColor() {
 		return color;
+	}
+	
+	public boolean getIsColliding() {
+		return isColliding;
+	}
+	
+	public void setIsColliding(boolean isColliding) {
+		this.isColliding = isColliding;
 	}
 	
 	//setter methods to set values
@@ -84,6 +95,10 @@ public abstract class GameObject {
 		return yColMax;
 	}
 	
+	public Vector<GameObject> getCollidingObjects() {
+		return collidingObjects;
+	}
+	
 	//initializes position
 	public void initPos(int screenWidth, int screenHeight) {
 		x = random.nextDouble() * screenWidth + 1;
@@ -98,6 +113,16 @@ public abstract class GameObject {
 		yColMin = yPos;
 		yColMax = yPos + size;
 	}
+	
+	public void addCollidingObject(GameObject collidingObject) {
+			collidingObjects.add(collidingObject);
+	}
+	
+	public void removeCollidingObject(GameObject collidingObject) {
+			collidingObjects.remove(collidingObject);
+	}
+	
+	public abstract String getClassName();
 	
 	//handles object collide
 	public abstract void handleCollide (Student s);

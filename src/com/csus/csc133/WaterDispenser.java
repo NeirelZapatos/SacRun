@@ -26,4 +26,8 @@ public class WaterDispenser extends Facility {
 		
 		setAABB(xPos, yPos);
 	}
+	
+	public String getClassName() {
+		return super.getClassName();
+	}
 }

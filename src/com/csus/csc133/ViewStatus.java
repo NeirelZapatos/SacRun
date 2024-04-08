@@ -67,7 +67,7 @@ public class ViewStatus extends Container implements Observer{
 	}
 	
 	public void updateValues() {
-		lectureName = gameModel.getLectureHall().getName();
+		lectureName = gameModel.getLectureHall().getClassName();
 		if(gameModel.getLectureHall().getLecture() == null) {
 			lectureTime = "No Lecture in Session";
 		}

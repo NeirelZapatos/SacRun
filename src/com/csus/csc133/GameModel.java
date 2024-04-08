@@ -1,8 +1,8 @@
 package com.csus.csc133;
 import java.util.Random;
+import java.util.Vector;
 import java.util.Observable;
 import com.codename1.ui.*;
-import com.codename1.ui.util.UITimer;
 
 // Used to calculate and manipulate current game state
 public class GameModel extends Observable implements Runnable{
@@ -61,55 +61,55 @@ public class GameModel extends Observable implements Runnable{
 	
 	//adds students to gameObjects
 	public void addStudents() {
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentAngry angryStudent = new StudentAngry();
-//			gameObjects.add(angryStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentBiking bikingStudent = new StudentBiking();
-//			gameObjects.add(bikingStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentCar carStudent = new StudentCar();
-//			gameObjects.add(carStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentConfused confusedStudent = new StudentConfused();
-//			gameObjects.add(confusedStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentFriendly friendlyStudent = new StudentFriendly();
-//			gameObjects.add(friendlyStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentHappy happyStudent = new StudentHappy();
-//			gameObjects.add(happyStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentNonstop nonStopStudent = new StudentNonstop();
-//			gameObjects.add(nonStopStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentRunning runningStudent = new StudentRunning();
-//			gameObjects.add(runningStudent);
-//		}
-//		
-//		for(int i = 0; i <= random.nextInt(2); i++) {
-//			StudentSleeping sleepingStudent = new StudentSleeping();
-//			gameObjects.add(sleepingStudent);
-//		}
-//		
-//		for(int i = 0; i < 3; i++) {
-//			StudentStrategy strategyStudent = new StudentStrategy();
-//			gameObjects.add(strategyStudent);
-//		}
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentAngry angryStudent = new StudentAngry();
+			gameObjects.add(angryStudent);
+		}
+
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentBiking bikingStudent = new StudentBiking();
+			gameObjects.add(bikingStudent);
+		}
+		
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentCar carStudent = new StudentCar();
+			gameObjects.add(carStudent);
+		}
+		
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentConfused confusedStudent = new StudentConfused();
+			gameObjects.add(confusedStudent);
+		}
+		
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentFriendly friendlyStudent = new StudentFriendly();
+			gameObjects.add(friendlyStudent);
+		}
+		
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentHappy happyStudent = new StudentHappy();
+			gameObjects.add(happyStudent);
+		}
+		
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentNonstop nonStopStudent = new StudentNonstop();
+			gameObjects.add(nonStopStudent);
+		}
+	
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentRunning runningStudent = new StudentRunning();
+			gameObjects.add(runningStudent);
+		}
+		
+		for(int i = 0; i <= random.nextInt(2); i++) {
+			StudentSleeping sleepingStudent = new StudentSleeping();
+			gameObjects.add(sleepingStudent);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			StudentStrategy strategyStudent = new StudentStrategy();
+			gameObjects.add(strategyStudent);
+		}
 		
 		studentPlayer = StudentPlayer.getStudentPlayer();
 		gameObjects.add(studentPlayer);
@@ -226,62 +226,77 @@ public class GameModel extends Observable implements Runnable{
 					student = (Student) selectedObject;
 					student.checkTimeRemain();
 				}
-				
-				int sXColMin = selectedObject.getXColMin();
-				int sXColMax = selectedObject.getXColMax();
-				int sYColMin = selectedObject.getYColMin();
-				int sYColMax = selectedObject.getYColMax();
-				int sWidth = sXColMax - sXColMin;
-				int sHeight = sYColMax - sYColMin;
-				
+							
 				IteratorInterface collisionIterator = gameObjects.getIterator();
 				while(collisionIterator.hasNext()) {
-					GameObject collisionObject = collisionIterator.getNext();
+					GameObject collisionObject = collisionIterator.getNext();					
 					if(collisionObject instanceof Student && selectedObject != collisionObject) {
-						int cXColMin = collisionObject.getXColMin();
-						int cXColMax = collisionObject.getXColMax();
-						int cYColMin = collisionObject.getYColMin();
-						int cYColMax = collisionObject.getYColMax();
-						int cWidth = cXColMax - cXColMin;
-						int cHeight = cYColMax - cYColMin;
+						Vector<GameObject> selectedCollide = selectedObject.getCollidingObjects();
+						Vector<GameObject> collisionCollide = collisionObject.getCollidingObjects();
+						boolean checkCollision = detectCollision(selectedObject, collisionObject);
 						
-						if(sXColMin + sWidth >= cXColMin && sXColMin <= cXColMin + cWidth) {
-							if(sYColMin + sHeight >= cYColMin && sYColMin <= cYColMin + cHeight) {
+						if(checkCollision) {							
+							if(!selectedObject.getIsColliding()) {
+								selectedObject.setIsColliding(true);
+								collisionObject.setIsColliding(true);						
+								if(!selectedCollide.contains(collisionObject)) {
 									selectedObject.handleCollide((Student) collisionObject);
+									latestMessage = selectedObject.getClassName() + " collided with " + collisionObject.getClassName();
+									
+									if(!selectedCollide.contains(collisionObject)) {
+										selectedObject.addCollidingObject(collisionObject);
+									}					
+									if(!collisionCollide.contains(selectedObject)) {
+										collisionObject.addCollidingObject(selectedObject);
+									}
+								}
+							}		
+						}
+						else if(selectedCollide.contains(collisionObject) && collisionCollide.contains(selectedObject)) {	
+							if(selectedCollide.contains(collisionObject)) {
+								selectedObject.removeCollidingObject(collisionObject);
+							}
+							if(collisionCollide.contains(selectedObject)) {
+								collisionObject.removeCollidingObject(selectedObject);
+							}
+							if(selectedObject.getIsColliding() && collisionObject.getIsColliding()) {
+								selectedObject.setIsColliding(false);
+								collisionObject.setIsColliding(false);
 							}
 						}
-					}
+					}	
+				}
+			}
+					
+			viewMap.repaint();
+			viewMap.displayGameState();
+			
+			//checks if game over and displays dialog
+			if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
+				Dialog lostDialog = new Dialog("You Lost!");
+				Button exitButton = new Button("Exit");
+				Label lostLabel = null;
+				
+				if(studentPlayer.getHydration() <= 0) {
+					lostLabel = new Label("No Hydration ");
+				}
+				else if(studentPlayer.getHydration() > 2) {
+					lostLabel = new Label("Too many Absences");
+				}
+				else if(studentPlayer.getWaterIntake() > 199) {
+					lostLabel = new Label("Too much Water Intake");
 				}
 				
-				viewMap.repaint();
-			}
+				exitButton.addActionListener(e -> {
+					CN.exitApplication();
+		        });
 				
-			//checks if game over and displays dialog
-//			if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {
-//				Dialog lostDialog = new Dialog("You Lost!");
-//				Button exitButton = new Button("Exit");
-//				Label lostLabel = null;
-//				
-//				if(studentPlayer.getHydration() <= 0) {
-//					lostLabel = new Label("No Hydration ");
-//				}
-//				else if(studentPlayer.getHydration() > 2) {
-//					lostLabel = new Label("Too many Absences");
-//				}
-//				else if(studentPlayer.getWaterIntake() > 199) {
-//					lostLabel = new Label("Too much Water Intake");
-//				}
-//				
-//				exitButton.addActionListener(e -> {
-//					CN.exitApplication();
-//		        });
-//				
-//				lostDialog.add(lostLabel);;
-//				lostDialog.add(exitButton);
-//				lostDialog.show();	
-//				
-//				latestMessage = "Gameover. Gametime: " + gameTime;
-//			}
+				lostDialog.add(lostLabel);;
+				lostDialog.add(exitButton);
+				lostDialog.show();	
+				
+				latestMessage = "Gameover. Gametime: " + gameTime;
+			}
 			
 			if(timeSecond >= 1) {
 				gameTime++;
@@ -291,7 +306,28 @@ public class GameModel extends Observable implements Runnable{
 			//updates observers
 			setChanged();
 			notifyObservers();
+		}	
+	}
+	
+	public boolean detectCollision(GameObject selectedObject, GameObject collisionObject) {
+		if(collisionObject instanceof Student && selectedObject != collisionObject) {
+			int sXColMin = selectedObject.getXColMin();
+			int sXColMax = selectedObject.getXColMax();
+			int sYColMin = selectedObject.getYColMin();
+			int sYColMax = selectedObject.getYColMax();
+			
+			int cXColMin = collisionObject.getXColMin();
+			int cXColMax = collisionObject.getXColMax();
+			int cYColMin = collisionObject.getYColMin();
+			int cYColMax = collisionObject.getYColMax();
+				
+			if(sXColMax >= cXColMin && sXColMin <= cXColMax) {
+				if(sYColMax >= cYColMin && sYColMin <= cYColMax) {
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 	
 	//moves Player

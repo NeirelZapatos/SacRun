@@ -1,5 +1,4 @@
 package com.csus.csc133;
-
 import com.codename1.ui.Graphics;
 
 public abstract class Facility extends GameObject {
@@ -12,7 +11,7 @@ public abstract class Facility extends GameObject {
 	}
 	
 	//getter method to retrieve private fields
-	public String getName() {
+	public String getClassName() {
 		return name;
 	}
 	
@@ -25,7 +24,7 @@ public abstract class Facility extends GameObject {
 	
 	//displays facility info
 	public void displayInfo() {
-		System.out.println(getName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + ")");
+		System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + ")");
 	}
 	
 	abstract public void draw(Graphics g, int mapX, int mapY);
