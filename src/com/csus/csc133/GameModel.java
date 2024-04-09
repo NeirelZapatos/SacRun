@@ -5,7 +5,7 @@ import java.util.Observable;
 import com.codename1.ui.*;
 
 // Used to calculate and manipulate current game state
-public class GameModel extends Observable implements Runnable{
+public class GameModel extends Observable{
 	//initializing fields
 	private int gameTime = 0;
 	private double timeSecond = 0;
@@ -25,9 +25,6 @@ public class GameModel extends Observable implements Runnable{
 	private ViewStatus viewStatus;
 	
 	private String latestMessage;
-	
-//	private int xPointer;
-//	private int yPointer;
 	
 	private Random random = new Random();
 	
@@ -240,7 +237,8 @@ public class GameModel extends Observable implements Runnable{
 					student = (Student) selectedObject;
 					student.checkTimeRemain();
 				}
-							
+					
+				//handles the collisions between objects
 				IteratorInterface collisionIterator = gameObjects.getIterator();
 				while(collisionIterator.hasNext()) {
 					GameObject collisionObject = collisionIterator.getNext();					
@@ -249,6 +247,7 @@ public class GameModel extends Observable implements Runnable{
 						Vector<GameObject> collisionCollide = collisionObject.getCollidingObjects();
 						boolean checkCollision = detectCollision(selectedObject, collisionObject);
 						
+						//checks if there is collision add to collision vectors
 						if(checkCollision) {							
 							if(!selectedObject.getIsColliding() || !collisionObject.getIsColliding()) {
 								selectedObject.setIsColliding(true);
@@ -265,11 +264,13 @@ public class GameModel extends Observable implements Runnable{
 									}
 									
 									if(selectedObject == currLectureHall && collisionObject instanceof StudentPlayer) {
+										lectureHall.endLecture();
 										lectureInSession = false;
 									}
 								}
 							}		
 						}
+						// if their is not collision remove from collision vectors
 						else if(selectedCollide.contains(collisionObject) && collisionCollide.contains(selectedObject)) {	
 							if(selectedCollide.contains(collisionObject)) {
 								selectedObject.removeCollidingObject(collisionObject);
@@ -295,7 +296,7 @@ public class GameModel extends Observable implements Runnable{
 				if(studentPlayer.getHydration() <= 0) {
 					lostLabel = new Label("No Hydration ");
 				}
-				else if(studentPlayer.getHydration() > 2) {
+				else if(studentPlayer.getAbsenceTime() > 2) {
 					lostLabel = new Label("Too many Absences");
 				}
 				else if(studentPlayer.getWaterIntake() > 199) {
@@ -314,6 +315,7 @@ public class GameModel extends Observable implements Runnable{
 			}
 			
 			if(timeSecond >= 1) {
+				viewMap.displayGameState();
 				gameTime++;
 				timeSecond = 0;
 			}
@@ -324,6 +326,7 @@ public class GameModel extends Observable implements Runnable{
 		}	
 	}
 	
+	//detects a collision
 	public boolean detectCollision(GameObject selectedObject, GameObject collisionObject) {
 		if(collisionObject instanceof Student && selectedObject != collisionObject) {
 			int sXColMin = selectedObject.getXColMin();
@@ -577,6 +580,7 @@ public class GameModel extends Observable implements Runnable{
 		studentDialog.show();
 	}
 	
+	// changes if paused or not
 	public void changePauseButton() {
 		if(!isPaused) {
 			isPaused = true;
@@ -593,12 +597,6 @@ public class GameModel extends Observable implements Runnable{
 	
 	public void notifyObservers() {
 		super.notifyObservers();
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		elapsedTime++;
 	}
 	
 	//Used to display the current game state

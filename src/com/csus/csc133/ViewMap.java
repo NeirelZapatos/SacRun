@@ -1,11 +1,8 @@
 package com.csus.csc133;
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.*;
 import com.codename1.ui.plaf.Border;
 import java.util.Observable;
 import java.util.Observer;
-import com.codename1.ui.geom.Point;
-
 
 public class ViewMap extends Container implements Observer {	
 	private GameModel gameModel;
@@ -23,7 +20,7 @@ public class ViewMap extends Container implements Observer {
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 		repaint();
-		displayGameState();
+//		displayGameState();
 	}
 	
 	//displays game state to console
@@ -38,6 +35,7 @@ public class ViewMap extends Container implements Observer {
 		System.out.println();
 	}
 	
+	// paints the objects
 	public void paint(Graphics g) {
 		super.paint(g);
 		GameObjectsCollection gameObjects = gameModel.getGameObjectsCollection();

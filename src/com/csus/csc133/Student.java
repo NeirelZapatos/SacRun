@@ -178,6 +178,7 @@ public abstract class Student extends GameObject implements IMoveable {
 		System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), head: " + getHead() + ", speed: " + getSpeed() + ", hydration: " + getHydration() + ", talkiveLevel: " + getTalkiveLevel() + ", timeRemain: " + getTimeRemain() + ", Absence: " + getAbsenceTime() + ", WaterIntake: " + getWaterIntake());
     }
 	
+	//sets color if timeRemain is greater than 0
 	public void checkTimeRemain() {
 		if(timeRemain > 0) {
 			setColor(ColorUtil.rgb(255, 192, 203));
@@ -187,6 +188,7 @@ public abstract class Student extends GameObject implements IMoveable {
 		}
 	}
 	
+	// draws student object
 	public void draw(Graphics g, int mapX, int mapY) {
 		g.setColor(getColor());
 		int xPos1 = (int) getX() - getSize() / 4 + mapX;
@@ -208,6 +210,7 @@ public abstract class Student extends GameObject implements IMoveable {
 		setAABB(xPos1, yPos1);
 	}
 	
+	// sets the AABB
 	public void setAABB(int xPos, int yPos) {
 		setXColMin(xPos);
 		setXColMax(xPos + getSize() / 2);

@@ -15,6 +15,7 @@ public class WaterDispenser extends Facility {
 		s.drinkWater();
 	}
 	
+	//draws the water dispenser 
 	public void draw(Graphics g, int mapX, int mapY) {
 		g.setColor(ColorUtil.rgb(0, 0, 255));	
 		int xPos = (int) getX() - getSize() / 2 + mapX;
@@ -29,6 +30,7 @@ public class WaterDispenser extends Facility {
 		setAABB(xPos, yPos);
 	}
 	
+	//gets water dispenser name
 	public String getClassName() {
 		return super.getClassName();
 	}

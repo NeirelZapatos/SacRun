@@ -72,6 +72,7 @@ public class ViewStatus extends Container implements Observer{
 		//revalidate();
 	}
 	
+	//updates the values
 	public void updateValues() {
 		lectureName = gameModel.getLectureHall().getClassName();
 		if(gameModel.getLectureHall().getLecture() == null) {

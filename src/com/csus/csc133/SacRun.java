@@ -102,6 +102,7 @@ public class SacRun extends Form implements Runnable{
 		add(BorderLayout.WEST, buttonContainer);
 		add(BorderLayout.CENTER, viewMap);
 			
+		// changes pauseButton label if clicked
 		pauseButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -115,6 +116,7 @@ public class SacRun extends Form implements Runnable{
 			}
 		});
 		
+		// sets changePos to true if clicked
 		changePosButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -123,6 +125,7 @@ public class SacRun extends Form implements Runnable{
 			}
 		});
 		
+		// checks if user has clicked
 		addPointerPressedListener((evt) -> {
 			if(viewMap.getAbsoluteX() <= evt.getX() && evt.getX() <= viewMap.getAbsoluteX() + viewMap.getWidth() && viewMap.getAbsoluteY() <= evt.getY() && evt.getY() <= viewMap.getAbsoluteY() + viewMap.getHeight()) {
 				checkPointer(evt.getX(), evt.getY());
@@ -136,12 +139,14 @@ public class SacRun extends Form implements Runnable{
 		show();		
 	}
 
+	// runs every 20 ms
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		gm.nextFrame();
 	}
 	
+	// controls student player
 	public void keyPressed(int keyCode) {
 		switch(keyCode) {
 			case 119:
@@ -159,6 +164,7 @@ public class SacRun extends Form implements Runnable{
 		}
 	}
 	
+	// checks where pointer pressed
 	public void checkPointer(int x, int y) {	
 		ViewMap viewMap = gm.getViewMap();
 		x = x - viewMap.getAbsoluteX() + viewMap.getX();
@@ -178,6 +184,7 @@ public class SacRun extends Form implements Runnable{
 		viewMap.repaint();
 	}
 	
+	// changes the position of the selectedObject
 	public void changePosition(int x, int y) {	
 		ViewMap viewMap = gm.getViewMap();
 		x = x - viewMap.getAbsoluteX();

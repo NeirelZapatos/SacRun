@@ -15,6 +15,7 @@ public class Restroom extends Facility{
 		s.useRestroom();
 	}
 	
+	//draws restroom shape
 	public void draw(Graphics g, int mapX, int mapY) {
 		g.setColor(ColorUtil.rgb(0, 255, 0));
 		int xPos = (int) getX() - getSize() / 2 + mapX;
@@ -29,6 +30,7 @@ public class Restroom extends Facility{
 		setAABB(xPos, yPos);
 	}
 	
+	//gets restroom name
 	public String getClassName() {
 		return super.getClassName();
 	}

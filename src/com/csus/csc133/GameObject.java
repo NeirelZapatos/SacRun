@@ -44,11 +44,35 @@ public abstract class GameObject {
 		return isColliding;
 	}
 	
+	public int getXColMin() {
+		return xColMin;
+	}
+	
+	public int getXColMax() {
+		return xColMax;
+	}
+	
+	public int getYColMin() {
+		return yColMin;
+	}
+	
+	public int getYColMax() {
+		return yColMax;
+	}
+	
+	public boolean getIsSelected() {
+		return isSelected;
+	}
+	
+	public Vector<GameObject> getCollidingObjects() {
+		return collidingObjects;
+	}
+	
+	//setter methods to set values
 	public void setIsColliding(boolean isColliding) {
 		this.isColliding = isColliding;
 	}
 	
-	//setter methods to set values
 	public void setX(double newX) {
 		x = newX;
 	}
@@ -85,30 +109,6 @@ public abstract class GameObject {
 		this.isSelected = isSelected;
 	}
 	
-	public int getXColMin() {
-		return xColMin;
-	}
-	
-	public int getXColMax() {
-		return xColMax;
-	}
-	
-	public int getYColMin() {
-		return yColMin;
-	}
-	
-	public int getYColMax() {
-		return yColMax;
-	}
-	
-	public boolean getIsSelected() {
-		return isSelected;
-	}
-	
-	public Vector<GameObject> getCollidingObjects() {
-		return collidingObjects;
-	}
-	
 	//initializes position
 	public void initPos(int screenWidth, int screenHeight) {
 		x = random.nextDouble() * screenWidth;
@@ -117,6 +117,7 @@ public abstract class GameObject {
 //		y = 800;
 	}
 	
+	// calculates the AABB
 	public void setAABB(int xPos, int yPos) {
 		xColMin = xPos;
 		xColMax = xPos + size;
@@ -124,6 +125,7 @@ public abstract class GameObject {
 		yColMax = yPos + size;
 	}
 	
+	// checks if (x, y) is in shape
 	public boolean contains(int x, int y) {
 		if(xColMin <= x && x <= xColMax && yColMin <= y && y <= yColMax) {
 			return true;
@@ -131,14 +133,17 @@ public abstract class GameObject {
 		return false;
 	}
 	
+	// adds object to collision vector
 	public void addCollidingObject(GameObject collidingObject) {
 			collidingObjects.add(collidingObject);
 	}
 	
+	// removes object from collision vector
 	public void removeCollidingObject(GameObject collidingObject) {
 			collidingObjects.remove(collidingObject);
 	}
 	
+	//checks the bounds
 	public void checkInbounds(ViewMap viewMap) {
 		if(getX() >= viewMap.getWidth()){
 			setX(viewMap.getWidth());
@@ -154,6 +159,7 @@ public abstract class GameObject {
 		}
 	}
 	
+	// displays the class name
 	public abstract String getClassName();
 	
 	//handles object collide
@@ -162,5 +168,6 @@ public abstract class GameObject {
 	//handles displaying info
 	public abstract void displayInfo();
 	
+	//draws the shape
 	public abstract void draw(Graphics g, int mapX, int mapY);
 }

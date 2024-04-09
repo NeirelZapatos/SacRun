@@ -54,6 +54,7 @@ public class LectureHall extends Facility{
     	System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), Current Lecture: " + getLecture());
     }
     
+    // draws lecture hall
     public void draw(Graphics g, int mapX, int mapY) {
     	g.setColor(ColorUtil.rgb(0, 0, 255));
     	int xPos = (int) getX() - getSize() / 2 + mapX;
