@@ -5,13 +5,12 @@ import com.codename1.ui.Label;
 
 public class LectureHall extends Facility{
 	//initializing fields
-	private String name = "LectureHall RVR 101";
 	
-	private Lecture lecture = new Lecture();
+	private Lecture lecture;
 	
 	//Constructor
-	public LectureHall() {
-		super("LectureHall RVR 101");
+	public LectureHall(String roomNum) {
+		super("Lecture Hall " + roomNum);
 		setSize(90);
 	}
 	
@@ -45,9 +44,6 @@ public class LectureHall extends Facility{
 	}
 	
 	//getter methods to retrieve private fields
-	public String getClassName() {
-		return name;
-	}
 	
 	public Lecture getLecture() {
 		return lecture;
@@ -63,12 +59,12 @@ public class LectureHall extends Facility{
     	int xPos = (int) getX() - getSize() / 2 + mapX;
     	int yPos = (int) getY() - getSize() / 2 + mapY;
     	g.fillRect(xPos, yPos, getSize(), getSize());
-    	g.drawString("Lecture Hall", xPos - getSize() / 2, yPos + getSize());
+    	g.drawString(getClassName(), xPos - getSize() / 2, yPos + getSize());
     	
-    	//0x00000000
-    	//ColorUtil.rgb(0, 0, 0)
-    	g.setColor(0x00000000);
-    	g.drawRect(xPos, yPos, getSize(), getSize());
+    	if(getIsSelected()) {
+    		g.setColor(ColorUtil.rgb(255, 0, 0));
+    		g.drawRect(xPos, yPos, getSize(), getSize());
+    	}
     	
     	setAABB(xPos, yPos);
     }

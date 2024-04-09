@@ -19,6 +19,8 @@ public abstract class GameObject {
 	private int yColMax;
 	
 	private boolean isColliding = false;
+	private boolean isSelected = false;
+	
 	private Vector<GameObject> collidingObjects = new Vector<>();
 	
 	//getter methods to retrieve private variables
@@ -79,6 +81,10 @@ public abstract class GameObject {
 		this.yColMax = yColMax;
 	}
 	
+	public void setIsSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+	
 	public int getXColMin() {
 		return xColMin;
 	}
@@ -95,14 +101,18 @@ public abstract class GameObject {
 		return yColMax;
 	}
 	
+	public boolean getIsSelected() {
+		return isSelected;
+	}
+	
 	public Vector<GameObject> getCollidingObjects() {
 		return collidingObjects;
 	}
 	
 	//initializes position
 	public void initPos(int screenWidth, int screenHeight) {
-		x = random.nextDouble() * screenWidth + 1;
-		y = random.nextDouble() * screenHeight + 1;
+		x = random.nextDouble() * screenWidth;
+		y = random.nextDouble() * screenHeight;
 //		x = 1000;
 //		y = 800;
 	}
@@ -114,12 +124,34 @@ public abstract class GameObject {
 		yColMax = yPos + size;
 	}
 	
+	public boolean contains(int x, int y) {
+		if(xColMin <= x && x <= xColMax && yColMin <= y && y <= yColMax) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void addCollidingObject(GameObject collidingObject) {
 			collidingObjects.add(collidingObject);
 	}
 	
 	public void removeCollidingObject(GameObject collidingObject) {
 			collidingObjects.remove(collidingObject);
+	}
+	
+	public void checkInbounds(ViewMap viewMap) {
+		if(getX() >= viewMap.getWidth()){
+			setX(viewMap.getWidth());
+		}
+		if(getX() <= 0) {
+			setX(0);
+		}
+		if(getY() >= viewMap.getHeight()) {
+			setY(viewMap.getHeight());
+		}
+		if(getY() <= 0) {
+			setY(0);
+		}
 	}
 	
 	public abstract String getClassName();

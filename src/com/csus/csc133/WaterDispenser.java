@@ -21,8 +21,10 @@ public class WaterDispenser extends Facility {
 		int yPos = (int) getY() - getSize() / 2 + mapY;
 		g.fillArc(xPos, yPos, getSize(), getSize(), 0, 360);
 		
-		g.setColor(ColorUtil.rgb(0, 0, 0));
-		g.drawRect(xPos, yPos, getSize(), getSize());
+		if(getIsSelected()) {
+    		g.setColor(ColorUtil.rgb(255, 0, 0));
+    		g.drawRect(xPos, yPos, getSize(), getSize());
+    	}
 		
 		setAABB(xPos, yPos);
 	}

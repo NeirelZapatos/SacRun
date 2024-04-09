@@ -11,6 +11,7 @@ public class GameModel extends Observable implements Runnable{
 	private double timeSecond = 0;
 	private int elapsedTime;
 	private boolean isPaused = false;
+	private boolean lectureInSession = false;
 	
 	private Restroom restroom;
 	private WaterDispenser waterDispenser;
@@ -24,6 +25,9 @@ public class GameModel extends Observable implements Runnable{
 	private ViewStatus viewStatus;
 	
 	private String latestMessage;
+	
+//	private int xPointer;
+//	private int yPointer;
 	
 	private Random random = new Random();
 	
@@ -103,6 +107,7 @@ public class GameModel extends Observable implements Runnable{
 		
 		for(int i = 0; i <= random.nextInt(2); i++) {
 			StudentSleeping sleepingStudent = new StudentSleeping();
+			sleepingStudent.checkInbounds(viewMap);
 			gameObjects.add(sleepingStudent);
 		}
 		
@@ -119,15 +124,21 @@ public class GameModel extends Observable implements Runnable{
 	public void addFacility() {
 		for(int i = 0; i < random.nextInt(3) + 2; i++) {
 			restroom = new Restroom();
+			restroom.checkInbounds(viewMap);
 			gameObjects.add(restroom);
 		}
 		
 		for(int i = 0; i < random.nextInt(3) + 2; i++) {
 			waterDispenser = new WaterDispenser();
+			waterDispenser.checkInbounds(viewMap);
 			gameObjects.add(waterDispenser);
 		}
-		lectureHall = new LectureHall();
-		gameObjects.add(lectureHall);
+		
+		for(int i = 0; i < 3; i++) {
+			lectureHall = new LectureHall("10" + i);
+			lectureHall.checkInbounds(viewMap);
+			gameObjects.add(lectureHall);
+		}
 	}
 	
 	//adds objects as observers
@@ -193,7 +204,7 @@ public class GameModel extends Observable implements Runnable{
 			timeSecond += MsToSec;
 			
 			IteratorInterface objectIterator = gameObjects.getIterator();
-			LectureHall lectureHall = null;
+			LectureHall currLectureHall = null;
 			IMoveable moveable = null;
 			Student student = null;
 			
@@ -201,18 +212,21 @@ public class GameModel extends Observable implements Runnable{
 				GameObject selectedObject = objectIterator.getNext();
 				//Manipulate lecture 
 				if(selectedObject instanceof LectureHall) {
-					lectureHall = (LectureHall) selectedObject;
-					if(lectureHall.getLecture() == null || lectureHall.checkLecture() == false) {
-						if(lectureHall.getLecture() != null) {
+					currLectureHall = (LectureHall) selectedObject;
+					if(currLectureHall.getLecture() == null || currLectureHall.checkLecture() == false) {
+						if(currLectureHall.getLecture() != null && lectureInSession) {
 							studentPlayer.setAbsenceTime(studentPlayer.getAbsenceTime() + 1);
-							lectureHall.endLecture();
+							currLectureHall.endLecture();
+							lectureInSession = false;
 						}
-						if(random.nextInt(10) == 0 && timeSecond >= 1) {
-							lectureHall.startLecture();
+						else if(random.nextInt(10) == 0 && timeSecond >= 1 && !lectureInSession) {
+							currLectureHall.startLecture();
+							lectureHall = currLectureHall;
+							lectureInSession = true;
 						}
 					}
-					else if(timeSecond >= 1) {
-						lectureHall.decreaseLectureTime();
+					if(timeSecond >= 1 && currLectureHall.getLecture() != null) {
+						currLectureHall.decreaseLectureTime();
 					}
 				}
 				//checks to see of object is move able
@@ -236,10 +250,10 @@ public class GameModel extends Observable implements Runnable{
 						boolean checkCollision = detectCollision(selectedObject, collisionObject);
 						
 						if(checkCollision) {							
-							if(!selectedObject.getIsColliding()) {
+							if(!selectedObject.getIsColliding() || !collisionObject.getIsColliding()) {
 								selectedObject.setIsColliding(true);
 								collisionObject.setIsColliding(true);						
-								if(!selectedCollide.contains(collisionObject)) {
+								if(!selectedCollide.contains(collisionObject) || !collisionCollide.contains(selectedObject)) {
 									selectedObject.handleCollide((Student) collisionObject);
 									latestMessage = selectedObject.getClassName() + " collided with " + collisionObject.getClassName();
 									
@@ -248,6 +262,10 @@ public class GameModel extends Observable implements Runnable{
 									}					
 									if(!collisionCollide.contains(selectedObject)) {
 										collisionObject.addCollidingObject(selectedObject);
+									}
+									
+									if(selectedObject == currLectureHall && collisionObject instanceof StudentPlayer) {
+										lectureInSession = false;
 									}
 								}
 							}		
@@ -267,9 +285,6 @@ public class GameModel extends Observable implements Runnable{
 					}	
 				}
 			}
-					
-			viewMap.repaint();
-			viewMap.displayGameState();
 			
 			//checks if game over and displays dialog
 			if(studentPlayer.getHydration() <= 0 || studentPlayer.getAbsenceTime() > 2 || studentPlayer.getWaterIntake() > 199) {

@@ -4,6 +4,7 @@ import com.codename1.ui.*;
 import com.codename1.ui.plaf.Border;
 import java.util.Observable;
 import java.util.Observer;
+import com.codename1.ui.geom.Point;
 
 
 public class ViewMap extends Container implements Observer {	
@@ -21,7 +22,8 @@ public class ViewMap extends Container implements Observer {
 	@Override
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-//		displayGameState();
+		repaint();
+		displayGameState();
 	}
 	
 	//displays game state to console

@@ -52,8 +52,10 @@ public class StudentPlayer extends Student{
 		int[] yPos = {yPos1, yPos2, yPos3};
 		g.fillPolygon(xPos, yPos, 3);
 		
-		g.setColor(ColorUtil.BLACK);
-		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
+		if(getIsSelected()) {
+    		g.setColor(ColorUtil.rgb(255, 0, 0));
+    		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
+    	}
 		
 		setAABB(xPos1, yPos1);
 	}

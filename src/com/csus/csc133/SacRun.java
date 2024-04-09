@@ -22,6 +22,7 @@ public class SacRun extends Form implements Runnable{
 	private StudentPlayer studentPlayer;
 	private UITimer gameTimer;
 	private int elapsedTime = 20;
+	private boolean changePos = false;
 	
 	//Constructor
 	public SacRun(){
@@ -41,7 +42,7 @@ public class SacRun extends Form implements Runnable{
 	private void A2() {		
 		//init commands
 		SpecialCommand aboutCommand = new SpecialCommand(gm, "About");
-		CollideCommand lectureCommand = new CollideCommand(gm, "Lecture Hall");
+//		CollideCommand lectureCommand = new CollideCommand(gm, "Lecture Hall");
 		SpecialCommand changeCommand = new SpecialCommand(gm, "Change Strategy");
 		
 		//init buttons with command parameters
@@ -50,26 +51,14 @@ public class SacRun extends Form implements Runnable{
 		ModifiedButton leftButton = new ModifiedButton(new PlayerCommand(gm, "Turn Left"));
 		ModifiedButton rightButton = new ModifiedButton(new PlayerCommand(gm, "Turn Right"));
 		ModifiedButton changeButton = new ModifiedButton(changeCommand);
-		ModifiedButton lectureCollideButton = new ModifiedButton(lectureCommand);
-		ModifiedButton restroomCollideButton = new ModifiedButton(new CollideCommand(gm, "Restroom"));
-		ModifiedButton waterDispenserCollideButton = new ModifiedButton(new CollideCommand(gm, "Water Dispenser"));
-		ModifiedButton studentButton = new ModifiedButton(new SpecialCommand(gm, "Student"));
-		ModifiedButton nextFrameButton = new ModifiedButton(new SpecialCommand(gm, "Next Frame"));
+//		ModifiedButton lectureCollideButton = new ModifiedButton(lectureCommand);
+//		ModifiedButton restroomCollideButton = new ModifiedButton(new CollideCommand(gm, "Restroom"));
+//		ModifiedButton waterDispenserCollideButton = new ModifiedButton(new CollideCommand(gm, "Water Dispenser"));
+//		ModifiedButton studentButton = new ModifiedButton(new SpecialCommand(gm, "Student"));
+//		ModifiedButton nextFrameButton = new ModifiedButton(new SpecialCommand(gm, "Next Frame"));
 		ModifiedButton pauseButton = new ModifiedButton(new SpecialCommand(gm, "Pause"));
-		
-		pauseButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				// TODO Auto-generated method stub
-				if(gm.getIsPaused()) {
-					pauseButton.setText("Play");
-				}
-				else {
-					pauseButton.setText("Pause");
-				}
-			}
-		});
-		
+		ModifiedButton changePosButton = new ModifiedButton(new SpecialCommand(gm, "Change Position"));
+
 		//creating container for buttons
 		Container buttonContainer = new Container();
 		buttonContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));		
@@ -78,12 +67,13 @@ public class SacRun extends Form implements Runnable{
 		buttonContainer.add(leftButton);
 		buttonContainer.add(rightButton);
 		buttonContainer.add(changeButton);
-		buttonContainer.add(lectureCollideButton);
-		buttonContainer.add(restroomCollideButton);
-		buttonContainer.add(waterDispenserCollideButton);
-		buttonContainer.add(studentButton);
-		buttonContainer.add(nextFrameButton);
+//		buttonContainer.add(lectureCollideButton);
+//		buttonContainer.add(restroomCollideButton);
+//		buttonContainer.add(waterDispenserCollideButton);
+//		buttonContainer.add(studentButton);
+//		buttonContainer.add(nextFrameButton);
 		buttonContainer.add(pauseButton);
+		buttonContainer.add(changePosButton);
 			
 		//creating toolbar
 		Toolbar toolBar = new Toolbar();
@@ -98,9 +88,9 @@ public class SacRun extends Form implements Runnable{
 		toolBar.addCommandToSideMenu(exitSide);
 		
 		//adding to right side tool bar
-		Command rightLectureHall = lectureCommand;
+//		Command rightLectureHall = lectureCommand;
 		Command rightAbout = aboutCommand;
-		toolBar.addCommandToRightBar(rightLectureHall);
+//		toolBar.addCommandToRightBar(rightLectureHall);
 		toolBar.addCommandToRightBar(rightAbout);
 		
 		//getting and adding GUI containers
@@ -108,10 +98,41 @@ public class SacRun extends Form implements Runnable{
 		ViewStatus viewStatus = gm.getViewStatus();
 		ViewMessage viewMessage = gm.getViewMessage();
 		add(BorderLayout.EAST, viewStatus);
-		add(BorderLayout.CENTER, viewMap);
-		add(BorderLayout.WEST, buttonContainer);
 		add(BorderLayout.SOUTH, viewMessage);
+		add(BorderLayout.WEST, buttonContainer);
+		add(BorderLayout.CENTER, viewMap);
+			
+		pauseButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				// TODO Auto-generated method stub
+				if(gm.getIsPaused()) {
+					pauseButton.setText("Play");
+				}
+				else {
+					pauseButton.setText("Pause");
+				}
+			}
+		});
 		
+		changePosButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				// TODO Auto-generated method stub
+				changePos = true;
+			}
+		});
+		
+		addPointerPressedListener((evt) -> {
+			if(viewMap.getAbsoluteX() <= evt.getX() && evt.getX() <= viewMap.getAbsoluteX() + viewMap.getWidth() && viewMap.getAbsoluteY() <= evt.getY() && evt.getY() <= viewMap.getAbsoluteY() + viewMap.getHeight()) {
+				checkPointer(evt.getX(), evt.getY());
+				if(changePos) {
+					changePosition(evt.getX(), evt.getY());
+					changePos = false;
+				}
+			}	
+		});
+			
 		show();		
 	}
 
@@ -136,6 +157,42 @@ public class SacRun extends Form implements Runnable{
 				studentPlayer.left();
 				break;
 		}
+	}
+	
+	public void checkPointer(int x, int y) {	
+		ViewMap viewMap = gm.getViewMap();
+		x = x - viewMap.getAbsoluteX() + viewMap.getX();
+		y = y - viewMap.getAbsoluteY() + viewMap.getY();
+		
+		IteratorInterface objectIterator = gm.getGameObjectsCollection().getIterator();
+		while(objectIterator.hasNext()) {
+			GameObject selectedObject = objectIterator.getNext();
+			if(selectedObject.contains(x, y)) {
+				selectedObject.setIsSelected(true);
+			}
+			else if(!changePos){
+				selectedObject.setIsSelected(false);
+			}
+		}
+		
+		viewMap.repaint();
+	}
+	
+	public void changePosition(int x, int y) {	
+		ViewMap viewMap = gm.getViewMap();
+		x = x - viewMap.getAbsoluteX();
+		y = y - viewMap.getAbsoluteY();
+		
+		IteratorInterface objectIterator = gm.getGameObjectsCollection().getIterator();
+		while(objectIterator.hasNext()) {
+			GameObject selectedObject = objectIterator.getNext();
+			if(selectedObject.getIsSelected()) {
+				selectedObject.setX(x);
+				selectedObject.setY(y);		
+			}
+		}
+		
+		viewMap.repaint();
 	}
 	
 	//UI provided for A1 only, remove it in A2

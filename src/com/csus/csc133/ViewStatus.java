@@ -56,6 +56,12 @@ public class ViewStatus extends Container implements Observer{
 		// TODO Auto-generated method stub
 		updateValues();
 		
+		if(gameModel.getLectureHall().getLecture() != null) {
+			lectureNameLabel.setText(lectureName);
+		}
+		else {
+			lectureNameLabel.setText("Lecture Hall N/A");
+		}
 		lectureTimeLabel.setText(lectureTime);
 		gameTimeLabel.setText("Game Time: " + gameTime);
 		absenceLabel.setText("Absence: " + absence);

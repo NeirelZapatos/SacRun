@@ -7,7 +7,6 @@ public abstract class Student extends GameObject implements IMoveable {
 	//initializing fields
 	private Random random = new Random();
 	private String className;
-	private Student collidingStudent;
 	
 	private int DEFAULT_SPEED = 200;
 	private int DEFAULT_TALKING_TIME = 2;
@@ -201,8 +200,10 @@ public abstract class Student extends GameObject implements IMoveable {
 		int[] yPos = {yPos1, yPos2, yPos3};
 		g.drawPolygon(xPos, yPos, 3);
 		
-		g.setColor(ColorUtil.BLACK);
-		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
+		if(getIsSelected()) {
+    		g.setColor(ColorUtil.rgb(255, 0, 0));
+    		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
+    	}
 		
 		setAABB(xPos1, yPos1);
 	}
