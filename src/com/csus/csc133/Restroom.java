@@ -1,6 +1,7 @@
 package com.csus.csc133;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
+import com.codename1.ui.Transform;
 
 public class Restroom extends Facility{
 	//Constructor
@@ -17,17 +18,31 @@ public class Restroom extends Facility{
 	
 	//draws restroom shape
 	public void draw(Graphics g, int mapX, int mapY) {
+		Transform xForm = Transform.makeIdentity();
+		Transform oldXForm = Transform.makeIdentity();
+		
+		g.getTransform(xForm);
+		oldXForm = xForm.copy();
+		
+		xForm.translate(mapX, mapY);
+		xForm.concatenate(getTranslateForm());
+		xForm.translate(- mapX, - mapY);
+		
+		g.setTransform(xForm);
+		
 		g.setColor(ColorUtil.rgb(0, 255, 0));
-		int xPos = (int) getX() - getSize() / 2 + mapX;
-		int yPos = (int) getY() - getSize() / 2 + mapY;
-		g.fillRect(xPos, yPos, getSize(), getSize());
+//		int xPos = (int) getX() - getSize() / 2;
+//		int yPos = (int) getY() - getSize() / 2;
+		g.fillRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
 		
 		if(getIsSelected()) {
     		g.setColor(ColorUtil.rgb(255, 0, 0));
-    		g.drawRect(xPos, yPos, getSize(), getSize());
+    		g.drawRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
     	}
 		
-		setAABB(xPos, yPos);
+//		setAABB(xPos, yPos);
+		
+		g.setTransform(oldXForm);
 	}
 	
 	//gets restroom name

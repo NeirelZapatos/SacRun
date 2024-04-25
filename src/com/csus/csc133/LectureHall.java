@@ -2,6 +2,7 @@ package com.csus.csc133;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Label;
+import com.codename1.ui.Transform;
 
 public class LectureHall extends Facility{
 	//initializing fields
@@ -56,17 +57,31 @@ public class LectureHall extends Facility{
     
     // draws lecture hall
     public void draw(Graphics g, int mapX, int mapY) {
-    	g.setColor(ColorUtil.rgb(0, 0, 255));
-    	int xPos = (int) getX() - getSize() / 2 + mapX;
-    	int yPos = (int) getY() - getSize() / 2 + mapY;
-    	g.fillRect(xPos, yPos, getSize(), getSize());
-    	g.drawString(getClassName(), xPos - getSize() / 2, yPos + getSize());
+    	Transform xForm = Transform.makeIdentity();
+    	Transform oldXForm = Transform.makeIdentity();
+    	
+    	g.getTransform(xForm);
+    	oldXForm = xForm.copy();
+    	
+    	xForm.translate(mapX, mapY);
+    	xForm.concatenate(getTranslateForm());
+    	xForm.translate(- mapX, - mapY);
+    	
+    	g.setTransform(xForm);
+    	
+    	g.setColor(ColorUtil.rgb(0, 0, 255));	
+//    	int xPos = (int) getX() - getSize() / 2;
+//    	int yPos = (int) getY() - getSize() / 2 ;
+    	g.fillRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
+    	g.drawString(getClassName(), - getSize() / 2,  getSize() / 2);
     	
     	if(getIsSelected()) {
     		g.setColor(ColorUtil.rgb(255, 0, 0));
-    		g.drawRect(xPos, yPos, getSize(), getSize());
+    		g.drawRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
     	}
+//    	
+//    	setAABB(xPos, yPos);
     	
-    	setAABB(xPos, yPos);
+    	g.setTransform(oldXForm);
     }
 }

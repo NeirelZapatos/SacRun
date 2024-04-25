@@ -38,11 +38,18 @@ public class ViewMap extends Container implements Observer {
 	// paints the objects
 	public void paint(Graphics g) {
 		super.paint(g);
+		
+		Transform myXForm = Transform.makeIdentity();
+		myXForm.translate(getX(), getY());
+		g.setTransform(myXForm);
+		
 		GameObjectsCollection gameObjects = gameModel.getGameObjectsCollection();
 		IteratorInterface objectIterator = gameObjects.getIterator();
 		while(objectIterator.hasNext()) {
 			GameObject currentObject = objectIterator.getNext();
 			currentObject.draw(g, getX(), getY());
 		}
+		
+		g.resetAffine();
 	}
 }

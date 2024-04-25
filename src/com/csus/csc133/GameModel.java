@@ -48,6 +48,8 @@ public class GameModel extends Observable{
 		initObjPos();
 		
 		viewMap.displayGameState();
+		System.out.println(viewMap.getWidth());
+		System.out.println(viewMap.getHeight());
 	}
 	
 	//initializes object positions 
@@ -56,7 +58,7 @@ public class GameModel extends Observable{
 		GameObject selectedObject;
 		while(objectIterator.hasNext()) {
 			selectedObject = (GameObject) objectIterator.getNext();
-			selectedObject.initPos(viewMap.getWidth(), viewMap.getHeight());
+			selectedObject.initPos(viewMap.getWidth(), viewMap.getHeight(), selectedObject.getTranslateForm());
 		}
 	}
 	

@@ -2,6 +2,7 @@ package com.csus.csc133;
 import java.util.*;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
+import com.codename1.ui.Transform;
 
 public abstract class GameObject {
 	//Initializing fields
@@ -22,6 +23,8 @@ public abstract class GameObject {
 	private boolean isSelected = false;
 	
 	private Vector<GameObject> collidingObjects = new Vector<>();
+	
+	private Transform translateForm = Transform.makeIdentity();
 	
 	//getter methods to retrieve private variables
 	public double getX() {
@@ -68,6 +71,10 @@ public abstract class GameObject {
 		return collidingObjects;
 	}
 	
+	public Transform getTranslateForm() {
+		return translateForm;
+	}
+	
 	//setter methods to set values
 	public void setIsColliding(boolean isColliding) {
 		this.isColliding = isColliding;
@@ -110,11 +117,12 @@ public abstract class GameObject {
 	}
 	
 	//initializes position
-	public void initPos(int screenWidth, int screenHeight) {
+	public void initPos(int screenWidth, int screenHeight, Transform translateForm) {
 		x = random.nextDouble() * screenWidth;
 		y = random.nextDouble() * screenHeight;
 //		x = 1000;
 //		y = 800;
+		translateForm.translate((float) x, (float) y);
 	}
 	
 	// calculates the AABB

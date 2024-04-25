@@ -20,10 +20,16 @@ public abstract class Student extends GameObject implements IMoveable {
 	private int sweatingRate = 3;
 	private int absenceTime = 0;
 	
+	private Transform rotateForm = Transform.makeIdentity();
+	private int[] xPt, yPt;
+	
 	//Constructor
 	public Student(String className){
 		this.className = className;
 		setSize(random.nextInt(21) + 40);
+		
+		xPt = new int[] {0, - getSize() / 4, getSize() / 4};
+		yPt = new int[] {getSize() / 2, - getSize() / 2, - getSize() / 2};
 	}
 	
 	//calls studentCollide method if student collides
@@ -72,6 +78,18 @@ public abstract class Student extends GameObject implements IMoveable {
 	
 	public String getClassName() {
 		return className;
+	}
+	
+	public int[] getXPt() {
+		return xPt;
+	}
+	
+	public int[] getYPt() {
+		return yPt;
+	}
+	
+	public Transform getRotateForm() {
+		return rotateForm;
 	}
 	
 	//setter methods to set new values for private fields
@@ -127,8 +145,11 @@ public abstract class Student extends GameObject implements IMoveable {
 		else {
 			double headingInDegrees = 90 - head;
 			double headingInRadians = Math.toRadians(headingInDegrees);
-			setX(Math.round(getX() + Math.cos(headingInRadians) * (speed * MsToSec))); // (speed * (elapsed time / 1000))
-			setY(Math.round(getY() + Math.sin(headingInRadians) * (speed * MsToSec)));			
+//			setX(Math.round(getX() + Math.cos(headingInRadians) * (speed * MsToSec))); // (speed * (elapsed time / 1000))
+//			setY(Math.round(getY() + Math.sin(headingInRadians) * (speed * MsToSec)));	
+			Transform translateForm = getTranslateForm();
+			translateForm.translate((float) (Math.cos(headingInRadians) * (speed * MsToSec)), (float) (Math.sin(headingInRadians) * (speed * MsToSec)));
+			rotateForm.rotate((float) headingInRadians, 0, 0);
 		}
 		
 		if(timeSecond >= 1) {
@@ -190,24 +211,39 @@ public abstract class Student extends GameObject implements IMoveable {
 	
 	// draws student object
 	public void draw(Graphics g, int mapX, int mapY) {
+		Transform xForm = Transform.makeIdentity();
+		Transform oldXForm = Transform.makeIdentity();
+		
+		g.getTransform(xForm);
+		oldXForm = xForm.copy();
+		
+		xForm.translate(mapX, mapY);
+		xForm.concatenate(getTranslateForm());
+		xForm.concatenate(rotateForm);
+		xForm.translate(- mapX, - mapY);
+		
+		g.setTransform(xForm);
+		
 		g.setColor(getColor());
-		int xPos1 = (int) getX() - getSize() / 4 + mapX;
-		int xPos2 = (int) getX() + mapX;
-		int xPos3 = (int) getX() + getSize() / 4 + mapX;
-		int yPos1 = (int) getY() - getSize() / 2 + mapY;
-		int yPos2 = (int) getY() + getSize() / 2 + mapY;
-		int yPos3 = (int) getY() - getSize() / 2 + mapY;
+//		int xPos1 = (int) getX() - getSize() / 4;
+//		int xPos2 = (int) getX();
+//		int xPos3 = (int) getX() + getSize() / 4;
+//		int yPos1 = (int) getY() - getSize() / 2;
+//		int yPos2 = (int) getY() + getSize() / 2;
+//		int yPos3 = (int) getY() - getSize() / 2;
 		
-		int[] xPos = {xPos1, xPos2, xPos3};
-		int[] yPos = {yPos1, yPos2, yPos3};
-		g.drawPolygon(xPos, yPos, 3);
+//		int[] xPos = {xPos1, xPos2, xPos3};
+//		int[] yPos = {yPos1, yPos2, yPos3};
+		g.drawPolygon(xPt, yPt, 3);
 		
-		if(getIsSelected()) {
-    		g.setColor(ColorUtil.rgb(255, 0, 0));
-    		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
-    	}
+//		if(getIsSelected()) {
+//    		g.setColor(ColorUtil.rgb(255, 0, 0));
+//    		g.drawRect(xPt, yPt, getSize() / 2, getSize());
+//    	}
 		
-		setAABB(xPos1, yPos1);
+//		setAABB(xPos1, yPos1);
+		
+		g.setTransform(oldXForm);
 	}
 	
 	// sets the AABB
