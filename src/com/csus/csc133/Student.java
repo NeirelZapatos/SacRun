@@ -20,7 +20,6 @@ public abstract class Student extends GameObject implements IMoveable {
 	private int sweatingRate = 3;
 	private int absenceTime = 0;
 	
-	private Transform rotateForm = Transform.makeIdentity();
 	private int[] xPt, yPt;
 	
 	//Constructor
@@ -88,10 +87,6 @@ public abstract class Student extends GameObject implements IMoveable {
 		return yPt;
 	}
 	
-	public Transform getRotateForm() {
-		return rotateForm;
-	}
-	
 	//setter methods to set new values for private fields
 	public void setTalkiveLevel(int newTalkiveLevel) {
 		talkiveLevel = newTalkiveLevel;
@@ -148,8 +143,9 @@ public abstract class Student extends GameObject implements IMoveable {
 //			setX(Math.round(getX() + Math.cos(headingInRadians) * (speed * MsToSec))); // (speed * (elapsed time / 1000))
 //			setY(Math.round(getY() + Math.sin(headingInRadians) * (speed * MsToSec)));	
 			Transform translateForm = getTranslateForm();
+			Transform rotateForm = getRotateForm();
 			translateForm.translate((float) (Math.cos(headingInRadians) * (speed * MsToSec)), (float) (Math.sin(headingInRadians) * (speed * MsToSec)));
-			rotateForm.rotate((float) headingInRadians, 0, 0);
+			rotateForm.setRotation((float) (headingInRadians - Math.toRadians(90)), 0, 0);
 		}
 		
 		if(timeSecond >= 1) {
@@ -219,7 +215,7 @@ public abstract class Student extends GameObject implements IMoveable {
 		
 		xForm.translate(mapX, mapY);
 		xForm.concatenate(getTranslateForm());
-		xForm.concatenate(rotateForm);
+		xForm.concatenate(getRotateForm());
 		xForm.translate(- mapX, - mapY);
 		
 		g.setTransform(xForm);
@@ -253,4 +249,10 @@ public abstract class Student extends GameObject implements IMoveable {
 		setYColMin(yPos);
 		setYColMax(yPos + getSize());
 	}
+	
+	//initializes position
+		public void initPos(int screenWidth, int screenHeight) {
+			super.initPos(screenWidth, screenHeight);
+			
+		}
 }

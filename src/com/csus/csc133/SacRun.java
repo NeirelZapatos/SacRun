@@ -15,6 +15,8 @@ import com.codename1.ui.util.UITimer;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.Container;
+import java.io.InputStream;
+import com.codename1.media.*;
 
 public class SacRun extends Form implements Runnable{
 	//initializing fields
@@ -23,6 +25,7 @@ public class SacRun extends Form implements Runnable{
 	private UITimer gameTimer;
 	private int elapsedTime = 20;
 	private boolean changePos = false;
+	private ViewMap viewMap;
 	
 	//Constructor
 	public SacRun(){
@@ -137,6 +140,8 @@ public class SacRun extends Form implements Runnable{
 		});
 			
 		show();		
+		
+		viewMap.init();
 	}
 
 	// runs every 20 ms
@@ -153,13 +158,13 @@ public class SacRun extends Form implements Runnable{
 				studentPlayer.startMove();
 				break;
 			case 97:
-				studentPlayer.right	();
+				studentPlayer.left	();
 				break;
 			case 115:
 				studentPlayer.stop();
 				break;
 			case 100:
-				studentPlayer.left();
+				studentPlayer.right();
 				break;
 		}
 	}

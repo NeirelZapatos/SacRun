@@ -26,6 +26,8 @@ public class GameModel extends Observable{
 	
 	private String latestMessage;
 	
+	private Sound music = new Sound("Netrum & Halvorsen - Phoenix _ Synthwave _ NCS - Copyright Free Music.mp3");
+	
 	private Random random = new Random();
 	
 	//Constructor
@@ -36,6 +38,7 @@ public class GameModel extends Observable{
 		viewMap = new ViewMap(this);
 		viewMessage = new ViewMessage(this);
 		viewStatus = new ViewStatus(this);
+		
 	}
 	
 	// initializes the game objects and adds them to the game objects vector
@@ -46,10 +49,8 @@ public class GameModel extends Observable{
 		addFacility();
 		addObservers();
 		initObjPos();
-		
-		viewMap.displayGameState();
-		System.out.println(viewMap.getWidth());
-		System.out.println(viewMap.getHeight());
+	
+		viewMap.displayGameState();	
 	}
 	
 	//initializes object positions 
@@ -58,7 +59,7 @@ public class GameModel extends Observable{
 		GameObject selectedObject;
 		while(objectIterator.hasNext()) {
 			selectedObject = (GameObject) objectIterator.getNext();
-			selectedObject.initPos(viewMap.getWidth(), viewMap.getHeight(), selectedObject.getTranslateForm());
+			selectedObject.initPos(viewMap.getWidth(), viewMap.getHeight());
 		}
 	}
 	
@@ -199,6 +200,7 @@ public class GameModel extends Observable{
 	//Calculates everything for the next game state and checks if it is game over
 	public void nextFrame() {
 		if(!isPaused) {
+			music.play();
 			double MsToSec = (double) elapsedTime / 1000;
 			timeSecond += MsToSec;
 			
@@ -325,7 +327,10 @@ public class GameModel extends Observable{
 			//updates observers
 			setChanged();
 			notifyObservers();
-		}	
+		}
+		else{
+			music.pause();
+		}
 	}
 	
 	//detects a collision

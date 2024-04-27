@@ -3,6 +3,8 @@ import java.util.*;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Transform;
+import com.codename1.ui.geom.Rectangle;
+import com.codename1.ui.geom.Shape;
 
 public abstract class GameObject {
 	//Initializing fields
@@ -21,10 +23,13 @@ public abstract class GameObject {
 	
 	private boolean isColliding = false;
 	private boolean isSelected = false;
-	
+		
 	private Vector<GameObject> collidingObjects = new Vector<>();
 	
 	private Transform translateForm = Transform.makeIdentity();
+	private Transform rotateForm = Transform.makeIdentity();
+	
+	private Rectangle hitBox;
 	
 	//getter methods to retrieve private variables
 	public double getX() {
@@ -75,6 +80,10 @@ public abstract class GameObject {
 		return translateForm;
 	}
 	
+	public Transform getRotateForm() {
+		return rotateForm;
+	}
+	
 	//setter methods to set values
 	public void setIsColliding(boolean isColliding) {
 		this.isColliding = isColliding;
@@ -117,7 +126,7 @@ public abstract class GameObject {
 	}
 	
 	//initializes position
-	public void initPos(int screenWidth, int screenHeight, Transform translateForm) {
+	public void initPos(int screenWidth, int screenHeight) {
 		x = random.nextDouble() * screenWidth;
 		y = random.nextDouble() * screenHeight;
 //		x = 1000;
@@ -133,14 +142,25 @@ public abstract class GameObject {
 		yColMax = yPos + size;
 	}
 	
+//	public float[] getInverse(float x, float y) {
+//		float[] pts = {x, y};
+//		Transform inverseConcatLTs = Transform.makeIdentity();
+//		
+//		try {
+//			draw
+//		}
+//	}
+	
 	// checks if (x, y) is in shape
 	public boolean contains(int x, int y) {
 		if(xColMin <= x && x <= xColMax && yColMin <= y && y <= yColMax) {
 			return true;
 		}
 		return false;
+		
+//		float[] pts = getInverse(x, y);
 	}
-	
+//	
 	// adds object to collision vector
 	public void addCollidingObject(GameObject collidingObject) {
 			collidingObjects.add(collidingObject);
