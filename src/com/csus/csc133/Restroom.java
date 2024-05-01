@@ -31,8 +31,6 @@ public class Restroom extends Facility{
 		g.setTransform(xForm);
 		
 		g.setColor(ColorUtil.rgb(0, 255, 0));
-//		int xPos = (int) getX() - getSize() / 2;
-//		int yPos = (int) getY() - getSize() / 2;
 		g.getTransform(getDrawForm());
 		
 		g.fillRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());

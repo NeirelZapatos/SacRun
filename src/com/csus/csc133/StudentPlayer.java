@@ -55,15 +55,6 @@ public class StudentPlayer extends Student{
 		g.setTransform(xForm);
 		
 		g.setColor(getColor());
-//		int xPos1 = (int) getX() - getSize() / 4 ;
-//		int xPos2 = (int) getX();
-//		int xPos3 = (int) getX() + getSize() / 4;
-//		int yPos1 = (int) getY() - getSize() / 2;
-//		int yPos2 = (int) getY() + getSize() / 2;
-//		int yPos3 = (int) getY() - getSize() / 2;
-		
-//		int[] xPos = {xPos1, xPos2, xPos3};
-//		int[] yPos = {yPos1, yPos2, yPos3};
 		
 		g.getTransform(getDrawForm());
 		
@@ -73,7 +64,7 @@ public class StudentPlayer extends Student{
     		g.setColor(ColorUtil.rgb(255, 0, 0));
     		g.drawRect(- getSize() / 4, - getSize() / 2, getSize() / 2, getSize());
     	}
-//		
+	
 		setAABB((int) getTranslateForm().getTranslateX(), (int) getTranslateForm().getTranslateY());
 		
 		g.setTransform(oldXForm);

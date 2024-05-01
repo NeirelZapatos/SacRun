@@ -33,13 +33,11 @@ public class GameModel extends Observable{
 	
 	//Constructor
 	public GameModel(SacRun sacRun, int elapsedTime) {
-		//init(sacRun);
 		this.elapsedTime = elapsedTime;
 		gameObjects = new GameObjectsCollection();
 		viewMap = new ViewMap(this);
 		viewMessage = new ViewMessage(this);
 		viewStatus = new ViewStatus(this);
-		
 	}
 	
 	// initializes the game objects and adds them to the game objects vector
@@ -147,55 +145,6 @@ public class GameModel extends Observable{
 		addObserver(viewMap);
 		addObserver(viewMessage);
 		addObserver(viewStatus);
-	}
-	
-	//getter methods to retrieve the private fields
-	public StudentPlayer getStudentPlayer() {
-		return studentPlayer;
-	}
-	
-	public Restroom getRestroom() {
-		return restroom;
-	}
-	
-	public WaterDispenser getWaterDispenser() {
-		return waterDispenser;
-	}
-	
-	public LectureHall getLectureHall() {
-		return lectureHall;
-	}
-	
-	public ViewMap getViewMap() {
-		return viewMap;
-	}
-	
-	public ViewMessage getViewMessage() {
-		return viewMessage;
-	}
-	
-	public ViewStatus getViewStatus() {
-		return viewStatus;
-	}
-	
-	public GameObjectsCollection getGameObjectsCollection(){
-		return gameObjects;
-	}
-	
-	public Student getSelectedStudent() {
-		return selectedStudent;
-	}
-	
-	public int getGameTime() {
-		return gameTime;
-	}
-	
-	public String getLatestMessage() {
-		return latestMessage;
-	}
-	
-	public boolean getIsPaused() {
-		return isPaused;
 	}
 	
 	//Calculates everything for the next game state and checks if it is game over
@@ -610,29 +559,52 @@ public class GameModel extends Observable{
 		super.notifyObservers();
 	}
 	
-	//Used to display the current game state
-//	public void displayGameState() {
-//		System.out.println("Time: " + gameTime);
-//		for(int i = 0; i < gameObjects.size(); i++) {
-//			GameObject selectedObject = gameObjects.get(i);
-//			selectedObject.displayInfo();
-//		}
-//		System.out.println();
-//	}
+	//getter methods to retrieve the private fields
+	public StudentPlayer getStudentPlayer() {
+		return studentPlayer;
+	}
 	
-	//returns a randomStudent from gameObjects vector
-//	public Student getRandomStudent() {
-//		int vectorLength = gameObjects.size();
-//		boolean cont = true;
-//		Student randomStudent = null;
-//		while(cont) {
-//			int randomIndex = random.nextInt(vectorLength);
-//			GameObject selectedObject = gameObjects.get(randomIndex);
-//			if(selectedObject instanceof Student) {
-//				randomStudent = (Student) selectedObject;
-//				cont = false;
-//			}
-//		}
-//		return randomStudent;
-//	}
+	public Restroom getRestroom() {
+		return restroom;
+	}
+	
+	public WaterDispenser getWaterDispenser() {
+		return waterDispenser;
+	}
+	
+	public LectureHall getLectureHall() {
+		return lectureHall;
+	}
+	
+	public ViewMap getViewMap() {
+		return viewMap;
+	}
+	
+	public ViewMessage getViewMessage() {
+		return viewMessage;
+	}
+	
+	public ViewStatus getViewStatus() {
+		return viewStatus;
+	}
+	
+	public GameObjectsCollection getGameObjectsCollection(){
+		return gameObjects;
+	}
+	
+	public Student getSelectedStudent() {
+		return selectedStudent;
+	}
+	
+	public int getGameTime() {
+		return gameTime;
+	}
+	
+	public String getLatestMessage() {
+		return latestMessage;
+	}
+	
+	public boolean getIsPaused() {
+		return isPaused;
+	}
 }

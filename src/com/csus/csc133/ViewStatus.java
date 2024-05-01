@@ -27,7 +27,6 @@ public class ViewStatus extends Container implements Observer{
 	//constructor which creates the status information in GUI
 	public ViewStatus(GameModel gameModel) {
 		this.gameModel = gameModel;
-		//updateValues();
 		
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		
@@ -67,9 +66,7 @@ public class ViewStatus extends Container implements Observer{
 		absenceLabel.setText("Absence: " + absence);
 		hydrationLabel.setText("Hydration: " + hydration);
 		waterIntakeLabel.setText("Water Intake: " + waterIntake);
-		timeRemainLabel.setText("Time Remain: " + timeRemain);
-		
-		//revalidate();
+		timeRemainLabel.setText("Time Remain: " + timeRemain);		
 	}
 	
 	//updates the values

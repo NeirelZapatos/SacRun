@@ -31,8 +31,6 @@ public class WaterDispenser extends Facility {
 		g.setTransform(xForm);
 		
 		g.setColor(ColorUtil.rgb(0, 0, 255));	
-//		int xPos = (int) getX() - getSize() / 2;
-//		int yPos = (int) getY() - getSize() / 2;
 		
 		g.getTransform(getDrawForm());
 		

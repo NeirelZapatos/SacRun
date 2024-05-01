@@ -27,6 +27,7 @@ public class ViewMap extends Container implements Observer {
 		//ssetHeight(800);
 	}
 	
+	// init's the VTM
 	public void init() {
 		viewWidth = screenWidth = getWidth();
 		viewHeight = screenHeight = getHeight();
@@ -38,9 +39,9 @@ public class ViewMap extends Container implements Observer {
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
 		repaint();
-//		displayGameState();
 	}
 	
+	// updates the VTM
 	public void updateVTM() {
 		VTM = Transform.makeIdentity();
 		Transform W2ND = Transform.makeScale(1.0f / viewWidth, 1.0f / viewHeight);
@@ -51,6 +52,7 @@ public class ViewMap extends Container implements Observer {
 		VTM.concatenate(W2ND);
 	}
 	
+	// controls the zoom function
 	public void zoom(float factor) {
 		float newWidth = viewWidth * factor;
 		float newHeight = viewHeight * factor;
@@ -65,27 +67,31 @@ public class ViewMap extends Container implements Observer {
 			repaint();
 	}
 	
+	// changes view for horizontal pan
 	public void panHorizontal(double delta) {
 		viewL += delta;
 		repaint();
 	}
 	
+	// changes view for vertical pan
 	public void panVertical(double delta) {
 		viewB += delta;
 		repaint();
 	}
 	
+	// controls pinch gesture
 	public boolean pinch(float scale) {
-//		super.pinch(scale);
 		zoom(scale);
 		return true;
 	}
 	
+	// controls press gesture
 	public void pointerPressed(int x, int y) {
 		pPrevDragLocX = x;
 		pPrevDragLocY = y;
 	}
 	
+	// controls drag gesture
 	public void pointerDragged(int x, int y) {
 		double dx = pPrevDragLocX - x;
 		double dy = pPrevDragLocY - y;
@@ -100,6 +106,7 @@ public class ViewMap extends Container implements Observer {
 		pPrevDragLocY = y;
 	}
 	
+	// controls release gesture
 	public void pointerReleased(int x, int y) {
 		float[] pt = {x, y};
 		int absX = getParent().getAbsoluteX();
@@ -174,6 +181,7 @@ public class ViewMap extends Container implements Observer {
 		g.resetAffine();
 	}
 	
+	// setter method
 	public void setChangePosPressed(boolean changePosPressed) {
 		this.changePosPressed = changePosPressed;
 	}

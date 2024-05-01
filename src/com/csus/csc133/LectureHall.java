@@ -44,12 +44,6 @@ public class LectureHall extends Facility{
 		lecture = null;
 	}
 	
-	//getter methods to retrieve private fields
-	
-	public Lecture getLecture() {
-		return lecture;
-	}
-	
 	//displays lectureHall info
     public void displayInfo() {
     	System.out.println(getClassName() + ", pos(" + Math.round(getTranslateForm().getTranslateX()) + ", " + Math.round(getTranslateForm().getTranslateY()) + "), Current Lecture: " + getLecture());
@@ -71,8 +65,6 @@ public class LectureHall extends Facility{
     	g.setTransform(xForm);   	
     	
     	g.setColor(ColorUtil.rgb(0, 0, 255));	
-//    	int xPos = (int) getX() - getSize() / 2;
-//    	int yPos = (int) getY() - getSize() / 2 ;
     	
     	g.getTransform(getDrawForm());
     	
@@ -88,4 +80,9 @@ public class LectureHall extends Facility{
     	
     	g.setTransform(oldXForm);
     }
+    
+	//getter methods to retrieve private fields
+	public Lecture getLecture() {
+		return lecture;
+	}
 }
