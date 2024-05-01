@@ -25,7 +25,6 @@ public class SacRun extends Form implements Runnable{
 	private UITimer gameTimer;
 	private int elapsedTime = 20;
 	private boolean changePos = false;
-	private ViewMap viewMap;
 	
 	//Constructor
 	public SacRun(){
@@ -124,20 +123,20 @@ public class SacRun extends Form implements Runnable{
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				// TODO Auto-generated method stub
-				changePos = true;
+				viewMap.setChangePosPressed(true);
 			}
 		});
 		
 		// checks if user has clicked
-		addPointerPressedListener((evt) -> {
-			if(viewMap.getAbsoluteX() <= evt.getX() && evt.getX() <= viewMap.getAbsoluteX() + viewMap.getWidth() && viewMap.getAbsoluteY() <= evt.getY() && evt.getY() <= viewMap.getAbsoluteY() + viewMap.getHeight()) {
-				checkPointer(evt.getX(), evt.getY());
-				if(changePos) {
-					changePosition(evt.getX(), evt.getY());
-					changePos = false;
-				}
-			}	
-		});
+//		addPointerPressedListener((evt) -> {
+//			if(viewMap.getAbsoluteX() <= evt.getX() && evt.getX() <= viewMap.getAbsoluteX() + viewMap.getWidth() && viewMap.getAbsoluteY() <= evt.getY() && evt.getY() <= viewMap.getAbsoluteY() + viewMap.getHeight()) {
+//				checkPointer(evt.getX(), evt.getY());
+//				if(changePos) {
+//					changePosition(evt.getX(), evt.getY());
+//					changePos = false;
+//				}
+//			}	
+//		});
 			
 		show();		
 		
@@ -158,7 +157,7 @@ public class SacRun extends Form implements Runnable{
 				studentPlayer.startMove();
 				break;
 			case 97:
-				studentPlayer.left	();
+				studentPlayer.left();
 				break;
 			case 115:
 				studentPlayer.stop();
@@ -169,43 +168,43 @@ public class SacRun extends Form implements Runnable{
 		}
 	}
 	
+	
 	// checks where pointer pressed
-	public void checkPointer(int x, int y) {	
-		ViewMap viewMap = gm.getViewMap();
-		x = x - viewMap.getAbsoluteX() + viewMap.getX();
-		y = y - viewMap.getAbsoluteY() + viewMap.getY();
-		
-		IteratorInterface objectIterator = gm.getGameObjectsCollection().getIterator();
-		while(objectIterator.hasNext()) {
-			GameObject selectedObject = objectIterator.getNext();
-			if(selectedObject.contains(x, y)) {
-				selectedObject.setIsSelected(true);
-			}
-			else if(!changePos){
-				selectedObject.setIsSelected(false);
-			}
-		}
-		
-		viewMap.repaint();
-	}
+//	public void checkPointer(int x, int y) {	
+//		ViewMap viewMap = gm.getViewMap();
+//		x = x - viewMap.getAbsoluteX() + viewMap.getX();
+//		y = y - viewMap.getAbsoluteY() + viewMap.getY();
+//		
+//		IteratorInterface objectIterator = gm.getGameObjectsCollection().getIterator();
+//		while(objectIterator.hasNext()) {
+//			GameObject selectedObject = objectIterator.getNext();
+//			if(selectedObject.contains(x, y)) {
+//				selectedObject.setIsSelected(true);
+//			}
+//			else if(!changePos){
+//				selectedObject.setIsSelected(false);
+//			}
+//		}
+//		
+//		viewMap.repaint();
+//	}
 	
 	// changes the position of the selectedObject
-	public void changePosition(int x, int y) {	
-		ViewMap viewMap = gm.getViewMap();
-		x = x - viewMap.getAbsoluteX();
-		y = y - viewMap.getAbsoluteY();
-		
-		IteratorInterface objectIterator = gm.getGameObjectsCollection().getIterator();
-		while(objectIterator.hasNext()) {
-			GameObject selectedObject = objectIterator.getNext();
-			if(selectedObject.getIsSelected()) {
-				selectedObject.setX(x);
-				selectedObject.setY(y);		
-			}
-		}
-		
-		viewMap.repaint();
-	}
+//	public void changePosition(int x, int y) {	
+//		ViewMap viewMap = gm.getViewMap();
+//		x = x - viewMap.getAbsoluteX();
+//		y = y - viewMap.getAbsoluteY();
+//		
+//		IteratorInterface objectIterator = gm.getGameObjectsCollection().getIterator();
+//		while(objectIterator.hasNext()) {
+//			GameObject selectedObject = objectIterator.getNext();
+//			if(selectedObject.getIsSelected()) {
+//				selectedObject.getTranslateForm().setTranslation((float) x, (float) y);	
+//			}
+//		}
+//		
+//		viewMap.repaint();
+//	}
 	
 	//UI provided for A1 only, remove it in A2
 //	private void A1() {

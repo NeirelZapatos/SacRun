@@ -33,6 +33,8 @@ public class Restroom extends Facility{
 		g.setColor(ColorUtil.rgb(0, 255, 0));
 //		int xPos = (int) getX() - getSize() / 2;
 //		int yPos = (int) getY() - getSize() / 2;
+		g.getTransform(getDrawForm());
+		
 		g.fillRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
 		
 		if(getIsSelected()) {
@@ -40,7 +42,7 @@ public class Restroom extends Facility{
     		g.drawRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
     	}
 		
-//		setAABB(xPos, yPos);
+		setAABB((int) getTranslateForm().getTranslateX(), (int) getTranslateForm().getTranslateY());
 		
 		g.setTransform(oldXForm);
 	}

@@ -1,6 +1,9 @@
 package com.csus.csc133;
 import com.codename1.ui.*;
+import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Transform.NotInvertibleException;
 import com.codename1.ui.plaf.Border;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,6 +17,7 @@ public class ViewMap extends Container implements Observer {
 	private int viewWidth;
 	private int viewHeight;
 	private int pPrevDragLocX, pPrevDragLocY;
+	private boolean changePosPressed = false;
 	
 	//constructor
 	public ViewMap(GameModel gameModel){
@@ -96,9 +100,42 @@ public class ViewMap extends Container implements Observer {
 		pPrevDragLocY = y;
 	}
 	
-//	public void pointerReleased(int x, int y) {
-//		Transform inverseConcatLTs 
-//	}
+	public void pointerReleased(int x, int y) {
+		float[] pt = {x, y};
+		int absX = getParent().getAbsoluteX();
+		int absY = getParent().getAbsoluteY();
+		
+		IteratorInterface objectIterator = gameModel.getGameObjectsCollection().getIterator();
+		while(objectIterator.hasNext()) {
+			GameObject selectedObject = objectIterator.getNext();
+			if(changePosPressed) {
+				if(selectedObject.getIsSelected()) {
+					try {
+						float[] ptInv = {0, 0};
+						Transform inverse = Transform.makeIdentity();
+						VTM.getInverse(inverse);
+						inverse.transformPoint(pt, ptInv);
+						ptInv[0] =  ptInv[0] - (getX() + getParent().getAbsoluteX());
+						ptInv[1] = ptInv[1] - (getY() + getParent().getAbsoluteY());
+						selectedObject.getTranslateForm().setTranslation((float) ptInv[0], (float) ptInv[1]);
+					}
+					catch(NotInvertibleException e) {
+						e.getStackTrace();
+					}
+				}				
+			}
+			if(selectedObject.contains(pt, absX, absY)) {
+				selectedObject.setIsSelected(true);
+			}
+			else {
+				selectedObject.setIsSelected(false);
+			}
+		}
+		
+		changePosPressed = false;
+		
+		repaint();
+	}
 	
 	//displays game state to console
 	public void displayGameState() {
@@ -124,6 +161,9 @@ public class ViewMap extends Container implements Observer {
 		
 		g.setTransform(myXForm);
 		
+		g.setColor(ColorUtil.rgb(0, 0, 0));
+		g.drawRect(0, 0, screenWidth, screenHeight);
+		
 		GameObjectsCollection gameObjects = gameModel.getGameObjectsCollection();
 		IteratorInterface objectIterator = gameObjects.getIterator();
 		while(objectIterator.hasNext()) {
@@ -132,5 +172,9 @@ public class ViewMap extends Container implements Observer {
 		}
 		
 		g.resetAffine();
+	}
+	
+	public void setChangePosPressed(boolean changePosPressed) {
+		this.changePosPressed = changePosPressed;
 	}
 }

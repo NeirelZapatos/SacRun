@@ -64,14 +64,17 @@ public class StudentPlayer extends Student{
 		
 //		int[] xPos = {xPos1, xPos2, xPos3};
 //		int[] yPos = {yPos1, yPos2, yPos3};
+		
+		g.getTransform(getDrawForm());
+		
 		g.fillPolygon(getXPt(), getYPt(), 3);
 		
-//		if(getIsSelected()) {
-//    		g.setColor(ColorUtil.rgb(255, 0, 0));
-//    		g.drawRect(xPos1, yPos1, getSize() / 2, getSize());
-//    	}
+		if(getIsSelected()) {
+    		g.setColor(ColorUtil.rgb(255, 0, 0));
+    		g.drawRect(- getSize() / 4, - getSize() / 2, getSize() / 2, getSize());
+    	}
 //		
-//		setAABB(xPos1, yPos1);
+		setAABB((int) getTranslateForm().getTranslateX(), (int) getTranslateForm().getTranslateY());
 		
 		g.setTransform(oldXForm);
 	}

@@ -3,6 +3,7 @@ import java.util.*;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Transform;
+import com.codename1.ui.Transform.NotInvertibleException;
 import com.codename1.ui.geom.Rectangle;
 import com.codename1.ui.geom.Shape;
 
@@ -28,8 +29,7 @@ public abstract class GameObject {
 	
 	private Transform translateForm = Transform.makeIdentity();
 	private Transform rotateForm = Transform.makeIdentity();
-	
-	private Rectangle hitBox;
+	private Transform drawForm = Transform.makeIdentity();
 	
 	//getter methods to retrieve private variables
 	public double getX() {
@@ -84,6 +84,10 @@ public abstract class GameObject {
 		return rotateForm;
 	}
 	
+	public Transform getDrawForm() {
+		return drawForm;
+	}
+	
 	//setter methods to set values
 	public void setIsColliding(boolean isColliding) {
 		this.isColliding = isColliding;
@@ -132,6 +136,8 @@ public abstract class GameObject {
 //		x = 1000;
 //		y = 800;
 		translateForm.translate((float) x, (float) y);
+		rotateForm.rotate((float) Math.toRadians(180), 0, 0);
+		rotateForm.scale(-1, 1);
 	}
 	
 	// calculates the AABB
@@ -142,25 +148,32 @@ public abstract class GameObject {
 		yColMax = yPos + size;
 	}
 	
-//	public float[] getInverse(float x, float y) {
-//		float[] pts = {x, y};
-//		Transform inverseConcatLTs = Transform.makeIdentity();
-//		
-//		try {
-//			draw
-//		}
-//	}
 	
 	// checks if (x, y) is in shape
-	public boolean contains(int x, int y) {
-		if(xColMin <= x && x <= xColMax && yColMin <= y && y <= yColMax) {
-			return true;
+//	public boolean contains(int x, int y) {
+//		if(xColMin <= x && x <= xColMax && yColMin <= y && y <= yColMax) {
+//			return true;
+//		}
+//		return false;
+//		
+//	}
+	
+	public boolean contains(float[] pt, int pAbsX, int pAbsY) {
+		try {
+			float[] ptInv = {0, 0};
+			Transform inverse = Transform.makeIdentity();
+			drawForm.getInverse(inverse);
+			inverse.transformPoint(pt, ptInv);
+			ptInv[0] -= pAbsX;
+			ptInv[1] -= pAbsY;
+			return (ptInv[0] * ptInv[0] + ptInv[1] * ptInv[1] < size * size);
+		}
+		catch(NotInvertibleException e) {
+			e.getStackTrace();
 		}
 		return false;
-		
-//		float[] pts = getInverse(x, y);
 	}
-//	
+		
 	// adds object to collision vector
 	public void addCollidingObject(GameObject collidingObject) {
 			collidingObjects.add(collidingObject);
@@ -173,17 +186,21 @@ public abstract class GameObject {
 	
 	//checks the bounds
 	public void checkInbounds(ViewMap viewMap) {
-		if(getX() >= viewMap.getWidth()){
-			setX(viewMap.getWidth());
+		if(translateForm.getTranslateX() >= viewMap.getWidth()){
+			translateForm.setTranslation(viewMap.getWidth(), translateForm.getTranslateY());
+//			setX(viewMap.getWidth());
 		}
-		if(getX() <= 0) {
-			setX(0);
+		if(translateForm.getTranslateX() <= 0) {
+			translateForm.setTranslation(0, translateForm.getTranslateY());
+//			setX(0);
 		}
-		if(getY() >= viewMap.getHeight()) {
-			setY(viewMap.getHeight());
+		if(translateForm.getTranslateY() >= viewMap.getHeight()) {
+			translateForm.setTranslation(translateForm.getTranslateX(), viewMap.getHeight());
+//			setY(viewMap.getHeight());
 		}
-		if(getY() <= 0) {
-			setY(0);
+		if(translateForm.getTranslateY() <= 0) {
+			translateForm.setTranslation(translateForm.getTranslateX(), 0);
+//			setY(0);
 		}
 	}
 	

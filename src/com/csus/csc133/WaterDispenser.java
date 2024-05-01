@@ -33,6 +33,9 @@ public class WaterDispenser extends Facility {
 		g.setColor(ColorUtil.rgb(0, 0, 255));	
 //		int xPos = (int) getX() - getSize() / 2;
 //		int yPos = (int) getY() - getSize() / 2;
+		
+		g.getTransform(getDrawForm());
+		
 		g.fillArc(- getSize() / 2, - getSize() / 2, getSize(), getSize(), 0, 360);
 		
 		if(getIsSelected()) {
@@ -40,7 +43,7 @@ public class WaterDispenser extends Facility {
     		g.drawRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
     	}
 		
-//		setAABB(xPos, yPos);
+		setAABB((int) getTranslateForm().getTranslateX(), (int) getTranslateForm().getTranslateY());
 		
 		g.setTransform(oldXForm);
 	}

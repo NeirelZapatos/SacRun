@@ -24,7 +24,7 @@ public abstract class Facility extends GameObject {
 	
 	//displays facility info
 	public void displayInfo() {
-		System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + ")");
+		System.out.println(getClassName() + ", pos(" + Math.round(getTranslateForm().getTranslateX()) + ", " + Math.round(getTranslateForm().getTranslateY()) + ")");
 	}
 	
 	//draw objects

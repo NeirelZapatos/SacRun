@@ -6,13 +6,13 @@ import com.codename1.ui.Transform;
 
 public class LectureHall extends Facility{
 	//initializing fields
-	
 	private Lecture lecture;
 	
 	//Constructor
 	public LectureHall(String roomNum) {
 		super("Lecture Hall " + roomNum);
 		setSize(90);
+		
 	}
 	
 	//ends lecture of student collides
@@ -52,7 +52,7 @@ public class LectureHall extends Facility{
 	
 	//displays lectureHall info
     public void displayInfo() {
-    	System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), Current Lecture: " + getLecture());
+    	System.out.println(getClassName() + ", pos(" + Math.round(getTranslateForm().getTranslateX()) + ", " + Math.round(getTranslateForm().getTranslateY()) + "), Current Lecture: " + getLecture());
     }
     
     // draws lecture hall
@@ -65,13 +65,17 @@ public class LectureHall extends Facility{
     	
     	xForm.translate(mapX, mapY);
     	xForm.concatenate(getTranslateForm());
+    	xForm.concatenate(getRotateForm());
     	xForm.translate(- mapX, - mapY);
     	
-    	g.setTransform(xForm);
+    	g.setTransform(xForm);   	
     	
     	g.setColor(ColorUtil.rgb(0, 0, 255));	
 //    	int xPos = (int) getX() - getSize() / 2;
 //    	int yPos = (int) getY() - getSize() / 2 ;
+    	
+    	g.getTransform(getDrawForm());
+    	
     	g.fillRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
     	g.drawString(getClassName(), - getSize() / 2,  getSize() / 2);
     	
@@ -79,8 +83,8 @@ public class LectureHall extends Facility{
     		g.setColor(ColorUtil.rgb(255, 0, 0));
     		g.drawRect(- getSize() / 2, - getSize() / 2, getSize(), getSize());
     	}
-//    	
-//    	setAABB(xPos, yPos);
+
+    	setAABB((int) getTranslateForm().getTranslateX(), (int) getTranslateForm().getTranslateY());
     	
     	g.setTransform(oldXForm);
     }

@@ -159,21 +159,27 @@ public abstract class Student extends GameObject implements IMoveable {
 	//checks id student is in bounds
 	public void checkInbounds(ViewMap viewMap) {
 		boolean turnHead = false;
-		if(getX() >= viewMap.getWidth()){
-			setX(viewMap.getWidth());
+		Transform translateForm = getTranslateForm();
+		
+		if(translateForm.getTranslateX() >= viewMap.getWidth()){
+			translateForm.setTranslation(viewMap.getWidth() - 1, translateForm.getTranslateY());
 			turnHead = true;
+//			setX(viewMap.getWidth());
 		}
-		if(getX() <= 0) {
-			setX(0);
+		if(translateForm.getTranslateX() <= 0) {
+			translateForm.setTranslation(1, translateForm.getTranslateY());
 			turnHead = true;
+//			setX(0);
 		}
-		if(getY() >= viewMap.getHeight()) {
-			setY(viewMap.getHeight());
+		if(translateForm.getTranslateY() >= viewMap.getHeight()) {
+			translateForm.setTranslation(translateForm.getTranslateX(), viewMap.getHeight() - 1);
 			turnHead = true;
+//			setY(viewMap.getHeight());
 		}
-		if(getY() <= 0) {
-			setY(0);
+		if(translateForm.getTranslateY() <= 0) {
+			translateForm.setTranslation(translateForm.getTranslateX(), 1);
 			turnHead = true;
+//			setY(0);
 		}
 		if(turnHead) {
 			head += 180;
@@ -192,7 +198,7 @@ public abstract class Student extends GameObject implements IMoveable {
 	
 	//Displays Student info
 	public void displayInfo() {
-		System.out.println(getClassName() + ", pos(" + Math.round(getX()) + ", " + Math.round(getY()) + "), head: " + getHead() + ", speed: " + getSpeed() + ", hydration: " + getHydration() + ", talkiveLevel: " + getTalkiveLevel() + ", timeRemain: " + getTimeRemain() + ", Absence: " + getAbsenceTime() + ", WaterIntake: " + getWaterIntake());
+		System.out.println(getClassName() + ", pos(" + Math.round(getTranslateForm().getTranslateX()) + ", " + Math.round(getTranslateForm().getTranslateY()) + "), head: " + getHead() + ", speed: " + getSpeed() + ", hydration: " + getHydration() + ", talkiveLevel: " + getTalkiveLevel() + ", timeRemain: " + getTimeRemain() + ", Absence: " + getAbsenceTime() + ", WaterIntake: " + getWaterIntake());
     }
 	
 	//sets color if timeRemain is greater than 0
@@ -230,14 +236,17 @@ public abstract class Student extends GameObject implements IMoveable {
 		
 //		int[] xPos = {xPos1, xPos2, xPos3};
 //		int[] yPos = {yPos1, yPos2, yPos3};
+		
+		g.getTransform(getDrawForm());
+		
 		g.drawPolygon(xPt, yPt, 3);
 		
-//		if(getIsSelected()) {
-//    		g.setColor(ColorUtil.rgb(255, 0, 0));
-//    		g.drawRect(xPt, yPt, getSize() / 2, getSize());
-//    	}
+		if(getIsSelected()) {
+    		g.setColor(ColorUtil.rgb(255, 0, 0));
+    		g.drawRect(- getSize() / 4, - getSize() / 2, getSize() / 2, getSize());
+    	}
 		
-//		setAABB(xPos1, yPos1);
+		setAABB((int) getTranslateForm().getTranslateX(), (int) getTranslateForm().getTranslateY());
 		
 		g.setTransform(oldXForm);
 	}
@@ -251,8 +260,8 @@ public abstract class Student extends GameObject implements IMoveable {
 	}
 	
 	//initializes position
-		public void initPos(int screenWidth, int screenHeight) {
-			super.initPos(screenWidth, screenHeight);
+	public void initPos(int screenWidth, int screenHeight) {
+		super.initPos(screenWidth, screenHeight);
 			
-		}
+	}
 }
