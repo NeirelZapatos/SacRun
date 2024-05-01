@@ -12,6 +12,7 @@ public class GameModel extends Observable{
 	private int elapsedTime;
 	private boolean isPaused = false;
 	private boolean lectureInSession = false;
+	private LectureHall currHall;
 	
 	private Restroom restroom;
 	private WaterDispenser waterDispenser;
@@ -219,11 +220,13 @@ public class GameModel extends Observable{
 							studentPlayer.setAbsenceTime(studentPlayer.getAbsenceTime() + 1);
 							currLectureHall.endLecture();
 							lectureInSession = false;
+							currHall = null;
 						}
 						else if(random.nextInt(10) == 0 && timeSecond >= 1 && !lectureInSession) {
 							currLectureHall.startLecture();
 							lectureHall = currLectureHall;
 							lectureInSession = true;
+							currHall = currLectureHall;
 						}
 					}
 					if(timeSecond >= 1 && currLectureHall.getLecture() != null) {
@@ -267,9 +270,10 @@ public class GameModel extends Observable{
 										collisionObject.addCollidingObject(selectedObject);
 									}
 									
-									if(selectedObject == currLectureHall && collisionObject instanceof StudentPlayer) {
+									if(selectedObject == currHall && collisionObject instanceof StudentPlayer) {
 										lectureHall.endLecture();
 										lectureInSession = false;
+										currHall = null;
 									}
 								}
 							}		
