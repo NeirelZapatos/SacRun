@@ -11,9 +11,6 @@ public abstract class GameObject {
 	//Initializing fields
 	private Random random = new Random();
 	
-	private double x;
-	private double y;
-	
 	private int size;
 	private int color  = ColorUtil.rgb(255, 0, 0);
 	
@@ -33,8 +30,8 @@ public abstract class GameObject {
 	
 	//initializes position
 	public void initPos(int screenWidth, int screenHeight) {
-		x = random.nextDouble() * screenWidth;
-		y = random.nextDouble() * screenHeight;
+		double x = random.nextDouble() * screenWidth;
+		double y = random.nextDouble() * screenHeight;
 
 		translateForm.translate((float) x, (float) y);
 		rotateForm.rotate((float) Math.toRadians(180), 0, 0);
@@ -92,15 +89,7 @@ public abstract class GameObject {
 			collidingObjects.remove(collidingObject);
 	}
 	
-	//getter methods to retrieve private variables
-	public double getX() {
-		return x;
-	}
-	
-	public double getY() {
-		return y;
-	}
-	
+	//getter methods to retrieve private variables	
 	public int getSize() {
 		return size;
 	}
@@ -152,14 +141,6 @@ public abstract class GameObject {
 	//setter methods to set values
 	public void setIsColliding(boolean isColliding) {
 		this.isColliding = isColliding;
-	}
-	
-	public void setX(double newX) {
-		x = newX;
-	}
-	
-	public void setY(double newY) {
-		y = newY;
 	}
 	
 	public void setSize(int newSize) {

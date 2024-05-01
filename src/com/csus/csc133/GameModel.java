@@ -27,7 +27,7 @@ public class GameModel extends Observable{
 	
 	private String latestMessage;
 	
-	private Sound music = new Sound("Netrum & Halvorsen - Phoenix _ Synthwave _ NCS - Copyright Free Music.mp3");
+	private Sound music = new Sound("AdhesiveWombat - Night Shade ♫ NO COPYRIGHT 8-bit Music (320).mp3");
 	
 	private Random random = new Random();
 	
