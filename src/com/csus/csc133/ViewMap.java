@@ -23,8 +23,6 @@ public class ViewMap extends Container implements Observer {
 	public ViewMap(GameModel gameModel){
 		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0xff0000));
-		//setWidth(1000);
-		//ssetHeight(800);
 	}
 	
 	// init's the VTM
@@ -120,10 +118,13 @@ public class ViewMap extends Container implements Observer {
 					try {
 						float[] ptInv = {0, 0};
 						Transform inverse = Transform.makeIdentity();
-						VTM.getInverse(inverse);
+						Transform myXForm = Transform.makeIdentity();
+						myXForm.translate(getX(), getY());
+						myXForm.concatenate(VTM);
+						myXForm.getInverse(inverse);
 						inverse.transformPoint(pt, ptInv);
-						ptInv[0] =  ptInv[0] - (getX() + getParent().getAbsoluteX());
-						ptInv[1] = ptInv[1] - (getY() + getParent().getAbsoluteY());
+						ptInv[0] =  ptInv[0] - ( absX);
+						ptInv[1] = ptInv[1] - ( absY);
 						selectedObject.getTranslateForm().setTranslation((float) ptInv[0], (float) ptInv[1]);
 					}
 					catch(NotInvertibleException e) {

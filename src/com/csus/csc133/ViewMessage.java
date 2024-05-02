@@ -13,7 +13,7 @@ public class ViewMessage extends Container implements Observer{
 	public ViewMessage(GameModel gameModel) {
 		this.gameModel = gameModel;
 		getAllStyles().setBorder(Border.createLineBorder(2, 0x000000));
-		gameState = new Label(this.gameModel.getLatestMessage());
+		gameState = new Label(" ");
 		add(gameState);
 	}
 
